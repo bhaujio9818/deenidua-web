@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>दीनी दुआ व सूरह संग्रह | Deeni Dua Portal</title>
+  <meta name="description" content="रोज़मर्रा की मसनून दुआएं, सूरह, 6 कलमे, डिजिटल तस्बीह, नमाज़ टाइमर और किबला कंपास हिंदी में।">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 </head>
@@ -18,7 +19,16 @@
 </header>
 
 <div class="container">
+
+  <!-- 1. Auto Daily Hadith Card -->
+  <div style="background:#fff; border:1px solid #e0e0e0; border-left:5px solid #0f5132; border-radius:8px; padding:16px; margin-bottom:25px;">
+    <span style="background:#e8f5e9; color:#0f5132; font-size:0.8rem; font-weight:bold; padding:3px 10px; border-radius:12px;">आज की हदीस (Daily Hadith)</span>
+    <p id="hadithText" style="font-size:1.05rem; margin:10px 0; line-height:1.7; color:#212529;">हदीस लोड हो रही है...</p>
+    <button onclick="shareHadith()" style="background:#25D366; color:white; border:none; padding:5px 14px; border-radius:15px; font-size:0.8rem; font-weight:bold; cursor:pointer;">WhatsApp स्टेटस</button>
+  </div>
+
   <h2>सभी सूरह, कलमे और दुआएं</h2>
+  
   <div class="topics-grid">
     <!-- सूरह व कलमा -->
     <a href="surah/ayatul-kursi.html" class="topic-card"><h3>आयतल कुर्सी</h3><p>अरबी व तर्जुमा</p></a>
@@ -26,11 +36,13 @@
     <a href="surah/mulk.html" class="topic-card"><h3>सूरह मुल्क</h3><p>कब्र से हिफाज़त</p></a>
     <a href="surah/rahman.html" class="topic-card"><h3>सूरह रहमान</h3><p>कुरआन की ज़ीनत</p></a>
     <a href="surah/waqiah.html" class="topic-card"><h3>सूरह वाकिआ</h3><p>रिज़्क़ में बरकत</p></a>
+    <a href="surah/aakhri-10-surah.html" class="topic-card"><h3>आख़िरी 10 सूरहें</h3><p>नमाज़ की छोटी सूरहें</p></a>
     <a href="kalma/6-kalma.html" class="topic-card"><h3>6 कलमे</h3><p>पहला से छठा कलमा</p></a>
 
     <!-- दुआएं व विशेष पेज -->
     <a href="duas/40-rabbana.html" class="topic-card"><h3>40 रब्बना दुआएं</h3><p>कुरआन की खास दुआएं</p></a>
     <a href="duas/tauba-ki-dua.html" class="topic-card"><h3>तौबा की दुआ</h3><p>सैय्यदुल इस्तिकफार</p></a>
+    <a href="duas/janaza-ki-dua.html" class="topic-card"><h3>नमाज़-ए-जनाज़ा</h3><p>तरीका व दुआएं</p></a>
     <a href="pages/jumma-mubarak.html" class="topic-card"><h3>जुमा मुबारक</h3><p>स्टेटस व कोट्स</p></a>
     <a href="pages/99-names.html" class="topic-card"><h3>अल्लाह के 99 नाम</h3><p>अस्मा-उल-हुस्ना</p></a>
     <a href="duas/safar-ki-dua.html" class="topic-card"><h3>सफर की दुआ</h3><p>सवारी की सुन्नत दुआ</p></a>
@@ -39,7 +51,7 @@
     <a href="duas/masjid-ki-dua.html" class="topic-card"><h3>मस्जिद की दुआ</h3><p>आने-जाने की दुआ</p></a>
     <a href="namaz/namaz-ka-tarika.html" class="topic-card"><h3>नमाज़ का तरीका</h3><p>रकात चार्ट व तरीका</p></a>
 
-    <!-- टूल्स -->
+    <!-- इस्लामिक टूल्स -->
     <a href="tools/tasbeeh.html" class="topic-card"><h3>तस्बीह काउंटर</h3><p>डिजिटल ज़िक्र</p></a>
     <a href="tools/qibla.html" class="topic-card"><h3>किबला कंपास</h3><p>काबा की दिशा</p></a>
     <a href="tools/zakat-calculator.html" class="topic-card"><h3>ज़कात कैलकुलेटर</h3><p>2.5% हिसाब</p></a>
@@ -47,7 +59,7 @@
     <a href="tools/qaza-tracker.html" class="topic-card"><h3>कज़ा ट्रैकर</h3><p>छूटी नमाज़ें</p></a>
   </div>
 
-  <!-- Affiliate Section -->
+  <!-- 3. Affiliate Section -->
   <div style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; margin:35px 0;">
     <h3 style="color:#0f5132; margin-bottom:5px;">दीनी व इबादत सामग्री (Recommended)</h3>
     <p style="font-size:0.85rem; color:#6c757d; margin-bottom:15px;">घर और इबादत के लिए उपयोगी चीजें</p>
@@ -69,6 +81,7 @@
       </div>
     </div>
   </div>
+
 </div>
 
 <footer>
@@ -79,6 +92,25 @@
     <a href="pages/privacy-policy.html" style="color:#0f5132; margin:0 5px; text-decoration:none;">Privacy Policy</a>
   </p>
 </footer>
+
+<script>
+  // Daily Rotating Hadith
+  const hadiths = [
+    "तुममें से बेहतरीन शख्स वह है जो कुरआन सीखे और दूसरों को सिखाए। (सहीह बुखारी)",
+    "पाकीज़गी (सफाई) आधा ईमान है। (सहीह मुस्लिम)",
+    "मुस्कुराना भी एक सदका है। (जामे तिर्मिज़ी)",
+    "दुआ मोमिन का हथियार है। (अल-मुस्तदरक)",
+    "आमाल का दारोमदार नीयतों पर है। (सहीह बुखारी)",
+    "जो अल्लाह और आखिरत के दिन पर ईमान रखता है, उसे चाहिए कि अच्छी बात कहे या खामोश रहे। (सहीह बुखारी)"
+  ];
+  const dayIndex = new Date().getDate() % hadiths.length;
+  document.getElementById('hadithText').innerText = `"${hadiths[dayIndex]}"`;
+
+  function shareHadith() {
+    const text = encodeURIComponent(document.getElementById('hadithText').innerText + "\n\nरोज़ाना हदीस और दुआएं पढ़ें: https://www.deenidua.in/");
+    window.open("https://api.whatsapp.com/send?text=" + text, '_blank');
+  }
+</script>
 
 </body>
 </html>
