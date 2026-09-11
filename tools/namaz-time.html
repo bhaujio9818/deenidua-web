@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>नमाज़ के औकात</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f6f8; padding: 20px; }
+    .card { background: #fff; max-width: 450px; margin: auto; padding: 20px; border-radius: 10px; border: 1px solid #e0e0e0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    td { padding: 10px; border-bottom: 1px solid #eee; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <a href="../index.html" style="color:#0f5132; font-weight:bold;">← मुख्य पेज</a>
+  <h2 style="color:#0f5132; margin-top:10px;">नमाज़ के औकात</h2>
+  <table>
+    <tr><td>फज्र</td><td id="fajr" style="font-weight:bold; text-align:right;">-</td></tr>
+    <tr><td>ज़ुहर</td><td id="dhuhr" style="font-weight:bold; text-align:right;">-</td></tr>
+    <tr><td>अस्र</td><td id="asr" style="font-weight:bold; text-align:right;">-</td></tr>
+    <tr><td>मग़रिब</td><td id="maghrib" style="font-weight:bold; text-align:right;">-</td></tr>
+    <tr><td>इशा</td><td id="isha" style="font-weight:bold; text-align:right;">-</td></tr>
+  </table>
+</div>
+<script>
+  fetch('https://api.aladhan.com/v1/timingsByCity?city=Delhi&country=India&method=1')
+    .then(r => r.json()).then(d => {
+      let t = d.data.timings;
+      document.getElementById('fajr').innerText = t.Fajr;
+      document.getElementById('dhuhr').innerText = t.Dhuhr;
+      document.getElementById('asr').innerText = t.Asr;
+      document.getElementById('maghrib').innerText = t.Maghrib;
+      document.getElementById('isha').innerText = t.Isha;
+    });
+</script>
+</body>
+</html>
