@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>जुमा मुबारक स्टेटस व दुआएं | Jumma Mubarak Wishes</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .quote-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+    .quote-text { font-size: 1.05rem; line-height: 1.8; color: #212529; margin-bottom: 15px; }
+    .btn-row { display: flex; gap: 10px; }
+    .btn-copy { background: #0f5132; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; }
+    .btn-wa { background: #25D366; color: white; border: none; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html">← मुख्य पेज</a>
+</header>
+
+<div class="container">
+  <h1 style="color:#0f5132; margin-bottom: 8px;">जुमा मुबारक स्टेटस व दुआएं</h1>
+  <p style="color:#6c757d; margin-bottom: 25px;">WhatsApp स्टेटस और अपनों को भेजने के लिए बेहतरीन संदेश</p>
+
+  <!-- Quote 1 -->
+  <div class="quote-card">
+    <div class="quote-text" id="q1">
+      "या अल्लाह! इस मुबारक जुमे के सदके हमारी तमाम परेशानियों को दूर फरमा, हमारे गुनाहों को माफ फरमा और हमारे घरों में रिज़्क़ व रहमत की बरकत अता फरमा। आमीन। जुमा मुबारक!"
+    </div>
+    <div class="btn-row">
+      <button class="btn-copy" onclick="copyText('q1')">📋 कॉपी करें</button>
+      <a href="https://api.whatsapp.com/send?text=या%20अल्लाह!%20इस%20मुबारक%20जुमे%20के%20सदके%20हमारी%20तमाम%20परेशानियों%20को%20दूर%20फरमा...%20जुमा%20मुबारक!" target="_blank" class="btn-wa">WhatsApp स्टेटस</a>
+    </div>
+  </div>
+
+  <!-- Quote 2 -->
+  <div class="quote-card">
+    <div class="quote-text" id="q2">
+      "रसूलुल्लाह (सल्लल्लाहु अलैहि वसल्लम) ने फरमाया: दिनों में सबसे बेहतरीन दिन जुमे का दिन है, इस दिन मुझ पर कसरत से दुरूद भेजा करो। (अबू दाऊद) — अल्लाहुम्मा सल्ले अला मुहम्मदिव व अला आलि मुहम्मद।"
+    </div>
+    <div class="btn-row">
+      <button class="btn-copy" onclick="copyText('q2')">📋 कॉपी करें</button>
+      <a href="https://api.whatsapp.com/send?text=रसूलुल्लाह%20ने%20फरमाया:%20दिनों%20में%20सबसे%20बेहतरीन%20दिन%20जुमे%20का%20दिन%20है...%20जुमा%20मुबारक!" target="_blank" class="btn-wa">WhatsApp स्टेटस</a>
+    </div>
+  </div>
+
+  <!-- Quote 3 -->
+  <div class="quote-card">
+    <div class="quote-text" id="q3">
+      "जुमा की नमाज़ सिर्फ एक इबादत नहीं, बल्कि पूरे हफ्ते के गुनाहों की माफी और दिल के सुकून का ज़रिया है। अल्लाह हम सबको पाबंदी से नमाज़ अदा करने की तौफीक दे। जुमा मुबारक!"
+    </div>
+    <div class="btn-row">
+      <button class="btn-copy" onclick="copyText('q3')">📋 कॉपी करें</button>
+      <a href="https://api.whatsapp.com/send?text=जुमा%20की%20नमाज़%20सिर्फ%20एक%20इबादत%20नहीं...%20जुमा%20मुबारक!" target="_blank" class="btn-wa">WhatsApp स्टेटस</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copyText(id) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => alert("संदेश कॉपी हो गया!"));
+  }
+</script>
+
+</body>
+</html>
