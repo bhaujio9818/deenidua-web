@@ -1,1 +1,34 @@
-
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>कज़ा नमाज़ ट्रैकर</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f6f8; padding: 20px; }
+    .card { background: #fff; max-width: 450px; margin: auto; padding: 20px; border-radius: 10px; border: 1px solid #e0e0e0; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+    .btn { width: 30px; height: 30px; border-radius: 50%; border: none; font-weight: bold; cursor: pointer; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <a href="../index.html" style="color:#0f5132; font-weight:bold;">← मुख्य पेज</a>
+  <h2 style="color:#0f5132; margin: 10px 0;">कज़ा नमाज़ ट्रैकर</h2>
+  <div class="row"><span>फज्र: <strong id="q_fajr">0</strong></span><div><button class="btn" onclick="setQ('fajr',-1)">-</button> <button class="btn" onclick="setQ('fajr',1)">+</button></div></div>
+  <div class="row"><span>ज़ुहर: <strong id="q_dhuhr">0</strong></span><div><button class="btn" onclick="setQ('dhuhr',-1)">-</button> <button class="btn" onclick="setQ('dhuhr',1)">+</button></div></div>
+  <div class="row"><span>अस्र: <strong id="q_asr">0</strong></span><div><button class="btn" onclick="setQ('asr',-1)">-</button> <button class="btn" onclick="setQ('asr',1)">+</button></div></div>
+  <div class="row"><span>मग़रिब: <strong id="q_maghrib">0</strong></span><div><button class="btn" onclick="setQ('maghrib',-1)">-</button> <button class="btn" onclick="setQ('maghrib',1)">+</button></div></div>
+  <div class="row"><span>इशा: <strong id="q_isha">0</strong></span><div><button class="btn" onclick="setQ('isha',-1)">-</button> <button class="btn" onclick="setQ('isha',1)">+</button></div></div>
+</div>
+<script>
+  let arr = ['fajr','dhuhr','asr','maghrib','isha'];
+  arr.forEach(p => document.getElementById('q_'+p).innerText = localStorage.getItem('qz_'+p) || 0);
+  function setQ(p, v) {
+    let c = Math.max(0, (parseInt(localStorage.getItem('qz_'+p)) || 0) + v);
+    localStorage.setItem('qz_'+p, c);
+    document.getElementById('q_'+p).innerText = c;
+  }
+</script>
+</body>
+</html>
