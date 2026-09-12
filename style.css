@@ -1,12 +1,45 @@
-:root { --primary: #0f5132; --text: #212529; --bg: #f4f6f8; --card: #fff; --border: #e0e0e0; }
+:root { 
+  --primary: #0f5132; 
+  --text: #212529; 
+  --bg: #f4f6f8; 
+  --card: #fff; 
+  --border: #e0e0e0; 
+  --subtext: #6c757d;
+  --arabic-color: #0b3d20;
+}
+
+/* 🌙 Dark Mode Theme Overrides */
+body.dark-mode {
+  --primary: #4ade80; 
+  --text: #e0e0e0; 
+  --bg: #121212; 
+  --card: #1e1e1e; 
+  --border: #333333; 
+  --subtext: #9ca3af;
+  --arabic-color: #86efac;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-header { background: var(--primary); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+body { font-family: sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.3s ease, color 0.3s ease; }
+
+header { background: #0f5132; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
 header a { color: #fff; text-decoration: none; font-weight: bold; }
+
 .container { max-width: 800px; margin: 25px auto; padding: 0 15px; }
 .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 20px; }
-.topic-card { background: var(--card); padding: 18px; border-radius: 8px; border: 1px solid var(--border); text-decoration: none; color: var(--text); }
+
+.topic-card { background: var(--card); padding: 18px; border-radius: 8px; border: 1px solid var(--border); text-decoration: none; color: var(--text); transition: background 0.2s ease, border-color 0.2s ease; }
 .topic-card h3 { color: var(--primary); margin-bottom: 5px; }
-.arabic { font-size: 1.8rem; text-align: right; direction: rtl; color: #0b3d20; line-height: 2.2; margin: 15px 0; font-family: 'Traditional Arabic', serif; }
+.topic-card p { color: var(--subtext); }
+
+.arabic { font-size: 1.8rem; text-align: right; direction: rtl; color: var(--arabic-color); line-height: 2.2; margin: 15px 0; font-family: 'Traditional Arabic', serif; }
 .label { font-weight: bold; color: var(--primary); margin-top: 15px; }
-footer { text-align: center; padding: 25px; color: #6c757d; font-size: 0.85rem; }
+
+/* कार्ड्स, ऑडियो बॉक्स और इन्फो बॉक्स के लिए डार्क सपोर्ट */
+.audio-card, .info-card, .step-card, .dua-block, .player-box, .surah-box {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+footer { text-align: center; padding: 25px; color: var(--subtext); font-size: 0.85rem; }
