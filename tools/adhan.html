@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>अज़ान सुनें व सीखने का सही तरीका | Listen Adhan</title>
+  <title>अज़ान ऑडियो व सीखने का तरीका | Listen Adhan MP3</title>
   <link rel="stylesheet" href="../style.css">
   <style>
     .audio-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; margin-top: 10px; margin-bottom: 20px; }
-    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px; }
+    .adhan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; margin-top: 15px; }
+    .player-box { background: #f9fdfa; border: 1px solid #c3e6cb; border-radius: 8px; padding: 15px; text-align: center; }
+    .player-title { font-weight: bold; color: #0f5132; margin-bottom: 10px; font-size: 1rem; }
+    .btn-play { background: #0f5132; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; font-weight: bold; width: 100%; }
+    .btn-play:hover { background: #146c43; }
     .adhan-line { border-bottom: 1px solid #f1f1f1; padding: 12px 0; }
     ol { margin-left: 20px; line-height: 1.8; margin-top: 8px; }
   </style>
@@ -21,21 +24,43 @@
 
 <div class="container">
   <h1 style="color:#0f5132; margin-bottom: 8px;">अज़ान सुनना व सीखने का मुकम्मल तरीका</h1>
-  <p style="color:#6c757d; margin-bottom: 20px;">मक्का और मदीना की रूहानी अज़ान लाइव सुनें और सही तलफ़्फ़ुज़ सीखें।</p>
+  <p style="color:#6c757d; margin-bottom: 20px;">विश्व प्रसिद्ध खूबसूरत अज़ान लाइव सुनें और सही तलफ़्फ़ुज़ सीखें।</p>
 
-  <!-- 1. Makkah Adhan Player -->
+  <!-- 6 Working Players from IslamCan -->
   <div class="audio-card">
-    <h3 style="color:#0f5132;">1. मस्जिद अल-हरम (मक्का मुकर्रमा की अज़ान)</h3>
-    <div class="video-container">
-      <iframe src="https://www.youtube-nocookie.com/embed/mU4fKjG7YfA" title="Makkah Adhan" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-  </div>
+    <h2 style="color:#0f5132; font-size:1.25rem;">खूबसूरत अज़ान सुनें (Click to Play)</h2>
+    <div class="adhan-grid">
 
-  <!-- 2. Madinah Adhan Player -->
-  <div class="audio-card">
-    <h3 style="color:#0f5132;">2. मस्जिद-ए-नबवी (मदीना मुनव्वरा की अज़ान)</h3>
-    <div class="video-container">
-      <iframe src="https://www.youtube-nocookie.com/embed/feZ23Z1cwt8" title="Madinah Adhan" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="player-box">
+        <div class="player-title">1. मस्जिद अल-हरम (मक्का शरीफ)</div>
+        <button class="btn-play" onclick="toggleAudio('https://www.islamcan.com/audio/adhan/azan1.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <div class="player-box">
+        <div class="player-title">2. मस्जिद-ए-नबवी (मदीना मुनव्वरा)</div>
+        <button class="btn-play" onclick="toggleAudio('https://www.islamcan.com/audio/adhan/azan2.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <div class="player-box">
+        <div class="player-title">3. मस्जिद अल-अक्सा (कुद्स)</div>
+        <button class="btn-play" onclick="toggleAudio('https://www.islamcan.com/audio/adhan/azan3.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <div class="player-box">
+        <div class="player-title">4. फज्र की अज़ान (सवेरे की नमाज़)</div>
+        <button class="btn-play" onclick="toggleAudio('https://www.islamcan.com/audio/adhan/azan7.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <div class="player-box">
+        <div class="player-title">5. मिस्र (इजिप्ट) स्टाइल अज़ान</div>
+        <button class="btn-play" onclick="toggleAudio('https://www.islamcan.com/audio/adhan/azan5.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <div class="player-box">
+        <div class="player-title">6. तुर्की (इस्तांबुल) स्टाइल अज़ान</div>
+        <button class="btn-play" onclick="toggleAudio('https://www.islamcan.com/audio/adhan/azan6.mp3', this)">▶ चलाएं</button>
+      </div>
+
     </div>
   </div>
 
@@ -117,6 +142,40 @@
 <footer>
   <p>© 2026 दीनी दुआ | deenidua.in</p>
 </footer>
+
+<script>
+  let currentAudio = null;
+  let currentButton = null;
+
+  function toggleAudio(url, btn) {
+    if (currentAudio && !currentAudio.paused) {
+      currentAudio.pause();
+      currentButton.innerText = "▶ चलाएं";
+      if (currentButton === btn) {
+        currentAudio = null;
+        currentButton = null;
+        return;
+      }
+    }
+
+    currentAudio = new Audio(url);
+    currentButton = btn;
+    btn.innerText = "⏳ लोड हो रहा है...";
+
+    currentAudio.play().then(() => {
+      btn.innerText = "⏸ रोकें";
+    }).catch(err => {
+      alert("ऑडियो प्ले करने में रुकावट आई, कृपया दोबारा क्लिक करें।");
+      btn.innerText = "▶ चलाएं";
+    });
+
+    currentAudio.onended = function() {
+      btn.innerText = "▶ चलाएं";
+      currentAudio = null;
+      currentButton = null;
+    };
+  }
+</script>
 
 </body>
 </html>
