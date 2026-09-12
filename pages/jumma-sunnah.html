@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>जुमा की सुन्नतें व आदाब | Jumma Sunnah Checklist</title>
+  <meta name="description" content="जुमा के दिन की 10 अहम सुन्नतें, दुरूद शरीफ की फज़ीलत और सूरह कहफ पढ़ने की अहमियत हिंदी में।">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .sunnah-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .sunnah-item { display: flex; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #f1f1f1; }
+    .sunnah-item:last-child { border-bottom: none; }
+    .sunnah-check { width: 22px; height: 22px; margin-right: 14px; margin-top: 3px; cursor: pointer; accent-color: #0f5132; }
+    .sunnah-text h3 { font-size: 1rem; color: var(--primary); margin-bottom: 3px; }
+    .sunnah-text p { font-size: 0.85rem; color: var(--subtext); margin: 0; line-height: 1.5; }
+    .progress-bar-container { background: #e0e0e0; border-radius: 12px; height: 12px; overflow: hidden; margin: 15px 0; }
+    .progress-bar { background: #0f5132; height: 100%; width: 0%; transition: width 0.3s ease; }
+    .badge-count { font-weight: bold; color: #0f5132; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html">← मुख्य पेज</a>
+</header>
+
+<div class="container">
+  <h1 style="color:#0f5132; margin-bottom: 8px;">जुमा के दिन की सुन्नतें व आदाब</h1>
+  <p style="color:#6c757d; margin-bottom: 15px;">रसूलुल्लाह ﷺ ने फरमाया: "दिनों में सबसे बेहतरीन दिन जुमा का दिन है।" (अबू दाऊद)</p>
+
+  <!-- Interactive Checklist Card -->
+  <div class="sunnah-card">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="font-size:1.15rem; color:var(--primary);">मेरी जुमा चेकलिस्ट</h2>
+      <span class="badge-count" id="countLabel">0 / 10 पूरी हुई</span>
+    </div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- 10 Sunnahs -->
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>1. गुस्ल (स्नान) करना</h3>
+        <p>जुमा की नमाज़ के लिए पाक-साफ होकर गुस्ल करना सुन्नत-ए-मुअक्कदा है।</p>
+      </div>
+    </div>
+
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>2. मिस्वाक करना</h3>
+        <p>दांतों की सफाई का खास ख्याल रखना और मिस्वाक करना।</p>
+      </div>
+    </div>
+
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>3. साफ-सुथरे (या नए) कपड़े पहनना</h3>
+        <p>जुमा के दिन अपने सबसे अच्छे और धुले हुए कपड़े पहनना मुस्तहब है (सफेद रंग अफज़ल है)।</p>
+      </div>
+    </div>
+
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>4. खुशबू (अत्तर) लगाना</h3>
+        <p>बिना अल्कोहल वाला अच्छा अत्तर या तेल इस्तेमाल करना।</p>
+      </div>
+    </div>
+
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>5. नाखुन तराशना व ज़ीनत</h3>
+        <p>हाथ-पैरों के नाखुन काटना और तेल लगाना।</p>
+      </div>
+    </div>
+
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>6. मस्जिद जल्दी जाना</h3>
+        <p>जुमा के लिए अज़ान से पहले या जल्दी पैदल मस्जिद की तरफ निकलना।</p>
+      </div>
+    </div>
+
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>7. सूरह कहफ की तिलावात करना</h3>
+        <p>हदीस: जो जुमा के दिन सूरह कहफ पढ़ता है, उसके लिए दो जुमा के दरमियान नूर चमकता रहता है।</p>
+      </div>
+    </div>
+
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>8. कसरत से दुरूद शरीफ पढ़ना</h3>
+        <p>रसूलुल्लाह ﷺ पर जुमा के दिन खूब दुरूद-ओ-सलाम भेजना।</p>
+      </div>
+    </div>
+
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>9. खुतबा खामोशी व ध्यान से सुनना</h3>
+        <p>इमाम के खुतबे के दौरान पूरी तरह खामोश रहना और बातें न करना।</p>
+      </div>
+    </div>
+
+    <div class="sunnah-item">
+      <input type="checkbox" class="sunnah-check" onchange="updateProgress()">
+      <div class="sunnah-text">
+        <h3>10. कबूलियत की घड़ी में दुआ मांगना</h3>
+        <p>अस्र से मगरिब के दरमियान खास तौर पर खूब रो-रो कर दुआएं मांगना।</p>
+      </div>
+    </div>
+
+    <button onclick="shareJumma()" style="width:100%; margin-top:20px; background:#25D366; color:white; border:none; padding:10px; border-radius:20px; font-weight:bold; cursor:pointer;">
+      🟢 WhatsApp पर दोस्तों को याद दिलाएं
+    </button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
+
+<script>
+  function updateProgress() {
+    const checks = document.querySelectorAll('.sunnah-check');
+    let checkedCount = 0;
+    checks.forEach(c => { if(c.checked) checkedCount++; });
+
+    const percent = (checkedCount / checks.length) * 100;
+    document.getElementById('progressBar').style.width = percent + '%';
+    document.getElementById('countLabel').innerText = `${checkedCount} / ${checks.length} पूरी हुई`;
+  }
+
+  function shareJumma() {
+    const text = encodeURIComponent("🌙 आज जुमा का मुबारक दिन है!\nगुस्ल, मिस्वाक, सूरह कहफ और दुरूद शरीफ की सुन्नतें याद रखें।\n\nपूरी चेकलिस्ट देखें: https://www.deenidua.in/pages/jumma-sunnah.html");
+    window.open("https://api.whatsapp.com/send?text=" + text, '_blank');
+  }
+</script>
+
+</body>
+</html>
