@@ -13,6 +13,8 @@
     .fav-star.active { color: #f59e0b !important; }
     .fav-box { background: var(--card); border: 2px dashed #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 25px; }
     .dark-toggle-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; border-radius: 20px; padding: 4px 12px; font-size: 0.9rem; cursor: pointer; margin-left: 8px; }
+    .search-input { width: 100%; padding: 12px 18px; border: 2px solid var(--border); border-radius: 25px; font-size: 1rem; outline: none; background: var(--card); color: var(--text); box-sizing: border-box; transition: border-color 0.2s; }
+    .search-input:focus { border-color: var(--primary); }
   </style>
 </head>
 <body>
@@ -47,10 +49,15 @@
     <p id="emptyFavText" style="color:var(--subtext); font-size:0.9rem; margin-top:5px;">अभी कोई दुआ सेव नहीं है। नीचे किसी भी कार्ड के <strong>स्टार (★)</strong> पर क्लिक करके यहाँ जोड़ें।</p>
   </div>
 
+  <!-- 3. 🔍 Live Instant Search Bar -->
+  <div style="margin: 25px 0 15px 0;">
+    <input type="text" id="siteSearchInput" class="search-input" onkeyup="filterHomeCards()" placeholder="🔍 सूरह, दुआ या टूल खोजें (जैसे: यासीन, अज़ान, इस्तिख़ारा, अज़कार)...">
+  </div>
+
   <h2>सभी सूरह, कलमे और दुआएं</h2>
   
-  <div class="topics-grid">
-    <!-- सूरह व कलमा (With Clickable Bookmark Stars) -->
+  <div class="topics-grid" id="mainCardsGrid">
+    <!-- सूरह व कलमा (With Bookmark Star) -->
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'आयतल कुर्सी', 'surah/ayatul-kursi.html')">★</span><a href="surah/ayatul-kursi.html" style="text-decoration:none; color:inherit;"><h3>आयतल कुर्सी</h3><p>अरबी व तर्जुमा</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह यासीन', 'surah/yaseen.html')">★</span><a href="surah/yaseen.html" style="text-decoration:none; color:inherit;"><h3>सूरह यासीन</h3><p>कुरआन का दिल</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह मुल्क', 'surah/mulk.html')">★</span><a href="surah/mulk.html" style="text-decoration:none; color:inherit;"><h3>सूरह मुल्क</h3><p>कब्र से हिफाज़त</p></a></div>
@@ -69,10 +76,12 @@
     <a href="duas/janaza-ki-dua.html" class="topic-card"><h3>नमाज़-ए-जनाज़ा</h3><p>तरीका व दुआएं</p></a>
 
     <!-- दुआएं व विशेष पेज -->
+    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सुबह-शाम अज़कार', 'duas/subah-sham-azkar.html')">★</span><a href="duas/subah-sham-azkar.html" style="text-decoration:none; color:inherit;"><h3>सुबह-शाम अज़कार</h3><p>हिफाज़त के मसनून अज़कार</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, '40 रब्बना दुआएं', 'duas/40-rabbana.html')">★</span><a href="duas/40-rabbana.html" style="text-decoration:none; color:inherit;"><h3>40 रब्बना दुआएं</h3><p>कुरआन की खास दुआएं</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'तौबा की दुआ', 'duas/tauba-ki-dua.html')">★</span><a href="duas/tauba-ki-dua.html" style="text-decoration:none; color:inherit;"><h3>तौबा की दुआ</h3><p>सैय्यदुल इस्तिकफार</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'शिफा व नज़र', 'duas/shifa-ki-dua.html')">★</span><a href="duas/shifa-ki-dua.html" style="text-decoration:none; color:inherit;"><h3>शिफा व नज़र की दुआ</h3><p>बीमारी व नज़र-ए-बद</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'इस्तिख़ारा की दुआ', 'duas/istikhara.html')">★</span><a href="duas/istikhara.html" style="text-decoration:none; color:inherit;"><h3>इस्तिख़ारा की दुआ</h3><p>तरीका व मसनून दुआ</p></a></div>
+    <a href="pages/40-hadith.html" class="topic-card"><h3>40 हदीस संग्रह</h3><p>इमाम नवीं की हदीसें</p></a>
     <a href="pages/jumma-sunnah.html" class="topic-card"><h3>जुमा की सुन्नतें</h3><p>चेकलिस्ट व आदाब</p></a>
     <a href="pages/ramadan-duas.html" class="topic-card"><h3>रमज़ान व तरावीह</h3><p>सेहरी, इफ्तार व तस्बीह</p></a>
     <a href="pages/jumma-mubarak.html" class="topic-card"><h3>जुमा मुबारक</h3><p>स्टेटस व कोट्स</p></a>
@@ -94,7 +103,7 @@
     <a href="tools/qaza-tracker.html" class="topic-card"><h3>कज़ा ट्रैकर</h3><p>छूटी नमाज़ें</p></a>
   </div>
 
-  <!-- 3. Affiliate Section -->
+  <!-- 4. Affiliate Section -->
   <div style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; margin:35px 0;" class="info-card">
     <h3 style="color:#0f5132; margin-bottom:5px;">दीनी व इबादत सामग्री (Recommended)</h3>
     <p style="font-size:0.85rem; color:#6c757d; margin-bottom:15px;">घर और इबादत के लिए उपयोगी चीजें</p>
@@ -129,7 +138,7 @@
 </footer>
 
 <script>
-  // 1. Live Hijri Date Fetcher (Aladhan Open API)
+  // 1. Live Hijri Date Fetcher
   fetch('https://api.aladhan.com/v1/gToH')
     .then(r => r.json())
     .then(d => {
@@ -193,7 +202,6 @@
     const favGrid = document.getElementById('favGrid');
     const emptyText = document.getElementById('emptyFavText');
     
-    // Set visual state for stars
     document.querySelectorAll('.fav-star').forEach(star => {
       const parentLink = star.parentElement.querySelector('a').getAttribute('href');
       star.classList.toggle('active', favs.some(f => f.link === parentLink));
@@ -213,6 +221,17 @@
       });
     }
   }
+
+  // 5. Instant Live Filter Function
+  function filterHomeCards() {
+    const query = document.getElementById('siteSearchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('#mainCardsGrid .topic-card');
+    cards.forEach(card => {
+      const text = card.innerText.toLowerCase();
+      card.style.display = text.includes(query) ? '' : 'none';
+    });
+  }
+
   window.addEventListener('DOMContentLoaded', renderFavs);
 </script>
 
