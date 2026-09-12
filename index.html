@@ -9,9 +9,9 @@
   <link rel="manifest" href="manifest.json">
   <style>
     /* Bookmark & Dark Mode Styles */
-    .fav-star { float: right; font-size: 1.2rem; cursor: pointer; color: #ccc; transition: 0.2s; padding: 0 4px; }
-    .fav-star.active { color: #f59e0b; }
-    #favSection { display: none; margin-bottom: 25px; }
+    .fav-star { float: right; font-size: 1.3rem; cursor: pointer; color: #ccc; transition: 0.2s; padding: 0 4px; user-select: none; }
+    .fav-star.active { color: #f59e0b !important; }
+    .fav-box { background: var(--card); border: 2px dashed #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 25px; }
     .dark-toggle-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; border-radius: 20px; padding: 4px 12px; font-size: 0.9rem; cursor: pointer; margin-left: 8px; }
   </style>
 </head>
@@ -40,17 +40,17 @@
     <button onclick="shareHadith()" style="background:#25D366; color:white; border:none; padding:5px 14px; border-radius:15px; font-size:0.8rem; font-weight:bold; cursor:pointer;">WhatsApp स्टेटस</button>
   </div>
 
-  <!-- 2. ⭐ Bookmarked / Favorite Section (Auto Displays Saved Items) -->
-  <div id="favSection">
-    <h2 style="color:#f59e0b; margin-bottom: 12px;">⭐ मेरी पसंदीदा दुआएं (Saved)</h2>
-    <div class="topics-grid" id="favGrid"></div>
-    <hr style="border:0; border-top:1px solid #eee; margin:25px 0;">
+  <!-- 2. ⭐ Always Visible Favorites Section -->
+  <div class="fav-box" id="favSection">
+    <h2 style="color:#f59e0b; font-size:1.2rem; margin-bottom:8px;">⭐ मेरी पसंदीदा दुआएं (Saved)</h2>
+    <div class="topics-grid" id="favGrid" style="margin-top:10px;"></div>
+    <p id="emptyFavText" style="color:var(--subtext); font-size:0.9rem; margin-top:5px;">अभी कोई दुआ सेव नहीं है। नीचे किसी भी कार्ड के <strong>स्टार (★)</strong> पर क्लिक करके यहाँ जोड़ें।</p>
   </div>
 
   <h2>सभी सूरह, कलमे और दुआएं</h2>
   
   <div class="topics-grid">
-    <!-- सूरह व कलमा (With Bookmark Star) -->
+    <!-- सूरह व कलमा (With Clickable Bookmark Stars) -->
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'आयतल कुर्सी', 'surah/ayatul-kursi.html')">★</span><a href="surah/ayatul-kursi.html" style="text-decoration:none; color:inherit;"><h3>आयतल कुर्सी</h3><p>अरबी व तर्जुमा</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह यासीन', 'surah/yaseen.html')">★</span><a href="surah/yaseen.html" style="text-decoration:none; color:inherit;"><h3>सूरह यासीन</h3><p>कुरआन का दिल</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह मुल्क', 'surah/mulk.html')">★</span><a href="surah/mulk.html" style="text-decoration:none; color:inherit;"><h3>सूरह मुल्क</h3><p>कब्र से हिफाज़त</p></a></div>
@@ -72,6 +72,8 @@
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, '40 रब्बना दुआएं', 'duas/40-rabbana.html')">★</span><a href="duas/40-rabbana.html" style="text-decoration:none; color:inherit;"><h3>40 रब्बना दुआएं</h3><p>कुरआन की खास दुआएं</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'तौबा की दुआ', 'duas/tauba-ki-dua.html')">★</span><a href="duas/tauba-ki-dua.html" style="text-decoration:none; color:inherit;"><h3>तौबा की दुआ</h3><p>सैय्यदुल इस्तिकफार</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'शिफा व नज़र', 'duas/shifa-ki-dua.html')">★</span><a href="duas/shifa-ki-dua.html" style="text-decoration:none; color:inherit;"><h3>शिफा व नज़र की दुआ</h3><p>बीमारी व नज़र-ए-बद</p></a></div>
+    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'इस्तिख़ारा की दुआ', 'duas/istikhara.html')">★</span><a href="duas/istikhara.html" style="text-decoration:none; color:inherit;"><h3>इस्तिख़ारा की दुआ</h3><p>तरीका व मसनून दुआ</p></a></div>
+    <a href="pages/jumma-sunnah.html" class="topic-card"><h3>जुमा की सुन्नतें</h3><p>चेकलिस्ट व आदाब</p></a>
     <a href="pages/ramadan-duas.html" class="topic-card"><h3>रमज़ान व तरावीह</h3><p>सेहरी, इफ्तार व तस्बीह</p></a>
     <a href="pages/jumma-mubarak.html" class="topic-card"><h3>जुमा मुबारक</h3><p>स्टेटस व कोट्स</p></a>
     <a href="pages/99-names.html" class="topic-card"><h3>अल्लाह के 99 नाम</h3><p>अस्मा-उल-हुस्ना</p></a>
@@ -181,17 +183,15 @@
     const idx = favs.findIndex(f => f.link === link);
     if (idx > -1) {
       favs.splice(idx, 1);
-      e.target.classList.remove('active');
     } else {
       favs.push({ title, link });
-      e.target.classList.add('active');
     }
     saveFavs(favs);
   }
   function renderFavs() {
     const favs = getFavs();
-    const favSection = document.getElementById('favSection');
     const favGrid = document.getElementById('favGrid');
+    const emptyText = document.getElementById('emptyFavText');
     
     // Set visual state for stars
     document.querySelectorAll('.fav-star').forEach(star => {
@@ -200,18 +200,18 @@
     });
 
     if (favs.length === 0) {
-      favSection.style.display = 'none';
-      return;
+      favGrid.innerHTML = '';
+      emptyText.style.display = 'block';
+    } else {
+      emptyText.style.display = 'none';
+      favGrid.innerHTML = '';
+      favs.forEach(f => {
+        const item = document.createElement('div');
+        item.className = 'topic-card';
+        item.innerHTML = `<span class="fav-star active" onclick="toggleFav(event, '${f.title}', '${f.link}')">★</span><a href="${f.link}" style="text-decoration:none; color:inherit;"><h3>${f.title}</h3><p>⭐ पसंदीदा पेज</p></a>`;
+        favGrid.appendChild(item);
+      });
     }
-    favSection.style.display = 'block';
-    favGrid.innerHTML = '';
-    favs.forEach(f => {
-      const a = document.createElement('a');
-      a.href = f.link;
-      a.className = 'topic-card';
-      a.innerHTML = `<h3>${f.title}</h3><p>⭐ पसंदीदा पेज</p>`;
-      favGrid.appendChild(a);
-    });
   }
   window.addEventListener('DOMContentLoaded', renderFavs);
 </script>
