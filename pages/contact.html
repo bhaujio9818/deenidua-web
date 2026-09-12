@@ -3,41 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>संपर्क करें | Contact Us - Deeni Dua</title>
+  <title>संपर्क करें (Contact Us) | Deeni Dua Portal</title>
+  <meta name="description" content="दीनी दुआ पोर्टल की टीम से संपर्क करें। किसी भी सुझाव, सवाल या शिकायत के लिए हमें ईमेल करें।">
   <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../logo-mobile.png">
   <style>
-    .contact-card { background: #fff; padding: 30px; border-radius: 8px; border: 1px solid #e0e0e0; line-height: 1.8; }
-    .contact-card h1 { color: #0f5132; margin-bottom: 15px; }
-    .contact-box { background: #f8f9fa; border-left: 4px solid #0f5132; padding: 15px; margin: 20px 0; }
+    .contact-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 25px;
+      margin: 20px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+    .contact-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #e8f5e9;
+      color: #0f5132;
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      margin: 15px 0;
+      text-decoration: none;
+      border: 1px solid #c3e6cb;
+      word-break: break-all;
+    }
+    .contact-badge:hover {
+      background: #d1e7dd;
+    }
+    .info-list {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 15px;
+    }
+    .info-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .info-list li:last-child {
+      border-bottom: none;
+    }
+    .dark-toggle-btn { 
+      background: rgba(255,255,255,0.2); 
+      border: 1px solid rgba(255,255,255,0.4); 
+      color: white; 
+      border-radius: 20px; 
+      padding: 4px 12px; 
+      font-size: 0.9rem; 
+      cursor: pointer; 
+      margin-left: 8px; 
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <a href="../index.html">← मुख्य पेज पर लौटें</a>
+  <a href="../index.html" style="display:flex; align-items:center; text-decoration:none;">
+    <img src="../logo-header.png" alt="दीनी दुआ" style="height:36px; width:auto; max-width:160px; object-fit:contain;">
+  </a>
+  <nav style="display:flex; align-items:center;">
+    <a href="../index.html">← मुख्य पेज</a>
+    <button class="dark-toggle-btn" onclick="toggleDarkMode()" id="darkBtn" title="डार्क मोड">🌙</button>
+  </nav>
 </header>
 
 <div class="container">
+  <h1 style="color:var(--primary); margin-bottom: 8px;">संपर्क करें (Contact Us)</h1>
+  <p style="color:var(--subtext); margin-bottom: 20px;">दीनी दुआ (Deeni Dua) पोर्टल से जुड़े किसी भी सवाल, सुधार या सुझाव के लिए आप हमसे संपर्क कर सकते हैं।</p>
+
   <div class="contact-card">
-    <h1>संपर्क करें (Contact Us)</h1>
-    <p>यदि आपके पास हमारी वेबसाइट के संबंध में कोई सुझाव, प्रश्न, सुधार या प्रतिक्रिया है, तो आप बेझिझक हमसे संपर्क कर सकते हैं। हम आपकी सहायता और प्रतिक्रिया का स्वागत करते हैं।</p>
+    <h2 style="color:var(--primary); font-size: 1.25rem;">आधिकारिक ईमेल</h2>
+    <p>अगर आपको किसी सूरह, दुआ या तर्जुमे में कोई टाइपिंग त्रुटि नज़र आती है, या आप कोई नया फीचर जुड़वाना चाहते हैं, तो कृपया हमें ईमेल करें:</p>
+    
+    <a href="mailto:vinsona9818@gmail.com" class="contact-badge">
+      ✉️ vinsona9818@gmail.com
+    </a>
 
-    <div class="contact-box">
-      <h3>आधिकारिक ईमेल संपर्क:</h3>
-      <p style="margin-top: 5px; font-size: 1.1rem; color: #0f5132; font-weight: bold;">
-        contact.deenidua@gmail.com
-      </p>
-      <small style="color: #6c757d;">(नोट: आप अपनी आवश्यकतानुसार अपनी एक्टिव ईमेल आईडी यहाँ बदल सकते हैं)</small>
-    </div>
+    <p style="font-size: 0.9rem; color: var(--subtext);">हम आपके ईमेल का जवाब 24 से 48 घंटों के भीतर देने की पूरी कोशिश करेंगे।</p>
+  </div>
 
-    <h2>प्रतिक्रिया का समय</h2>
-    <p>हम आम तौर पर प्राप्त सभी ईमेल का उत्तर 24 से 48 घंटे के भीतर देने का प्रयास करते हैं। यदि विषय किसी सामग्री सुधार से संबंधित है, तो कृपया उस पेज का लिंक और संबंधित विवरण स्पष्ट रूप से लिखें।</p>
+  <div class="contact-card">
+    <h2 style="color:var(--primary); font-size: 1.25rem; margin-bottom: 10px;">आप किन मामलों में संपर्क कर सकते हैं?</h2>
+    <ul class="info-list">
+      <li>
+        <span style="font-size:1.2rem;">📖</span>
+        <div>
+          <strong>कंटेंट या तलफ़्फ़ुज़ सुधार:</strong> अरबी आयत, हिंदी उच्चारण या तर्जुमे में किसी भी प्रकार के सुधार का सुझाव देने के लिए।
+        </div>
+      </li>
+      <li>
+        <span style="font-size:1.2rem;">💡</span>
+        <div>
+          <strong>नए फीचर्स का सुझाव:</strong> पोर्टल पर किसी नई दुआ, सूरह या इस्लामिक टूल को शामिल कराने के लिए।
+        </div>
+      </li>
+      <li>
+        <span style="font-size:1.2rem;">🛡️</span>
+        <div>
+          <strong>वेबसाइट तकनीकी समस्या:</strong> किसी पेज, ऑडियो प्लेयर या टूल के सही ढंग से काम न करने की रिपोर्ट करने के लिए।
+        </div>
+      </li>
+    </ul>
   </div>
 </div>
 
 <footer>
   <p>© 2026 दीनी दुआ | सर्वाधिकार सुरक्षित</p>
+  <p style="margin-top:8px;">
+    <a href="about.html" style="color:var(--primary); margin:0 5px; text-decoration:none;">About Us</a> | 
+    <a href="contact.html" style="color:var(--primary); margin:0 5px; text-decoration:none; font-weight:bold;">Contact Us</a> | 
+    <a href="privacy-policy.html" style="color:var(--primary); margin:0 5px; text-decoration:none;">Privacy Policy</a>
+  </p>
 </footer>
+
+<script>
+  // Dark Mode Support
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    document.getElementById('darkBtn').innerText = isDark ? '☀️' : '🌙';
+  }
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    document.getElementById('darkBtn').innerText = '☀️';
+  }
+</script>
 
 </body>
 </html>
