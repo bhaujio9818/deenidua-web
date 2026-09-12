@@ -3,13 +3,14 @@
   <!-- मुख्य होमपेज -->
   <url><loc>https://www.deenidua.in/index.html</loc><priority>1.0</priority></url>
 
-  <!-- सूरह संग्रह -->
+  <!-- सूरह संग्रह व तिलावात -->
   <url><loc>https://www.deenidua.in/surah/ayatul-kursi.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/surah/yaseen.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/surah/mulk.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/surah/rahman.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/surah/waqiah.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/surah/aakhri-10-surah.html</loc><priority>0.8</priority></url>
+  <url><loc>https://www.deenidua.in/surah/audio-quran.html</loc><priority>0.8</priority></url>
 
   <!-- कलमा व नमाज़ गाइड -->
   <url><loc>https://www.deenidua.in/kalma/6-kalma.html</loc><priority>0.8</priority></url>
@@ -22,6 +23,7 @@
   <url><loc>https://www.deenidua.in/duas/tauba-ki-dua.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/duas/shifa-ki-dua.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/duas/janaza-ki-dua.html</loc><priority>0.8</priority></url>
+  <url><loc>https://www.deenidua.in/duas/istikhara.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/duas/safar-ki-dua.html</loc><priority>0.7</priority></url>
   <url><loc>https://www.deenidua.in/duas/khana-khane-ki-dua.html</loc><priority>0.7</priority></url>
   <url><loc>https://www.deenidua.in/duas/sone-ki-dua.html</loc><priority>0.7</priority></url>
@@ -30,6 +32,7 @@
   <!-- विशेष पेज व कंटेंट -->
   <url><loc>https://www.deenidua.in/pages/ramadan-duas.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/pages/jumma-mubarak.html</loc><priority>0.7</priority></url>
+  <url><loc>https://www.deenidua.in/pages/jumma-sunnah.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/pages/99-names.html</loc><priority>0.7</priority></url>
   <url><loc>https://www.deenidua.in/pages/islamic-names.html</loc><priority>0.8</priority></url>
 
