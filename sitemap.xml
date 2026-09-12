@@ -27,6 +27,7 @@
   <url><loc>https://www.deenidua.in/duas/safar-ki-dua.html</loc><priority>0.7</priority></url>
   <url><loc>https://www.deenidua.in/duas/khana-khane-ki-dua.html</loc><priority>0.7</priority></url>
   <url><loc>https://www.deenidua.in/duas/sone-ki-dua.html</loc><priority>0.7</priority></url>
+  <url><loc>https://www.deenidua.in/duas/subah-sham-azkar.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/duas/masjid-ki-dua.html</loc><priority>0.7</priority></url>
 
   <!-- विशेष पेज व कंटेंट -->
@@ -35,6 +36,7 @@
   <url><loc>https://www.deenidua.in/pages/jumma-sunnah.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/pages/99-names.html</loc><priority>0.7</priority></url>
   <url><loc>https://www.deenidua.in/pages/islamic-names.html</loc><priority>0.8</priority></url>
+  <url><loc>https://www.deenidua.in/pages/40-hadith.html</loc><priority>0.8</priority></url>
 
   <!-- टूल्स -->
   <url><loc>https://www.deenidua.in/tools/adhan.html</loc><priority>0.8</priority></url>
