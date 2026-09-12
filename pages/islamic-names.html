@@ -3,16 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>मुस्लिम बच्चों के नाम व अर्थ | Islamic Baby Names in Hindi</title>
+  <title>मुस्लिम बच्चों के 100+ नाम व अर्थ | Islamic Baby Names in Hindi</title>
+  <meta name="description" content="मुस्लिम लड़के और लड़कियों के आधुनिक, प्यारे और बा-बरकत इस्लामी नाम हिंदी अर्थ और अरबी सहित।">
   <link rel="stylesheet" href="../style.css">
   <style>
     .name-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
     .name-table th, .name-table td { border: 1px solid #e0e0e0; padding: 10px; text-align: left; }
     .name-table th { background: #0f5132; color: #fff; }
+    .name-table tr:nth-child(even) { background: #f9fdfa; }
     .tab-btn { padding: 10px 20px; border: none; background: #eee; font-weight: bold; cursor: pointer; border-radius: 5px; margin-right: 5px; }
     .tab-btn.active { background: #0f5132; color: white; }
-    .section-names { display: none; margin-top: 20px; }
+    .section-names { display: none; margin-top: 15px; }
     .section-names.show { display: block; }
+    .search-input { width: 100%; padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; margin: 15px 0; font-size: 0.95rem; outline: none; box-sizing: border-box; }
+    .search-input:focus { border-color: #0f5132; }
   </style>
 </head>
 <body>
@@ -23,57 +27,165 @@
 
 <div class="container">
   <h1 style="color:#0f5132; margin-bottom: 8px;">इस्लामिक नाम (लड़के और लड़कियाँ)</h1>
-  <p style="color:#6c757d; margin-bottom: 20px;">हदीस: कयामत के दिन तुम अपने और अपने वालिद के नाम से पुकारे जाओगे, इसलिए अच्छे नाम रखो।</p>
+  <p style="color:#6c757d; margin-bottom: 15px;">रसूलुल्लाह ﷺ ने फरमाया: "कयामत के दिन तुम अपने और अपने वालिद के नाम से पुकारे जाओगे, इसलिए अच्छे नाम रखो।"</p>
+
+  <input type="text" id="nameSearch" class="search-input" placeholder="🔍 नाम या अर्थ खोजें (जैसे: अयान, इनाया, रहम)..." onkeyup="filterNames()">
 
   <div>
-    <button class="tab-btn active" onclick="switchGender('boys')">👦 लड़कों के नाम (Boys)</button>
-    <button class="tab-btn" onclick="switchGender('girls')">👧 लड़कियों के नाम (Girls)</button>
+    <button class="tab-btn active" id="btnBoys" onclick="switchGender('boys')">👦 लड़कों के नाम (50)</button>
+    <button class="tab-btn" id="btnGirls" onclick="switchGender('girls')">👧 लड़कियों के नाम (50)</button>
   </div>
 
-  <!-- Boys Names -->
+  <!-- Boys Names (50) -->
   <div id="boys" class="section-names show">
     <table class="name-table">
-      <tr><th>नाम</th><th>अरबी</th><th>हिंदी अर्थ / मायने</th></tr>
-      <tr><td><strong>अयान (Ayaan)</strong></td><td>أَيَّان</td><td>अल्लाह का तोहफा (गिफ्ट)</td></tr>
-      <tr><td><strong>ज़ायन (Zayan)</strong></td><td>زَيَّان</td><td>खूबसूरत, निखारने वाला</td></tr>
-      <tr><td><strong>रेहान (Rehan)</strong></td><td>رَيْحَان</td><td>जन्नत का खुशबूदार पौधा</td></tr>
-      <tr><td><strong>आरिज़ (Ariz)</strong></td><td>عَارِض</td><td>सम्मानित, नेता, रहबर</td></tr>
-      <tr><td><strong>कबीर (Kabir)</strong></td><td>كَبِير</td><td>महान, बुज़ुर्ग, बड़ा</td></tr>
-      <tr><td><strong>दानिश (Danish)</strong></td><td>دَانِش</td><td>अक्लमंद, समझदार, ज्ञानी</td></tr>
-      <tr><td><strong>हुज़ैफा (Huzaifa)</strong></td><td>حُذَيْفَة</td><td>एक जलीलुल कद्र सहाबी का नाम</td></tr>
-      <tr><td><strong>अरहम (Arham)</strong></td><td>أَرْحَم</td><td>सबसे ज्यादा रहम करने वाला</td></tr>
-      <tr><td><strong>फरहान (Farhan)</strong></td><td>فَرْحَان</td><td>खुशहाल, मुस्कुराता हुआ</td></tr>
-      <tr><td><strong>साकिब (Saqib)</strong></td><td>ثَاقِب</td><td>चमकता हुआ सितारा</td></tr>
-      <tr><td><strong>हमीद (Hameed)</strong></td><td>حَمِيد</td><td>तारीफ करने वाला</td></tr>
-      <tr><td><strong>उमैर (Umair)</strong></td><td>عُمَيْر</td><td>दीर्घायु, आबाद करने वाला</td></tr>
+      <thead>
+        <tr><th>नाम</th><th>English</th><th>अरबी</th><th>हिंदी अर्थ / मायने</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>अयान</strong></td><td>Ayaan</td><td>أَيَّان</td><td>अल्लाह का तोहफा, नेमत</td></tr>
+        <tr><td><strong>ज़ायन</strong></td><td>Zayan</td><td>زَيَّان</td><td>खूबसूरत, संवारने वाला</td></tr>
+        <tr><td><strong>रेहान</strong></td><td>Rehan</td><td>رَيْحَان</td><td>जन्नत का खुशबूदार पौधा</td></tr>
+        <tr><td><strong>आरिज़</strong></td><td>Ariz</td><td>عَارِض</td><td>सम्मानित, नेता, रहबर</td></tr>
+        <tr><td><strong>अरहम</strong></td><td>Arham</td><td>أَرْحَم</td><td>सबसे ज़्यादा रहम करने वाला</td></tr>
+        <tr><td><strong>अहिल</strong></td><td>Ahil</td><td>أَهِل</td><td>राजकुमार, रहनुमा, शासक</td></tr>
+        <tr><td><strong>दानिश</strong></td><td>Danish</td><td>دَانِش</td><td>अक्लमंद, समझदार, ज्ञानी</td></tr>
+        <tr><td><strong>इज़ान</strong></td><td>Izan</td><td>إِذْعَان</td><td>आज्ञाकारी, फरमांबरदार</td></tr>
+        <tr><td><strong>हुज़ैफा</strong></td><td>Huzaifa</td><td>حُذَيْفَة</td><td>सहाबी-ए-रसूल का नाम, बुद्धिमान</td></tr>
+        <tr><td><strong>साकिब</strong></td><td>Saqib</td><td>ثَاقِب</td><td>चमकता हुआ रोशन सितारा</td></tr>
+        <tr><td><strong>कबीर</strong></td><td>Kabir</td><td>كَبِير</td><td>महान, बड़ा, बुजुर्ग</td></tr>
+        <tr><td><strong>मीरान</strong></td><td>Meeran</td><td>مِيرَان</td><td>शहज़ादा, नेकदिल</td></tr>
+        <tr><td><strong>फरहान</strong></td><td>Farhan</td><td>فَرْحَان</td><td>खुशहाल, मुस्कुराता हुआ</td></tr>
+        <tr><td><strong>उमैर</strong></td><td>Umair</td><td>عُمَيْر</td><td>दीर्घायु, आबाद करने वाला</td></tr>
+        <tr><td><strong>हाशिर</strong></td><td>Hashir</td><td>حَاشِر</td><td>जमा करने वाला</td></tr>
+        <tr><td><strong>इरफ़ान</strong></td><td>Irfan</td><td>عِرْفَان</td><td>हिकमत, समझ, ज्ञान</td></tr>
+        <tr><td><strong>शाहवेज़</strong></td><td>Shahvez</td><td>شَاهْوِيز</td><td>प्यारा, मीठा बोलने वाला</td></tr>
+        <tr><td><strong>राफे</strong></td><td>Rafe</td><td>رَافِع</td><td>बुलंद मर्तबे वाला</td></tr>
+        <tr><td><strong>ज़ुबैर</strong></td><td>Zubair</td><td>زُبَيْر</td><td>मज़बूत, बहादुर सहाबी का नाम</td></tr>
+        <tr><td><strong>अज़लान</strong></td><td>Azlan</td><td>أَزْلَان</td><td>शेर जैसा बहादुर, निडर</td></tr>
+        <tr><td><strong>हमदान</strong></td><td>Hamdan</td><td>حَمْدَان</td><td>अल्लाह की तारीफ करने वाला</td></tr>
+        <tr><td><strong>तल्हा</strong></td><td>Talha</td><td>طَلْحَة</td><td>जन्नत का दरख्त, मशहूर सहाबी</td></tr>
+        <tr><td><strong>फैज़ान</strong></td><td>Faizan</td><td>فَيْضَان</td><td>भलाई, बरकत, फैज़</td></tr>
+        <tr><td><strong>अमान</strong></td><td>Amaan</td><td>أَمَان</td><td>अम्न, सलामती, सुरक्षा</td></tr>
+        <tr><td><strong>मुस्तफा</strong></td><td>Mustafa</td><td>مُصْطَفَى</td><td>चुना हुआ, पैगंबर ﷺ का नाम</td></tr>
+        <tr><td><strong>आदिल</strong></td><td>Adil</td><td>عَادِل</td><td>इंसाफ करने वाला, न्यायप्रिय</td></tr>
+        <tr><td><strong>बिलाल</strong></td><td>Bilal</td><td>بِلَال</td><td>रसूलुल्लाह ﷺ के मुअज़्ज़िन का नाम</td></tr>
+        <tr><td><strong>शारिक</strong></td><td>Shariq</td><td>شَارِق</td><td>चमकता हुआ सूरज, रौशन</td></tr>
+        <tr><td><strong>ताहिर</strong></td><td>Tahir</td><td>طَاهِر</td><td>पाक-साफ, पवित्र</td></tr>
+        <tr><td><strong>कासिम</strong></td><td>Qasim</td><td>قَاسِم</td><td>बांटने वाला, इंसाफ पसंद</td></tr>
+        <tr><td><strong>नावेद</strong></td><td>Naved</td><td>نَاوِيد</td><td>खुशखबरी, अच्छी खबर</td></tr>
+        <tr><td><strong>तारिक</strong></td><td>Tariq</td><td>طَارِق</td><td>सुबह का सितारा, रात का मुसाफिर</td></tr>
+        <tr><td><strong>हम्ज़ा</strong></td><td>Hamza</td><td>حَمْزَة</td><td>शेर, नबी करीम ﷺ के चचा का नाम</td></tr>
+        <tr><td><strong>इमरान</strong></td><td>Imran</td><td>عِمْرَان</td><td>आबादी, तरक्की, हज़रत मरियम के वालिद</td></tr>
+        <tr><td><strong>सलमान</strong></td><td>Salman</td><td>سَلْمَان</td><td>सलामती वाला, मशहूर सहाबी</td></tr>
+        <tr><td><strong>जुनैद</strong></td><td>Junaid</td><td>جُنَيْد</td><td>छोटा लश्कर, सूफी बुजुर्ग का नाम</td></tr>
+        <tr><td><strong>हारून</strong></td><td>Haroon</td><td>هَارُون</td><td>उम्मीद, हज़रत मूसा के भाई (नबी)</td></tr>
+        <tr><td><strong>इदरीस</strong></td><td>Idrees</td><td>إِدْرِيس</td><td>इल्म सिखाने वाला, नबी का नाम</td></tr>
+        <tr><td><strong>साद</strong></td><td>Saad</td><td>سَعْد</td><td>नेक-बख्त, खुशनसीब</td></tr>
+        <tr><td><strong>सुफियान</strong></td><td>Sufyan</td><td>سُفْيَان</td><td>तेज़ चलने वाला, सहाबी का नाम</td></tr>
+        <tr><td><strong>वासिफ</strong></td><td>Wasif</td><td>وَاصِف</td><td>खूबियां बयान करने वाला</td></tr>
+        <tr><td><strong>मुदस्सिर</strong></td><td>Mudassir</td><td>مُدَّثِّر</td><td>चादर ओढ़ने वाला, नबी ﷺ का लकब</td></tr>
+        <tr><td><strong>मुज़म्मिल</strong></td><td>Muzzammil</td><td>مُزَّمِّل</td><td>कंबल लपेटने वाला, नबी ﷺ का नाम</td></tr>
+        <tr><td><strong>समद</strong></td><td>Samad</td><td>صَمَد</td><td>बेनियाज़, जिसे किसी की ज़रूरत न हो</td></tr>
+        <tr><td><strong>अमजद</strong></td><td>Amjad</td><td>أَمْجَد</td><td>बुज़ुर्ग, अज़ीम शान वाला</td></tr>
+        <tr><td><strong>शहज़ाद</strong></td><td>Shahzad</td><td>شَهْزَاد</td><td>बादशाह का बेटा, राजकुमार</td></tr>
+        <tr><td><strong>अफ़्फान</strong></td><td>Affan</td><td>عَفَّان</td><td>माफ़ करने वाला, हज़रत उस्मान के वालिद</td></tr>
+        <tr><td><strong>इब्राहिम</strong></td><td>Ibrahim</td><td>إِبْرَاهِيم</td><td>कौमों का बाप, जलीलुल कद्र पैगंबर</td></tr>
+        <tr><td><strong>यूसुफ</strong></td><td>Yusuf</td><td>يُوسُف</td><td>बेपनाह हुस्न व खूबसूरती वाला (नबी)</td></tr>
+        <tr><td><strong>समीर</strong></td><td>Sameer</td><td>سَمِير</td><td>रात में अच्छी गुफ्तगू करने वाला दोस्त</td></tr>
+      </tbody>
     </table>
   </div>
 
-  <!-- Girls Names -->
+  <!-- Girls Names (50) -->
   <div id="girls" class="section-names">
     <table class="name-table">
-      <tr><th>नाम</th><th>अरबी</th><th>हिंदी अर्थ / मायने</th></tr>
-      <tr><td><strong>आयशा (Ayesha)</strong></td><td>عَائِشَة</td><td>आरामदेह जिंदगी गुजारने वाली</td></tr>
-      <tr><td><strong>फातिमा (Fatima)</strong></td><td>فَاطِمَة</td><td>पाक-दामन, परहेज़गार</td></tr>
-      <tr><td><strong>इनाया (Inaya)</strong></td><td>عِنَايَة</td><td>अल्लाह की फिक्र व देखभाल</td></tr>
-      <tr><td><strong>ज़ोया (Zoya)</strong></td><td>زُويَا</td><td>जिंदादिल, मोहब्बत करने वाली</td></tr>
-      <tr><td><strong>आलिया (Aaliyah)</strong></td><td>عَالِيَة</td><td>बुलंद मर्तबे वाली, आला</td></tr>
-      <tr><td><strong>अनाबिया (Anabiya)</strong></td><td>عَنَابِيَة</td><td>अल्लाह की तरफ रुजू करने वाली</td></tr>
-      <tr><td><strong>सारा (Sara)</strong></td><td>سَارَة</td><td>खुशी देने वाली, शहज़ादी</td></tr>
-      <tr><td><strong>मरियम (Maryam)</strong></td><td>مَرْيَم</td><td>इबादतगुज़ार, पाक औरत</td></tr>
-      <tr><td><strong>माहिया (Mahiya)</strong></td><td>مَاهِيَة</td><td>इश्क, नूरानी चेहरा</td></tr>
-      <tr><td><strong>साइमा (Saima)</strong></td><td>صَائِمَة</td><td>रोज़ा रखने वाली औरत</td></tr>
-      <tr><td><strong>अरीबा (Areeba)</strong></td><td>أَرِيبَة</td><td>समझदार, अक्लमंद</td></tr>
+      <thead>
+        <tr><th>नाम</th><th>English</th><th>अरबी</th><th>हिंदी अर्थ / मायने</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>इनाया</strong></td><td>Inaya</td><td>عِنَايَة</td><td>अल्लाह की देखरेख, हिफाज़त</td></tr>
+        <tr><td><strong>अनाबिया</strong></td><td>Anabiya</td><td>عَنَابِيَة</td><td>तौबा करने वाली, नेकी की तरफ लौटने वाली</td></tr>
+        <tr><td><strong>आयशा</strong></td><td>Ayesha</td><td>عَائِشَة</td><td>आरामदेह जिंदगी जीने वाली, खुशहाल</td></tr>
+        <tr><td><strong>ज़ोया</strong></td><td>Zoya</td><td>زُويَا</td><td>जिंदादिल, मोहब्बत करने वाली</td></tr>
+        <tr><td><strong>फातिमा</strong></td><td>Fatima</td><td>فَاطِمَة</td><td>पाक-दामन, नबी ﷺ की लाडली बेटी</td></tr>
+        <tr><td><strong>आलिया</strong></td><td>Aaliyah</td><td>عَالِيَة</td><td>बुलंद मर्तबे वाली, आला शान</td></tr>
+        <tr><td><strong>मरियम</strong></td><td>Maryam</td><td>مَرْيَم</td><td>इबादतगुज़ार, हज़रत ईसा की वालिदा</td></tr>
+        <tr><td><strong>ज़ायरा</strong></td><td>Zaira</td><td>زَائِرَة</td><td>गुलाब का फूल, सुबह का तारा</td></tr>
+        <tr><td><strong>अरीबा</strong></td><td>Areeba</td><td>أَرِيبَة</td><td>समझदार, तेज़ अक्ल वाली</td></tr>
+        <tr><td><strong>सारा</strong></td><td>Sara</td><td>سَارَة</td><td>खुशी देने वाली, हज़रत इब्राहीम की अहलिया</td></tr>
+        <tr><td><strong>माहिया</strong></td><td>Mahiya</td><td>مَاهِيَة</td><td>नूरानी चेहरा, प्रेम</td></tr>
+        <tr><td><strong>साइमा</strong></td><td>Saima</td><td>صَائِمَة</td><td>रोज़ा रखने वाली औरत</td></tr>
+        <tr><td><strong>अयाना</strong></td><td>Ayana</td><td>عَيَانَة</td><td>खूबसूरत आंखें, खिली हुई कली</td></tr>
+        <tr><td><strong>हिबा</strong></td><td>Hiba</td><td>هِبَة</td><td>अल्लाह का दिया हुआ तोहफा</td></tr>
+        <tr><td><strong>मिश्कात</strong></td><td>Mishkat</td><td>مِشْكَاة</td><td>दीया रखने का आला, नूरानी जगह</td></tr>
+        <tr><td><strong>रिया</strong></td><td>Riya</td><td>رِيَا</td><td>मीठी खुशबू, तृप्त</td></tr>
+        <tr><td><strong>यसमीन</strong></td><td>Yasmeen</td><td>يَاسَمِين</td><td>चमेली का सफेद खुशबूदार फूल</td></tr>
+        <tr><td><strong>आमिना</strong></td><td>Amina</td><td>آمِنَة</td><td>अमानतदार, नबी ﷺ की वालिदा का नाम</td></tr>
+        <tr><td><strong>नायरा</strong></td><td>Naira</td><td>نَيِّرَة</td><td>चमकदार, रोशन, नूरानी</td></tr>
+        <tr><td><strong>हुदा</strong></td><td>Huda</td><td>هُدَى</td><td>हिदायत, सीधी सच्ची राह</td></tr>
+        <tr><td><strong>अफ्शां</strong></td><td>Afshan</td><td>أَفْشَان</td><td>सितारों जैसी चमक बिखेरने वाली</td></tr>
+        <tr><td><strong>समीहा</strong></td><td>Sameeha</td><td>سَمِيحَة</td><td>सखी, दिलदार, माफ करने वाली</td></tr>
+        <tr><td><strong>ताइबा</strong></td><td>Tayyaba</td><td>طَيِّبَة</td><td>पाक-साफ, पवित्र, मदीना का नाम</td></tr>
+        <tr><td><strong>माहिरा</strong></td><td>Mahira</td><td>مَاهِرَة</td><td>हुनरमंद, काबिल, चतुर</td></tr>
+        <tr><td><strong>ज़ैनब</strong></td><td>Zainab</td><td>زَيْنَب</td><td>खूबसूरत ज़ीनत, नबी ﷺ की बेटी</td></tr>
+        <tr><td><strong>खदीजा</strong></td><td>Khadija</td><td>خَدِيجَة</td><td>उम्मुल मोमिनीन, अमानतदार खातून</td></tr>
+        <tr><td><strong>हफ्सा</strong></td><td>Hafsa</td><td>حَفْصَة</td><td>शेरनी, कुरआन की हिफाज़त करने वाली</td></tr>
+        <tr><td><strong>रुमैसा</strong></td><td>Rumaisa</td><td>رُمَيْثَة</td><td>फूलों का गुलदस्ता, खूबसूरत</td></tr>
+        <tr><td><strong>सना</strong></td><td>Sana</td><td>سَنَاء</td><td>तारीफ, चमक-दमक, रौशनी</td></tr>
+        <tr><td><strong>उमैमा</strong></td><td>Umaima</td><td>أُمَيْمَة</td><td>प्यारी मां, रहम करने वाली</td></tr>
+        <tr><td><strong>आलिमा</strong></td><td>Alima</td><td>عَالِمَة</td><td>इल्म वाली, विदुषी</td></tr>
+        <tr><td><strong>बुशरा</strong></td><td>Bushra</td><td>بُشْرَى</td><td>अच्छी खुशखबरी, शुभ संदेश</td></tr>
+        <tr><td><strong>ज़कीया</strong></td><td>Zakiya</td><td>زَكِيَّة</td><td>पाक-साफ, कुशादा ज़ेहन वाली</td></tr>
+        <tr><td><strong>सलीहा</strong></td><td>Saliha</td><td>صَالِحَة</td><td>नेक, परहेज़गार, सदाचारी</td></tr>
+        <tr><td><strong>नादिया</strong></td><td>Nadia</td><td>نَادِيَة</td><td>बुलाने वाली, ओस की बूंद</td></tr>
+        <tr><td><strong>रबीया</strong></td><td>Rabiya</td><td>رَابِعَة</td><td>चौथी, बहार का मौसम</td></tr>
+        <tr><td><strong>साजिदा</strong></td><td>Sajida</td><td>سَاجِدَة</td><td>अल्लाह के आगे सजदा करने वाली</td></tr>
+        <tr><td><strong>शाइस्ता</strong></td><td>Shaista</td><td>شَايِسْتَة</td><td>तहज़ीब वाली, अदब वाली</td></tr>
+        <tr><td><strong>तसनीम</strong></td><td>Tasneem</td><td>تَسْنِيم</td><td>जन्नत के मुबारक चश्मे (नहर) का नाम</td></tr>
+        <tr><td><strong>अरीबा</strong></td><td>Ariba</td><td>أَرِيبَة</td><td>कामयाब, अक्लमंद</td></tr>
+        <tr><td><strong>नासरीन</strong></td><td>Nasreen</td><td>نَسْرِين</td><td>जंगली गुलाब का सफेद फूल</td></tr>
+        <tr><td><strong>परवीन</strong></td><td>Parveen</td><td>پَرْوِين</td><td>सितारों का झुरमुट</td></tr>
+        <tr><td><strong>फरहाना</strong></td><td>Farhana</td><td>فَرْحَانَة</td><td>खुशी और मुस्कान बिखेरने वाली</td></tr>
+        <tr><td><strong>शमीमा</strong></td><td>Shamima</td><td>شَمِيمَة</td><td>हल्की खुशबू, महक</td></tr>
+        <tr><td><strong>लुबना</strong></td><td>Lubna</td><td>لُبْنَى</td><td>मीठी खुशबू वाला दरख्त</td></tr>
+        <tr><td><strong>मेहरूनिसा</strong></td><td>Mehronisa</td><td>مِهْرُ النِّسَاء</td><td>औरतों का सूरज, दयालु</td></tr>
+        <tr><td><strong>शबनम</strong></td><td>Shabnam</td><td>شَبْنَم</td><td>सुबह की ओस की बूंदें</td></tr>
+        <tr><td><strong>ग़ज़ाला</strong></td><td>Ghazala</td><td>غَزَالَة</td><td>हिरनी, खूबसूरत आंखें</td></tr>
+        <tr><td><strong>फ़िरदौस</strong></td><td>Firdous</td><td>فِرْدَوْس</td><td>जन्नत का सबसे आला बाग</td></tr>
+        <tr><td><strong>लायबा</strong></td><td>Laiba</td><td>لَائِبَة</td><td>जन्नत की हूर, खूबसूरत परी</td></tr>
+      </tbody>
     </table>
   </div>
+
 </div>
+
+<footer>
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
 
 <script>
   function switchGender(type) {
     document.querySelectorAll('.section-names').forEach(el => el.classList.remove('show'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
     document.getElementById(type).classList.add('show');
-    event.target.classList.add('active');
+    if (type === 'boys') {
+      document.getElementById('btnBoys').classList.add('active');
+    } else {
+      document.getElementById('btnGirls').classList.add('active');
+    }
+    filterNames();
+  }
+
+  function filterNames() {
+    let input = document.getElementById('nameSearch').value.toLowerCase();
+    let activeSection = document.querySelector('.section-names.show');
+    let rows = activeSection.querySelectorAll('tbody tr');
+
+    rows.forEach(row => {
+      let text = row.innerText.toLowerCase();
+      row.style.display = text.includes(input) ? '' : 'none';
+    });
   }
 </script>
 
