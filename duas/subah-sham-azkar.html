@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>सुबह और शाम के मसनून अज़कार | Subah Sham ke Azkar</title>
+  <meta name="description" content="सुबह और शाम के मसनून अज़कार, हिफाज़त की दुआएं अरबी, हिंदी उच्चारण, तर्जुमा और डिजिटल काउंटर के साथ।">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .azkar-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .counter-btn { background: #0f5132; color: white; border: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 0.95rem; margin-top: 12px; }
+    .counter-btn.done { background: #198754; opacity: 0.8; }
+    .badge { background: #e8f5e9; color: #0f5132; font-size: 0.8rem; font-weight: bold; padding: 3px 10px; border-radius: 12px; }
+    .font-resizer { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 15px; }
+    .font-btn { background: var(--card); color: var(--primary); border: 1px solid var(--border); padding: 4px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html">← मुख्य पेज</a>
+</header>
+
+<div class="container">
+  <h1 style="color:#0f5132; margin-bottom: 8px;">सुबह और शाम के मसनून अज़कार</h1>
+  <p style="color:#6c757d; margin-bottom: 15px;">हर बला, जिन्नात, जादू और अचानक आने वाली मुसीबतों से हिफाज़त के नबवी अज़कार।</p>
+
+  <div class="font-resizer">
+    <button class="font-btn" onclick="changeFontSize(-2)">A -</button>
+    <button class="font-btn" onclick="changeFontSize(0)">A (सामान्य)</button>
+    <button class="font-btn" onclick="changeFontSize(2)">A +</button>
+  </div>
+
+  <!-- 1. Bismillahillazi -->
+  <div class="azkar-card">
+    <span class="badge">३ बार पढ़ें (सुबह व शाम)</span>
+    <div class="arabic">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ</div>
+    <div class="label">हिंदी उच्चारण:</div>
+    <p>बिस्मिल्लाहिल्लज़ी ला यदुर्रु मअस्मिही शैउन फिल-अर्दि वला फिस-समाइ व हुवस-समीउल अलीम।</p>
+    <div class="label">तर्जुमा:</div>
+    <p>अल्लाह के नाम से, जिसके नाम की बरकत से ज़मीन व आसमान की कोई चीज़ नुकसान नहीं पहुंचा सकती, और वह सब कुछ सुनने वाला और जानने वाला है।</p>
+    <p style="font-size:0.85rem; color:#666;">(हदीस: जो सुबह-शाम 3 बार पढ़े उसे कोई चीज़ नुकसान नहीं पहुंचाएगी - तिर्मिज़ी)</p>
+    <button class="counter-btn" onclick="countClick(this, 3)">गिनती: 3 बाकी</button>
+  </div>
+
+  <!-- 2. Auzu bikalimatillah -->
+  <div class="azkar-card">
+    <span class="badge">३ बार पढ़ें (शाम को)</span>
+    <div class="arabic">أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ</div>
+    <div class="label">हिंदी उच्चारण:</div>
+    <p>अऊज़ु बि-कलिमातिल-लाहित-ताम्माति मिन शर्रि मा ख़लक।</p>
+    <div class="label">तर्जुमा:</div>
+    <p>मैं अल्लाह के मुकम्मल कलिमात की पनाह मांगता हूँ उसकी तमाम मख्लूक के शर (बुराई) से।</p>
+    <button class="counter-btn" onclick="countClick(this, 3)">गिनती: 3 बाकी</button>
+  </div>
+
+  <!-- 3. Raditu billahi rabba -->
+  <div class="azkar-card">
+    <span class="badge">३ बार पढ़ें (सुबह व शाम)</span>
+    <div class="arabic">رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا</div>
+    <div class="label">हिंदी उच्चारण:</div>
+    <p>रदीतु बिल्लाहि रब्बन, व बिल-इस्लामि दीनन, व बि-मुहम्मदिन सल्लल्लाहु अलैहि वसल्लमा नबिय्या।</p>
+    <div class="label">तर्जुमा:</div>
+    <p>मैं अल्लाह के रब होने पर, इस्लाम के दीन होने पर और हज़रत मुहम्मद ﷺ के नबी होने पर राज़ी हुआ।</p>
+    <button class="counter-btn" onclick="countClick(this, 3)">गिनती: 3 बाकी</button>
+  </div>
+
+  <!-- 4. Subhanallahi wa bihamdihi -->
+  <div class="azkar-card">
+    <span class="badge">१०० बार पढ़ें (सुबह व शाम)</span>
+    <div class="arabic">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</div>
+    <div class="label">हिंदी उच्चारण:</div>
+    <p>सुब्हानल्लाहि व बि-हम्दिही।</p>
+    <div class="label">तर्जुमा:</div>
+    <p>अल्लाह पाक है अपनी खूबियों और तारीफों के साथ।</p>
+    <p style="font-size:0.85rem; color:#666;">(हदीस: जो 100 बार पढ़े उसके तमाम गुनाह माफ कर दिए जाते हैं चाहे समंदर के झाग बराबर हों - बुखारी)</p>
+    <button class="counter-btn" onclick="countClick(this, 100)">गिनती: 100 बाकी</button>
+  </div>
+
+  <!-- 5. Sayyidul Istighfar -->
+  <div class="azkar-card">
+    <span class="badge">१ बार पढ़ें (सैय्यदुल इस्तिकफार)</span>
+    <div class="arabic">اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ</div>
+    <div class="label">हिंदी उच्चारण:</div>
+    <p>अल्लाहुम्मा अन्ता रब्बी ला इलाहा इल्ला अन्ता, खलक़्तनी व अना अब्दुका, व अना अला अहदिका व व'दिका मस्ततअ्तु, अऊज़ु बिका मिन शर्रि मा सनअ्तु, अबू-उ लका बि-नि'मतिका अलैया, व अबू-उ लका बि-ज़म्बी फग़फ़िर ली, फ-इन्नहू ला यग़फिरुज़-ज़ुनूबा इल्ला अन्ता।</p>
+    <button class="counter-btn" onclick="countClick(this, 1)">गिनती: 1 बाकी</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
+
+<script>
+  function countClick(btn, total) {
+    let current = parseInt(btn.getAttribute('data-count') || total);
+    current--;
+    if (current > 0) {
+      btn.setAttribute('data-count', current);
+      btn.innerText = `गिनती: ${current} बाकी`;
+    } else {
+      btn.innerText = "✓ मुकम्मल हुआ";
+      btn.classList.add('done');
+      btn.disabled = true;
+    }
+  }
+
+  let baseSize = 0;
+  function changeFontSize(step) {
+    if (step === 0) baseSize = 0;
+    else baseSize = Math.max(-4, Math.min(8, baseSize + step));
+    document.querySelectorAll('.arabic').forEach(el => el.style.fontSize = (1.8 + (baseSize * 0.15)) + 'rem');
+    document.querySelectorAll('.container p, .container .label').forEach(el => el.style.fontSize = (1 + (baseSize * 0.08)) + 'rem');
+  }
+</script>
+
+</body>
+</html>
