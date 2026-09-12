@@ -3,50 +3,197 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>इस्लामिक WhatsApp स्टेटस कार्ड मेकर | Custom Status Generator - Deeni Dua</title>
-  <meta name="description" content="अपनी पसंद की दुआ या हदीस लिखकर सुंदर इस्लामिक स्टेटस कार्ड बनाएं और WhatsApp या Instagram पर शेयर करें।">
+  <title>इस्लामिक WhatsApp स्टेटस कार्ड मेकर | Islamic Status Card Generator - Deeni Dua</title>
+  <meta name="description" content="तैयार इस्लामिक कार्ड्स चुनें या अपनी पसंद की दुआ व हदीस लिखकर सुंदर HD स्टेटस कार्ड बनाएं और WhatsApp पर शेयर करें।">
   <link rel="stylesheet" href="../style.css">
   <link rel="canonical" href="https://www.deenidua.in/tools/card-generator.html">
   <meta name="theme-color" content="#0f5132">
 
   <style>
+    :root {
+      --primary: #0f5132;
+      --primary-dark: #063822;
+      --gold: #d4af37;
+      --gold-light: #fef3c7;
+      --surface: #ffffff;
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
     body {
-      background: #f1f5f9;
-      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
-      padding-bottom: 40px;
+      padding-bottom: 50px;
     }
 
-    .generator-container {
-      max-width: 550px;
-      margin: 15px auto;
-      padding: 15px;
-    }
-
-    /* Live Canvas / Preview Card */
-    .card-preview-wrapper {
+    .tool-header {
+      background: linear-gradient(135deg, #0f5132 0%, #063822 100%);
+      color: #ffffff;
+      padding: 14px 20px;
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(15, 81, 50, 0.2);
+    }
+
+    .tool-header a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .tool-header span {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    .main-wrapper {
+      max-width: 600px;
+      margin: 15px auto;
+      padding: 0 16px;
+    }
+
+    /* Mode Switching Tabs */
+    .tab-container {
+      display: flex;
+      background: #e2e8f0;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 10px 14px;
+      border-radius: 9px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
       justify-content: center;
+      gap: 6px;
+    }
+
+    .tab-btn.active {
+      background: var(--surface);
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* Canvas Card Preview */
+    .preview-card-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin-bottom: 20px;
     }
 
     #statusCanvas {
       width: 100%;
-      max-width: 380px;
+      max-width: 360px;
       height: auto;
       border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.22);
+      border: 3px solid #ffffff;
+      background: #064e3b;
+      transition: transform 0.2s;
     }
 
-    /* Control Form Panel */
-    .control-panel {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
+    /* Control Sections */
+    .panel-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 18px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+      margin-bottom: 20px;
     }
 
+    .category-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      scrollbar-width: thin;
+    }
+
+    .cat-btn {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      color: #334155;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .cat-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    /* Cards Grid */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .preset-card-item {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .preset-card-item:hover, .preset-card-item.selected {
+      border-color: var(--primary);
+      background: #f0fdf4;
+      transform: translateY(-1px);
+    }
+
+    .preset-card-item .tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .preset-card-item p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+
+    /* Custom Form Fields */
     .form-group {
       margin-bottom: 14px;
       text-align: left;
@@ -54,295 +201,467 @@
 
     .form-group label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       font-weight: 700;
       color: #334155;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
 
-    .input-field {
+    .custom-input {
       width: 100%;
-      padding: 10px 14px;
+      padding: 11px 14px;
       border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 0.95rem;
-      color: #1e293b;
+      color: #0f172a;
       box-sizing: border-box;
       outline: none;
-      transition: border-color 0.2s;
       font-family: inherit;
+      transition: border-color 0.2s;
     }
 
-    .input-field:focus {
-      border-color: #0f5132;
+    .custom-input:focus {
+      border-color: var(--primary);
     }
 
-    textarea.input-field {
+    textarea.custom-input {
       resize: vertical;
-      min-height: 85px;
-      line-height: 1.5;
+      min-height: 90px;
+      line-height: 1.55;
     }
 
-    /* Quick Preset Chips */
-    .preset-chips {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-top: 5px;
-    }
-
-    .chip-btn {
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      border-radius: 20px;
-      padding: 4px 10px;
-      font-size: 0.78rem;
-      white-space: nowrap;
-      cursor: pointer;
-      color: #475569;
-    }
-
-    .chip-btn:hover {
-      background: #e2e8f0;
-      color: #0f172a;
-    }
-
-    /* Theme Color Picker */
-    .theme-selector {
+    /* Themes Palette */
+    .themes-bar {
       display: flex;
       gap: 10px;
-      margin-top: 6px;
+      overflow-x: auto;
+      padding: 4px 0 8px 0;
     }
 
-    .theme-circle {
-      width: 36px;
-      height: 36px;
+    .theme-swatch {
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       cursor: pointer;
       border: 3px solid transparent;
+      flex-shrink: 0;
       transition: transform 0.2s, border-color 0.2s;
+      position: relative;
     }
 
-    .theme-circle.active {
+    .theme-swatch.active {
       transform: scale(1.15);
       border-color: #ffffff;
-      box-shadow: 0 0 0 2px #0f5132;
+      box-shadow: 0 0 0 2px var(--primary);
     }
 
     /* Action Buttons */
     .action-row {
       display: flex;
-      gap: 10px;
-      margin-top: 18px;
+      gap: 12px;
+      margin-top: 20px;
     }
 
-    .btn-download {
+    .btn-action {
       flex: 1;
-      background: #0f5132;
-      color: white;
       border: none;
-      padding: 13px;
-      border-radius: 25px;
-      font-size: 0.95rem;
+      padding: 14px 18px;
+      border-radius: 30px;
+      font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      transition: 0.2s;
-    }
-
-    .btn-download:active {
-      transform: scale(0.97);
-    }
-
-    .btn-whatsapp {
-      flex: 1;
-      background: #25D366;
-      color: white;
-      border: none;
-      padding: 13px;
-      border-radius: 25px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      gap: 8px;
+      transition: all 0.2s;
       text-decoration: none;
+    }
+
+    .btn-action.download {
+      background: linear-gradient(135deg, #0f5132, #063822);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(15, 81, 50, 0.35);
+    }
+
+    .btn-action.whatsapp {
+      background: #25D366;
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+    }
+
+    .btn-action:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
 <body>
 
-<header style="background:#0f5132; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
-  <a href="../index.html" style="color:white; text-decoration:none; font-weight:bold; font-size:1rem;">← मुख्य पेज</a>
-  <span style="color:white; font-size:0.95rem; font-weight:600;">✨ स्टेटस कार्ड मेकर</span>
+<header class="tool-header">
+  <a href="../index.html">← मुख्य होमपेज</a>
+  <span>✨ इस्लामिक स्टेटस कार्ड</span>
 </header>
 
-<div class="generator-container">
+<div class="main-wrapper">
 
-  <!-- Live Card Rendered on Canvas -->
-  <div class="card-preview-wrapper">
-    <canvas id="statusCanvas" width="1080" height="1350"></canvas>
+  <!-- Mode Toggle Tabs -->
+  <div class="tab-container">
+    <button class="tab-btn active" id="tabReady" onclick="switchMode('ready')">
+      🎴 चुने हुए कार्ड्स (Ready Cards)
+    </button>
+    <button class="tab-btn" id="tabCustom" onclick="switchMode('custom')">
+      ✍️ अपना खुद का लिखें (Custom)
+    </button>
   </div>
 
-  <!-- User Custom Control Box -->
-  <div class="control-panel">
-    
-    <!-- 1. Custom Text Input -->
+  <!-- Live Canvas HD Preview -->
+  <div class="preview-card-wrap">
+    <canvas id="statusCanvas" width="1080" height="1350"></canvas>
+    <small style="color: var(--muted); margin-top: 8px; font-size: 0.8rem;">
+      📐 1080×1350 HD (WhatsApp स्टेटस व Instagram स्टोरी के लिए परफेक्ट)
+    </small>
+  </div>
+
+  <!-- MODE 1: Ready-Made Preset Cards Browser -->
+  <div class="panel-box" id="readyModePanel">
+    <h3 style="font-size: 1rem; margin: 0 0 12px 0; color: var(--primary);">
+      श्रेणी चुनें और कार्ड पर क्लिक करें:
+    </h3>
+
+    <!-- Filter Categories -->
+    <div class="category-scroll">
+      <button class="cat-btn active" onclick="filterCategory('all', this)">सभी (All)</button>
+      <button class="cat-btn" onclick="filterCategory('jumma', this)">जुमा मुबारक</button>
+      <button class="cat-btn" onclick="filterCategory('hadith', this)">हदीस शरीफ</button>
+      <button class="cat-btn" onclick="filterCategory('quran', this)">कुरआन की आयतें</button>
+      <button class="cat-btn" onclick="filterCategory('dua', this)">मसनून दुआएं</button>
+    </div>
+
+    <!-- Cards Listing Grid -->
+    <div class="preset-grid" id="presetCardsList"></div>
+  </div>
+
+  <!-- MODE 2: Custom Text & Style Controls -->
+  <div class="panel-box" id="customModePanel" style="display: none;">
+    <h3 style="font-size: 1rem; margin: 0 0 14px 0; color: var(--primary);">
+      अपना पसंदीदा पैगाम लिखें:
+    </h3>
+
     <div class="form-group">
-      <label>✍️ आपका पसंदीदा पैगाम / दुआ / हदीस:</label>
-      <textarea id="customText" class="input-field" placeholder="यहाँ अपनी पसंद की कोई भी दुआ या बात लिखें..." oninput="renderCard()">मुस्कुराना भी एक सदका है और किसी मोमिन भाई से मोहब्बत से मिलना नेकी है।</textarea>
-      
-      <!-- Instant Pre-filled Prompts -->
-      <div class="preset-chips">
-        <button class="chip-btn" onclick="setPrompt('दुआ मोमिन का हथियार है और इबादत का मग़ज़ है।')">दुआ मोमिन का हथियार</button>
-        <button class="chip-btn" onclick="setPrompt('बेशक मुश्किल के साथ आसानी है। (सूरह इनशिराह)')">मुश्किल के साथ आसानी</button>
-        <button class="chip-btn" onclick="setPrompt('जुमा मुबारक! अल्लाह हम सबकी दुआएं कुबूल फरमाए।')">जुमा मुबारक</button>
-        <button class="chip-btn" onclick="setPrompt('पाकीज़गी आधा ईमान है। (सहीह मुस्लिम)')">सफाई आधा ईमान</button>
+      <label>✍️ आपका पैगाम, दुआ या हदीस:</label>
+      <textarea id="customTextInput" class="custom-input" placeholder="यहाँ अपनी पसंद की कोई भी आयत, हदीस या पैगाम लिखें..." oninput="onCustomChange()">मुस्कुराना भी एक सदका है और किसी मोमिन भाई से मोहब्बत से मिलना नेकी है। (जामे तिर्मिज़ी)</textarea>
+    </div>
+
+    <div class="form-group">
+      <label>👤 दुआगो / भेजने वाले का नाम (Sender Name):</label>
+      <input type="text" id="senderNameInput" class="custom-input" placeholder="जैसे: मोहम्मद ज़ैद / आपका नाम" value="दीनी दुआ संग्रह" oninput="onCustomChange()">
+    </div>
+
+    <!-- Font Size & Ornament Settings -->
+    <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+      <label style="margin: 0; white-space: nowrap;">अक्षरों का साइज़:</label>
+      <input type="range" id="fontSizeSlider" min="36" max="64" value="50" style="flex: 1;" oninput="onCustomChange()">
+    </div>
+  </div>
+
+  <!-- Common Appearance Controller: Background Themes -->
+  <div class="panel-box">
+    <div class="form-group" style="margin-bottom: 0;">
+      <label>🎨 कार्ड का रंग व डिज़ाइन (Themes):</label>
+      <div class="themes-bar">
+        <div class="theme-swatch active" style="background: linear-gradient(135deg, #064e3b, #022c22);" onclick="pickTheme(0, this)" title="मदीना ग्रीन"></div>
+        <div class="theme-swatch" style="background: linear-gradient(135deg, #1e1b4b, #090d16);" onclick="pickTheme(1, this)" title="मिडनाइट रॉयल"></div>
+        <div class="theme-swatch" style="background: linear-gradient(135deg, #78350f, #3b1402);" onclick="pickTheme(2, this)" title="गोल्डन अंबर"></div>
+        <div class="theme-swatch" style="background: linear-gradient(135deg, #831843, #4c0519);" onclick="pickTheme(3, this)" title="शाही रूबी"></div>
+        <div class="theme-swatch" style="background: linear-gradient(135deg, #134e4a, #042f2e);" onclick="pickTheme(4, this)" title="एमराल्ड टील"></div>
       </div>
     </div>
+  </div>
 
-    <!-- 2. Sender Name / Dua-go -->
-    <div class="form-group">
-      <label>👤 आपका नाम (Dua-go / Sender Name):</label>
-      <input type="text" id="senderName" class="input-field" placeholder="जैसे: एक मोमिन / आपका नाम (ऐच्छिक)" value="दीनी दुआ संग्रह" oninput="renderCard()">
-    </div>
-
-    <!-- 3. Background Theme Style -->
-    <div class="form-group">
-      <label>🎨 कार्ड का रंग (Theme):</label>
-      <div class="theme-selector">
-        <div class="theme-circle active" style="background: linear-gradient(135deg, #064e3b, #022c22);" onclick="setTheme(0, this)"></div>
-        <div class="theme-circle" style="background: linear-gradient(135deg, #1e1b4b, #0f172a);" onclick="setTheme(1, this)"></div>
-        <div class="theme-circle" style="background: linear-gradient(135deg, #831843, #500724);" onclick="setTheme(2, this)"></div>
-        <div class="theme-circle" style="background: linear-gradient(135deg, #78350f, #451a03);" onclick="setTheme(3, this)"></div>
-      </div>
-    </div>
-
-    <!-- 4. Text Size Slider -->
-    <div class="form-group" style="display:flex; align-items:center; gap:10px; margin-top:8px;">
-      <label style="margin:0; white-space:nowrap;">अक्षरों का साइज़:</label>
-      <input type="range" id="fontSizeSlider" min="38" max="64" value="50" style="flex:1;" oninput="renderCard()">
-    </div>
-
-    <!-- Actions -->
-    <div class="action-row">
-      <button class="btn-download" onclick="downloadCard()">
-        📥 कार्ड सेव करें (HD)
-      </button>
-      <button class="btn-whatsapp" onclick="shareWhatsApp()">
-        💬 WhatsApp शेयर
-      </button>
-    </div>
-
+  <!-- Export & Share Buttons -->
+  <div class="action-row">
+    <button class="btn-action download" onclick="downloadHDCard()">
+      📥 HD कार्ड डाउनलोड
+    </button>
+    <button class="btn-action whatsapp" onclick="shareToWhatsApp()">
+      💬 WhatsApp शेयर
+    </button>
   </div>
 
 </div>
 
 <script>
+  // 1. Ready-Made Curated Cards Data
+  const readyCards = [
+    {
+      cat: "jumma",
+      tag: "जुमा मुबारक",
+      title: "जुमा की मुबारकबाद",
+      text: "जुमा मुबारक! ऐ अल्लाह, इस मुबारक दिन के सदके हमारे गुनाहों को माफ़ फरमा और हमारी तमाम जायज़ दुआओं को कुबूल फरमा।",
+      sender: "दीनी दुआ (deenidua.in)",
+      themeIdx: 0
+    },
+    {
+      cat: "jumma",
+      tag: "जुमा मुबारक",
+      title: "दुरूद शरीफ की फ़ज़ीलत",
+      text: "जुमा के दिन मुझ पर कसरत से दुरूद शरीफ भेजा करो, क्योंकि तुम्हारा दुरूद मुझ पर पेश किया जाता है। (अबू दाऊद)",
+      sender: "हज़रत मुहम्मद ﷺ",
+      themeIdx: 0
+    },
+    {
+      cat: "hadith",
+      tag: "हदीस शरीफ",
+      title: "पाकीज़गी आधा ईमान",
+      text: "पाकीज़गी (सफाई) आधा ईमान है और अल्हम्दुलिल्लाह तराज़ू को नेकियों से भर देता है। (सहीह मुस्लिम)",
+      sender: "सहीह मुस्लिम",
+      themeIdx: 1
+    },
+    {
+      cat: "hadith",
+      tag: "हदीस शरीफ",
+      title: "कुरआन की तालीम",
+      text: "तुममें से सबसे बेहतरीन शख्स वह है जो कुरआन सीखे और दूसरों को सिखाए। (सहीह बुखारी)",
+      sender: "सहीह बुखारी",
+      themeIdx: 0
+    },
+    {
+      cat: "hadith",
+      tag: "हदीस शरीफ",
+      title: "मुस्कुराना सदका है",
+      text: "तुम्हारा अपने मोमिन भाई के सामने मुस्कुराना भी सदका है, और अच्छी बात कहना भी सदका है। (जामे तिर्मिज़ी)",
+      sender: "जामे तिर्मिज़ी",
+      themeIdx: 2
+    },
+    {
+      cat: "quran",
+      tag: "कुरआन मजीद",
+      title: "सूरह इनशिराह",
+      text: "बेशक मुश्किल के साथ आसानी है, यक़ीनन हर तंगी के बाद कुशादगी है। (अल-कुरआन 94:6)",
+      sender: "सूरह इनशिराह (आयत 6)",
+      themeIdx: 1
+    },
+    {
+      cat: "quran",
+      tag: "कुरआन मजीद",
+      title: "अल्लाह की याद में सुकून",
+      text: "सुनो! दिलों का सुकून सिर्फ और सिर्फ अल्लाह की याद (ज़िक्र) में ही है। (सूरह रा'द 13:28)",
+      sender: "सूरह अर-रा'द",
+      themeIdx: 4
+    },
+    {
+      cat: "dua",
+      tag: "मसनून दुआ",
+      title: "रब्बना दुआ",
+      text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ\nऐ हमारे रब! हमें दुनिया में भी भलाई दे और आखिरत में भी भलाई दे और आग के अज़ाब से बचा।",
+      sender: "सूरह बकरा (आयत 201)",
+      themeIdx: 3
+    },
+    {
+      cat: "dua",
+      tag: "मसनून दुआ",
+      title: "सैय्यदुल इस्तिग़फ़ार",
+      text: "ऐ अल्लाह! तू ही मेरा रब है, तेरे सिवा कोई माबूद नहीं। तूने ही मुझे पैदा किया और मैं तेरे वादे पर क़ायम हूँ। मेरे गुनाह माफ़ फरमा।",
+      sender: "तौबा व इस्तिग़फ़ार",
+      themeIdx: 0
+    }
+  ];
+
+  // 2. Visual Luxury Theme Profiles
+  const themes = [
+    { bg1: "#064e3b", bg2: "#022c22", border: "#d4af37", text: "#ffffff", sub: "#cbd5e1" }, // Medina Green
+    { bg1: "#1e1b4b", bg2: "#090d16", border: "#93c5fd", text: "#ffffff", sub: "#94a3b8" }, // Midnight Royal
+    { bg1: "#78350f", bg2: "#3b1402", border: "#fde68a", text: "#ffffff", sub: "#fde047" }, // Golden Amber
+    { bg1: "#831843", bg2: "#4c0519", border: "#fbcfe8", text: "#ffffff", sub: "#fecdd3" }, // Imperial Ruby
+    { bg1: "#134e4a", bg2: "#042f2e", border: "#5eead4", text: "#ffffff", sub: "#a7f3d0" }  // Emerald Teal
+  ];
+
   const canvas = document.getElementById('statusCanvas');
   const ctx = canvas.getContext('2d');
 
-  // Themes list
-  const themes = [
-    { bg1: "#064e3b", bg2: "#022c22", border: "#d4af37", text: "#ffffff", subtext: "#cbd5e1" }, // Islamic Green
-    { bg1: "#1e1b4b", bg2: "#0f172a", border: "#93c5fd", text: "#ffffff", subtext: "#94a3b8" }, // Midnight Blue
-    { bg1: "#831843", bg2: "#4c0519", border: "#fbcfe8", text: "#ffffff", subtext: "#fecdd3" }, // Royal Rose
-    { bg1: "#78350f", bg2: "#451a03", border: "#fde68a", text: "#ffffff", subtext: "#fde047" }  // Rich Amber
-  ];
+  let activeThemeIdx = 0;
+  let activeMode = 'ready'; // 'ready' or 'custom'
+  let currentCardText = readyCards[0].text;
+  let currentSender = readyCards[0].sender;
 
-  let currentThemeIdx = 0;
+  // Mode Switcher (Ready Cards vs Custom Text)
+  function switchMode(mode) {
+    activeMode = mode;
+    const tabReady = document.getElementById('tabReady');
+    const tabCustom = document.getElementById('tabCustom');
+    const panelReady = document.getElementById('readyModePanel');
+    const panelCustom = document.getElementById('customModePanel');
 
-  function setTheme(idx, elem) {
-    currentThemeIdx = idx;
-    document.querySelectorAll('.theme-circle').forEach(el => el.classList.remove('active'));
+    if (mode === 'ready') {
+      tabReady.classList.add('active');
+      tabCustom.classList.remove('active');
+      panelReady.style.display = 'block';
+      panelCustom.style.display = 'none';
+    } else {
+      tabCustom.classList.add('active');
+      tabReady.classList.remove('active');
+      panelCustom.style.display = 'block';
+      panelReady.style.display = 'none';
+      onCustomChange();
+      return;
+    }
+    drawCanvas();
+  }
+
+  // Populate Ready Cards
+  function renderReadyCardsList(list) {
+    const container = document.getElementById('presetCardsList');
+    container.innerHTML = '';
+    list.forEach((item, index) => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'preset-card-item' + (index === 0 ? ' selected' : '');
+      cardEl.innerHTML = `
+        <span class="tag">${item.tag} • ${item.title}</span>
+        <p>${item.text.replace(/\n/g, ' ')}</p>
+      `;
+      cardEl.onclick = () => {
+        document.querySelectorAll('.preset-card-item').forEach(c => c.classList.remove('selected'));
+        cardEl.classList.add('selected');
+        loadReadyCard(item);
+      };
+      container.appendChild(cardEl);
+    });
+  }
+
+  function filterCategory(cat, btn) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (cat === 'all') {
+      renderReadyCardsList(readyCards);
+    } else {
+      const filtered = readyCards.filter(c => c.cat === cat);
+      renderReadyCardsList(filtered);
+    }
+  }
+
+  function loadReadyCard(card) {
+    currentCardText = card.text;
+    currentSender = card.sender;
+    activeThemeIdx = card.themeIdx;
+    
+    // Update theme swatches
+    const swatches = document.querySelectorAll('.theme-swatch');
+    swatches.forEach((s, idx) => {
+      s.classList.toggle('active', idx === activeThemeIdx);
+    });
+
+    drawCanvas();
+  }
+
+  function pickTheme(idx, elem) {
+    activeThemeIdx = idx;
+    document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
     elem.classList.add('active');
-    renderCard();
+    drawCanvas();
   }
 
-  function setPrompt(text) {
-    document.getElementById('customText').value = text;
-    renderCard();
+  function onCustomChange() {
+    currentCardText = document.getElementById('customTextInput').value.trim() || "यहाँ अपनी पसंद की दुआ या पैगाम लिखें...";
+    currentSender = document.getElementById('senderNameInput').value.trim();
+    drawCanvas();
   }
 
-  // Draw Card on Canvas (1080x1350 - Standard Insta & WhatsApp Resolution)
-  function renderCard() {
-    const text = document.getElementById('customText').value || "अपनी दुआ यहाँ लिखें...";
-    const sender = document.getElementById('senderName').value.trim();
-    const fontSize = parseInt(document.getElementById('fontSizeSlider').value);
-    const theme = themes[currentThemeIdx];
-
+  function drawCanvas() {
     const W = canvas.width;
     const H = canvas.height;
+    const theme = themes[activeThemeIdx];
+    const fontSize = parseInt(document.getElementById('fontSizeSlider').value) || 50;
 
     // 1. Background Gradient
-    const grad = ctx.createLinearGradient(0, 0, W, H);
-    grad.addColorStop(0, theme.bg1);
-    grad.addColorStop(1, theme.bg2);
-    ctx.fillStyle = grad;
+    const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+    bgGrad.addColorStop(0, theme.bg1);
+    bgGrad.addColorStop(1, theme.bg2);
+    ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, W, H);
 
-    // 2. Elegant Border Frame
+    // 2. Outer Ornamental Borders
     ctx.strokeStyle = theme.border;
     ctx.lineWidth = 6;
     ctx.strokeRect(50, 50, W - 100, H - 100);
 
     ctx.lineWidth = 2;
-    ctx.strokeRect(62, 62, W - 124, H - 124);
+    ctx.strokeRect(64, 64, W - 128, H - 128);
 
-    // 3. Top Crescent Ornament (Bismillah / Icon)
+    // Decorative Corner Motifs
+    const drawCorner = (x, y) => {
+      ctx.fillStyle = theme.border;
+      ctx.fillRect(x - 8, y - 8, 16, 16);
+    };
+    drawCorner(64, 64);
+    drawCorner(W - 64, 64);
+    drawCorner(64, H - 64);
+    drawCorner(W - 64, H - 64);
+
+    // 3. Top Header: Bismillah Calligraphy
     ctx.textAlign = 'center';
     ctx.fillStyle = theme.border;
-    ctx.font = "bold 65px sans-serif";
-    ctx.fillText("بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ", W / 2, 170);
+    ctx.font = "bold 65px 'Noto Naskh Arabic', serif, system-ui";
+    ctx.fillText("بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ", W / 2, 175);
 
-    // Small gold divider line
-    ctx.fillRect(W / 2 - 80, 210, 160, 3);
+    // Gold Divider Accent
+    ctx.fillRect(W / 2 - 90, 215, 180, 3);
+    ctx.beginPath();
+    ctx.arc(W / 2, 216, 6, 0, Math.PI * 2);
+    ctx.fill();
 
-    // 4. Custom User Text (Word Wrapped & Centered)
+    // 4. Main Body Text Rendering (Word-wrap & vertical centering)
     ctx.fillStyle = theme.text;
-    ctx.font = `500 ${fontSize}px system-ui, -apple-system, sans-serif`;
-    
-    const maxWidth = W - 220;
-    const lineHeight = fontSize * 1.55;
-    const lines = getWrappedLines(ctx, text, maxWidth);
-    
-    // Auto center vertically
-    let startY = (H / 2) - ((lines.length * lineHeight) / 2) + 20;
+    ctx.font = `600 ${fontSize}px system-ui, -apple-system, sans-serif`;
 
-    lines.forEach(line => {
+    const maxWidth = W - 240;
+    const lineHeight = fontSize * 1.55;
+
+    // Split paragraphs if line breaks exist
+    const rawLines = currentCardText.split("\n");
+    let allRenderLines = [];
+
+    rawLines.forEach(para => {
+      if (para.trim() === "") {
+        allRenderLines.push("");
+      } else {
+        const wrapped = wrapParagraph(ctx, para, maxWidth);
+        allRenderLines = allRenderLines.concat(wrapped);
+      }
+    });
+
+    const totalTextHeight = allRenderLines.length * lineHeight;
+    let startY = (H / 2) - (totalTextHeight / 2) + 20;
+
+    // Keep within safe upper and lower bounds
+    if (startY < 270) startY = 270;
+
+    allRenderLines.forEach(line => {
       ctx.fillText(line, W / 2, startY);
       startY += lineHeight;
     });
 
-    // 5. Sender Name / Dua-go
-    if (sender) {
+    // 5. Sender Signature / Reference
+    if (currentSender) {
       ctx.fillStyle = theme.border;
-      ctx.font = "bold 34px sans-serif";
-      ctx.fillText(`— ${sender}`, W / 2, H - 230);
+      ctx.font = "bold 34px system-ui, sans-serif";
+      ctx.fillText(`— ${currentSender}`, W / 2, H - 210);
     }
 
-    // 6. Watermark Footer
-    ctx.fillStyle = theme.subtext;
-    ctx.font = "500 26px sans-serif";
+    // 6. Watermark Portal Branding
+    ctx.fillStyle = theme.sub;
+    ctx.font = "500 26px system-ui, sans-serif";
     ctx.fillText("deenidua.in", W / 2, H - 110);
   }
 
-  // Word Wrapping Helper
-  function getWrappedLines(context, text, maxWidth) {
+  function wrapParagraph(context, text, maxWidth) {
     const words = text.split(" ");
     const lines = [];
     let currentLine = "";
 
     for (let i = 0; i < words.length; i++) {
       const testLine = currentLine + words[i] + " ";
-      const width = context.measureText(testLine).width;
-      if (width < maxWidth) {
+      const metrics = context.measureText(testLine);
+      if (metrics.width < maxWidth) {
         currentLine = testLine;
       } else {
         lines.push(currentLine.trim());
@@ -353,25 +672,29 @@
     return lines;
   }
 
-  // 1-Click Download High-Quality PNG
-  function downloadCard() {
+  // 1-Click HD Image Download
+  function downloadHDCard() {
     const link = document.createElement('a');
-    link.download = 'deeni-dua-status.png';
+    link.download = 'deenidua-status-card.png';
     link.href = canvas.toDataURL('image/png', 1.0);
     link.click();
   }
 
-  // Quick WhatsApp Sharing
-  function shareWhatsApp() {
-    const text = encodeURIComponent(
-      document.getElementById('customText').value + 
-      "\n\n✨ अपना पसंदीदा इस्लामिक स्टेटस कार्ड खुद बनाएं:\nhttps://www.deenidua.in/tools/card-generator.html"
+  // Quick WhatsApp Share
+  function shareToWhatsApp() {
+    const shareText = encodeURIComponent(
+      currentCardText + 
+      (currentSender ? `\n— ${currentSender}` : "") + 
+      "\n\n✨ रोज़ाना मसनून दुआएं और स्टेटस कार्ड बनाएं:\nhttps://www.deenidua.in/tools/card-generator.html"
     );
-    window.open("https://api.whatsapp.com/send?text=" + text, '_blank');
+    window.open("https://api.whatsapp.com/send?text=" + shareText, '_blank');
   }
 
-  // Initial draw
-  window.addEventListener('DOMContentLoaded', renderCard);
+  // Initial Boot
+  window.addEventListener('DOMContentLoaded', () => {
+    renderReadyCardsList(readyCards);
+    loadReadyCard(readyCards[0]);
+  });
 </script>
 
 </body>
