@@ -3,34 +3,326 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>किबला फाइंडर</title>
+  <title>सटीक किबla कंपास | Qibla Direction Finder - Deeni Dua</title>
+  <meta name="description" content="उत्तर दिशा सेट करके काबा शरीफ की बिल्कुल सही दिशा और नमाज़ का रुख जानें।">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="canonical" href="https://www.deenidua.in/tools/qibla.html">
+  <meta name="theme-color" content="#0f5132">
+
   <style>
-    body { font-family: sans-serif; background: #f4f6f8; text-align: center; padding: 20px; }
-    .card { background: #fff; max-width: 450px; margin: auto; padding: 25px; border-radius: 10px; border: 1px solid #e0e0e0; }
-    .compass { width: 200px; height: 200px; border-radius: 50%; border: 5px solid #0f5132; margin: 20px auto; position: relative; display: flex; align-items: center; justify-content: center; background: #e8f5e9; }
-    .arrow { width: 8px; height: 80px; background: red; position: absolute; top: 20px; transform-origin: bottom center; }
-    .btn { background: #0f5132; color: #fff; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; }
+    :root {
+      --gold: #d4af37;
+      --deep-green: #064e3b;
+      --emerald: #059669;
+    }
+
+    body {
+      background: #f1f5f9;
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding-bottom: 40px;
+    }
+
+    .qibla-wrapper {
+      max-width: 480px;
+      margin: 15px auto;
+      padding: 15px;
+      text-align: center;
+    }
+
+    /* Direction guidance badge */
+    .status-badge {
+      display: inline-block;
+      padding: 8px 18px;
+      background: #e2e8f0;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .status-badge.success {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+    }
+
+    /* 3D Circular Dial */
+    .compass-outer {
+      position: relative;
+      width: 270px;
+      height: 270px;
+      margin: 0 auto 20px auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 65%, #f8fafc 100%);
+      border: 8px solid #ffffff;
+      box-shadow: 
+        0 12px 30px rgba(15, 81, 50, 0.15),
+        0 0 0 3px var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Fixed Markers: N, E, S, W */
+    .cardinal {
+      position: absolute;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #64748b;
+    }
+    .cardinal.n { top: 10px; left: 50%; transform: translateX(-50%); color: #dc2626; }
+    .cardinal.s { bottom: 10px; left: 50%; transform: translateX(-50%); }
+    .cardinal.e { right: 14px; top: 50%; transform: translateY(-50%); }
+    .cardinal.w { left: 14px; top: 50%; transform: translateY(-50%); }
+
+    /* Animated Needle */
+    .needle-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .kaaba-pointer {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .kaaba-pointer .icon {
+      font-size: 2.2rem;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+    }
+
+    .kaaba-pointer .arrow {
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 14px solid var(--gold);
+      margin-top: 2px;
+    }
+
+    .center-dot {
+      width: 18px;
+      height: 18px;
+      background: radial-gradient(circle, #fde047, var(--gold));
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+      z-index: 10;
+    }
+
+    /* Result Banner */
+    .result-box {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 15px 0;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      display: none;
+    }
+
+    .result-box h3 {
+      margin: 0 0 6px 0;
+      color: #0f5132;
+      font-size: 1.2rem;
+    }
+
+    .result-box p {
+      margin: 0;
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Big Action Button */
+    .btn-set-north {
+      background: linear-gradient(135deg, #0f5132, #064e3b);
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      border-radius: 35px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(15, 81, 50, 0.3);
+      transition: transform 0.1s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-set-north:active {
+      transform: scale(0.97);
+    }
+
+    .step-card {
+      background: #ffffff;
+      border-left: 4px solid var(--gold);
+      border-radius: 8px;
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 0.88rem;
+      color: #334155;
+      margin-top: 15px;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
-<a href="../index.html" style="color:#0f5132; font-weight:bold;">← मुख्य पेज</a>
-<div class="card" style="margin-top:20px;">
-  <h2>किबला कंपास</h2>
-  <div class="compass"><div class="arrow" id="arrow"></div><strong>काबा</strong></div>
-  <button class="btn" onclick="getQibla()">दिशा देखें</button>
-  <p id="qiblaText" style="margin-top:10px; font-size:0.9rem;"></p>
+
+<header style="background:#0f5132; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+  <a href="../index.html" style="color:white; text-decoration:none; font-weight:bold; font-size:1rem;">← मुख्य पेज</a>
+  <span style="color:white; font-size:0.95rem; font-weight:600;">🕋 किबला कंपास</span>
+</header>
+
+<div class="qibla-wrapper">
+
+  <!-- Status -->
+  <div class="status-badge" id="statusBadge">
+    📍 लोकेशन का इंतज़ार है...
+  </div>
+
+  <!-- Compass UI -->
+  <div class="compass-outer">
+    <!-- Fixed Directions -->
+    <span class="cardinal n">N (उत्तर)</span>
+    <span class="cardinal e">E (पूर्व)</span>
+    <span class="cardinal s">S (दक्षिण)</span>
+    <span class="cardinal w">W (पश्चिम)</span>
+
+    <!-- Rotating Needle pointing to Kaaba -->
+    <div class="needle-container" id="needle">
+      <div class="kaaba-pointer">
+        <span class="icon">🕋</span>
+        <div class="arrow"></div>
+      </div>
+    </div>
+
+    <!-- Center Pivot -->
+    <div class="center-dot"></div>
+  </div>
+
+  <!-- Action Button: Set North -->
+  <button class="btn-set-north" id="clickNorthBtn" onclick="setNorthAndFindQibla()">
+    🧭 फोन को उत्तर की तरफ रख कर यहाँ दबाएं
+  </button>
+
+  <!-- Live Calculated Direction Box -->
+  <div class="result-box" id="resultBox">
+    <h3 id="qiblaTitle">🕋 किबला दिशा सेट हो गई</h3>
+    <p id="qiblaDetails">लोड हो रहा है...</p>
+  </div>
+
+  <!-- Easy Instructions -->
+  <div class="step-card">
+    <strong>आसान तरीका:</strong>
+    <ol style="margin: 6px 0 0 16px; padding: 0;">
+      <li>अपने मोबाइल का ऊपरी हिस्सा <strong>उत्तर (North)</strong> दिशा में सीधा रखें।</li>
+      <li>ऊपर दिया गया हरा बटन <strong>"फोन को उत्तर की तरफ रख कर यहाँ दबाएं"</strong> क्लिक करें।</li>
+      <li>काबा शरीफ (🕋) की सुई तुरंत घूमकर बता देगी कि आपका मुंह किस तरफ होना चाहिए।</li>
+    </ol>
+  </div>
+
 </div>
+
 <script>
-  function getQibla() {
-    navigator.geolocation.getCurrentPosition(pos => {
-      let lat = pos.coords.latitude * Math.PI / 180, lon = pos.coords.longitude * Math.PI / 180;
-      let mLat = 21.4225 * Math.PI / 180, mLon = 39.8262 * Math.PI / 180;
-      let y = Math.sin(mLon - lon), x = Math.cos(lat) * Math.tan(mLat) - Math.sin(lat) * Math.cos(mLon - lon);
-      let angle = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
-      document.getElementById('arrow').style.transform = `rotate(${angle}deg)`;
-      document.getElementById('qiblaText').innerText = `कोण: लगभग ${Math.round(angle)}° उत्तर से`;
-    });
+  // Kaaba Holy Coordinates (Makkah)
+  const KAABA_LAT = 21.422487;
+  const KAABA_LNG = 39.826206;
+
+  let userQiblaAngle = 265; // Default approx angle for India (West / WSW)
+  let distanceKm = 3800;
+
+  // Calculate Great Circle Angle from GPS
+  function calculateQiblaAngle(lat, lng) {
+    const phi1 = lat * Math.PI / 180;
+    const phi2 = KAABA_LAT * Math.PI / 180;
+    const deltaLambda = (KAABA_LNG - lng) * Math.PI / 180;
+
+    const y = Math.sin(deltaLambda);
+    const x = Math.cos(phi1) * Math.tan(phi2) - Math.sin(phi1) * Math.cos(deltaLambda);
+    let qibla = Math.atan2(y, x) * 180 / Math.PI;
+    qibla = (qibla + 360) % 360;
+
+    // Distance in KM
+    const R = 6371;
+    const dLat = (KAABA_LAT - lat) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const dist = Math.round(R * c);
+
+    return { angle: Math.round(qibla), dist: dist };
   }
+
+  // Get User Location on load
+  function initLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const res = calculateQiblaAngle(pos.coords.latitude, pos.coords.longitude);
+          userQiblaAngle = res.angle;
+          distanceKm = res.dist;
+          document.getElementById('statusBadge').innerText = "✅ GPS कनेक्टेड! अब फोन उत्तर में रख कर बटन दबाएं";
+        },
+        () => {
+          document.getElementById('statusBadge').innerText = "📍 भारत के अनुसार किबला (पश्चिम-दक्षिण) सेट है";
+        },
+        { enableHighAccuracy: true }
+      );
+    }
+  }
+
+  // User clicks "My Phone is facing North"
+  function setNorthAndFindQibla() {
+    const needle = document.getElementById('needle');
+    const resultBox = document.getElementById('resultBox');
+    const qiblaTitle = document.getElementById('qiblaTitle');
+    const qiblaDetails = document.getElementById('qiblaDetails');
+    const statusBadge = document.getElementById('statusBadge');
+
+    // Rotate needle to calculated Qibla relative to North
+    needle.style.transform = `rotate(${userQiblaAngle}deg)`;
+
+    // Vibrate phone for confirmation (if supported)
+    if (navigator.vibrate) {
+      navigator.vibrate([100, 50, 100]);
+    }
+
+    // Direction description in Hindi
+    let directionHindi = "पश्चिम (West)";
+    if (userQiblaAngle > 250 && userQiblaAngle < 285) {
+      directionHindi = "पश्चिम (मगरिब) की तरफ हल्का सा बाएँ";
+    } else if (userQiblaAngle >= 285) {
+      directionHindi = "पश्चिम-उत्तर (West-North) की तरफ";
+    }
+
+    statusBadge.className = "status-badge success";
+    statusBadge.innerText = "🕋 किबला दिशा लॉक हो गई!";
+
+    resultBox.style.display = "block";
+    qiblaTitle.innerText = `🕋 किबला एंगल: ${userQiblaAngle}° (${directionHindi})`;
+    qiblaDetails.innerHTML = `सुई <strong>काबा शरीफ (🕋)</strong> की तरफ घूम चुकी है। अपना रुख इस सुई की दिशा में करके नमाज़ पढ़ें。<br><small style="color:#0f5132; font-weight:bold;">मक्का मुकर्रमा से दूरी: लगभग ${distanceKm.toLocaleString('hi-IN')} किमी</small>`;
+
+    document.getElementById('clickNorthBtn').innerHTML = "🔄 दोबारा दिशा सेट करें";
+  }
+
+  window.addEventListener('DOMContentLoaded', initLocation);
 </script>
+
 </body>
 </html>
