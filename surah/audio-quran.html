@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>कुरआन मजीद ऑडियो तिलावात | Quran Audio MP3</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .audio-card { background: var(--card-bg, #fff); border: 1px solid var(--border-color, #e0e0e0); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .quran-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 15px; }
+    .surah-box { background: #f9fdfa; border: 1px solid #c3e6cb; border-radius: 8px; padding: 16px; text-align: center; }
+    .surah-name { font-weight: bold; color: #0f5132; margin-bottom: 8px; font-size: 1.1rem; }
+    .btn-play { background: #0f5132; color: white; border: none; padding: 8px 22px; border-radius: 20px; font-size: 0.95rem; cursor: pointer; font-weight: bold; width: 100%; }
+    .btn-play:hover { background: #146c43; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html">← मुख्य पेज</a>
+</header>
+
+<div class="container">
+  <h1 style="color:#0f5132; margin-bottom: 8px;">कुरआन पाक की प्रमुख सूरहें (तिलावात)</h1>
+  <p style="color:#6c757d; margin-bottom: 20px;">कारी मिशारी राशिद अलाफसी की दिलकश आवाज़ में मुकम्मल सूरहें सुनें।</p>
+
+  <div class="audio-card">
+    <div class="quran-grid">
+      
+      <!-- Surah Yaseen (36) -->
+      <div class="surah-box">
+        <div class="surah-name">सूरह यासीन (Surah Yaseen)</div>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:10px;">कुरआन का दिल • रिज़्क़ व मग़फ़िरत</p>
+        <button class="btn-play" onclick="toggleSurah('https://server8.mp3quran.net/afs/036.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <!-- Surah Rahman (55) -->
+      <div class="surah-box">
+        <div class="surah-name">सूरह रहमान (Surah Rahman)</div>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:10px;">कुरआन की ज़ीनत • शिफा व रहमत</p>
+        <button class="btn-play" onclick="toggleSurah('https://server8.mp3quran.net/afs/055.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <!-- Surah Mulk (67) -->
+      <div class="surah-box">
+        <div class="surah-name">सूरह मुल्क (Surah Mulk)</div>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:10px;">कब्र के अज़ाब से नजात</p>
+        <button class="btn-play" onclick="toggleSurah('https://server8.mp3quran.net/afs/067.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <!-- Surah Waqiah (56) -->
+      <div class="surah-box">
+        <div class="surah-name">सूरह वाकिआ (Surah Waqiah)</div>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:10px;">फाका व गरीबी से हिफाज़त</p>
+        <button class="btn-play" onclick="toggleSurah('https://server8.mp3quran.net/afs/056.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <!-- Surah Kahf (18) -->
+      <div class="surah-box">
+        <div class="surah-name">सूरह कहफ (Surah Kahf)</div>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:10px;">जुमा के दिन की सुन्नत तिलावात</p>
+        <button class="btn-play" onclick="toggleSurah('https://server8.mp3quran.net/afs/018.mp3', this)">▶ चलाएं</button>
+      </div>
+
+      <!-- Ayat-ul-Kursi -->
+      <div class="surah-box">
+        <div class="surah-name">आयतल कुर्सी (Ayatul Kursi)</div>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:10px;">कुरआन की सबसे अज़ीम आयत</p>
+        <button class="btn-play" onclick="toggleSurah('https://media.blubrry.com/muslim_central_quran/podcasts.qurancentral.com/mishary-rashid-alafasy/mishary-rashid-alafasy-002-ayatul-kursi.mp3', this)">▶ चलाएं</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
+
+<script>
+  let currentAudio = null;
+  let currentBtn = null;
+
+  function toggleSurah(url, btn) {
+    if (currentAudio && !currentAudio.paused) {
+      currentAudio.pause();
+      currentBtn.innerText = "▶ चलाएं";
+      if (currentBtn === btn) {
+        currentAudio = null;
+        currentBtn = null;
+        return;
+      }
+    }
+
+    currentAudio = new Audio(url);
+    currentBtn = btn;
+    btn.innerText = "⏳ लोड हो रहा है...";
+
+    currentAudio.play().then(() => {
+      btn.innerText = "⏸ रोकें";
+    }).catch(() => {
+      alert("ऑडियो लोड नहीं हो सका, दोबारा क्लिक करें।");
+      btn.innerText = "▶ चलाएं";
+    });
+
+    currentAudio.onended = () => {
+      btn.innerText = "▶ चलाएं";
+      currentAudio = null;
+      currentBtn = null;
+    };
+  }
+</script>
+
+</body>
+</html>
