@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>दीनी स्टेटस कार्ड डाउनलोडर | Islamic Quote Image Generator</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .preview-box {
+      width: 100%; max-width: 360px; height: 360px;
+      background: linear-gradient(135deg, #0b3d20, #0f5132);
+      color: #fff; border-radius: 12px; margin: 20px auto;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 25px; box-sizing: border-box; text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15); border: 2px solid #ffc107;
+    }
+    .card-txt { font-size: 1.25rem; font-weight: bold; line-height: 1.6; margin: auto; }
+    .card-footer { font-size: 0.85rem; opacity: 0.8; letter-spacing: 1px; }
+    .btn-gen { background: #ffc107; color: #000; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; font-size: 1rem; cursor: pointer; }
+    .btn-dl { background: #25D366; color: #fff; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-left: 8px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html">← मुख्य पेज</a>
+</header>
+
+<div class="container" style="text-align:center;">
+  <h1 style="color:#0f5132; margin-bottom: 5px;">इस्लामिक WhatsApp स्टेटस कार्ड</h1>
+  <p style="color:#6c757d;">एक क्लिक में खूबसूरत इमेज स्टेटस बनाएं और डाउनलोड करें</p>
+
+  <!-- Visual Card Preview -->
+  <div class="preview-box" id="quoteCard">
+    <div style="font-size:1.8rem;">﷽</div>
+    <div class="card-txt" id="cardText">"दुआ मोमिन का सबसे बड़ा हथियार है।"</div>
+    <div class="card-footer">deenidua.in</div>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <button class="btn-gen" onclick="nextQuote()">🔄 दूसरा कोट बदलें</button>
+    <button class="btn-dl" onclick="downloadImage()">📥 इमेज डाउनलोड करें</button>
+  </div>
+  <canvas id="hiddenCanvas" width="720" height="720" style="display:none;"></canvas>
+</div>
+
+<script>
+  const quotes = [
+    "दुआ मोमिन का सबसे बड़ा हथियार है।",
+    "पाकीज़गी और सफाई आधा ईमान है। (सहीह मुस्लिम)",
+    "आमाल का दारोमदार इंसान की नीयतों पर है। (सहीह बुखारी)",
+    "मुस्कुराना भी तुम्हारे लिए एक सदका है। (तिर्मिज़ी)",
+    "सब्र और नमाज़ के ज़रिए अल्लाह से मदद तलब करो।",
+    "जिसने सब्र किया उसने अपनी मंज़िल पा ली।"
+  ];
+  let qIdx = 0;
+
+  function nextQuote() {
+    qIdx = (qIdx + 1) % quotes.length;
+    document.getElementById('cardText').innerText = `"${quotes[qIdx]}"`;
+  }
+
+  function downloadImage() {
+    const canvas = document.getElementById('hiddenCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Background Gradient
+    const grad = ctx.createLinearGradient(0, 0, 720, 720);
+    grad.addColorStop(0, '#0b3d20');
+    grad.addColorStop(1, '#0f5132');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 720, 720);
+
+    // Border
+    ctx.strokeStyle = '#ffc107';
+    ctx.lineWidth = 10;
+    ctx.strokeRect(20, 20, 680, 680);
+
+    // Bismillah
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 36px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('﷽', 360, 120);
+
+    // Quote Text
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 34px sans-serif';
+    const text = document.getElementById('cardText').innerText;
+    wrapText(ctx, text, 360, 340, 580, 50);
+
+    // Watermark Footer
+    ctx.fillStyle = '#ffc107';
+    ctx.font = 'bold 24px sans-serif';
+    ctx.fillText('deenidua.in', 360, 640);
+
+    // Trigger Download
+    const link = document.createElement('a');
+    link.download = 'deenidua-status.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+    for(let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = ctx.measureText(testLine);
+      if (metrics.width > maxWidth && n > 0) {
+        ctx.fillText(line, x, y);
+        line = words[n] + ' ';
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, y);
+  }
+</script>
+
+</body>
+</html>
