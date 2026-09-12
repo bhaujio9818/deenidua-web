@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- मुख्य होमपेज -->
-  <url><loc>https://www.deenidua.in/index.html</loc><priority>1.0</priority></url>
+  <url><loc>https://www.deenidua.in/</loc><priority>1.0</priority></url>
 
   <!-- सूरह संग्रह व तिलावात -->
   <url><loc>https://www.deenidua.in/surah/ayatul-kursi.html</loc><priority>0.8</priority></url>
@@ -43,7 +43,6 @@
   <url><loc>https://www.deenidua.in/tools/card-generator.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/tools/quiz.html</loc><priority>0.8</priority></url>
   <url><loc>https://www.deenidua.in/tools/tasbeeh.html</loc><priority>0.7</priority></url>
-  <url><loc>https://www.deenidua.in/tools/qibla.html</loc><priority>0.7</priority></url>
   <url><loc>https://www.deenidua.in/tools/zakat-calculator.html</loc><priority>0.7</priority></url>
   <url><loc>https://www.deenidua.in/tools/namaz-time.html</loc><priority>0.7</priority></url>
   <url><loc>https://www.deenidua.in/tools/qaza-tracker.html</loc><priority>0.7</priority></url>
