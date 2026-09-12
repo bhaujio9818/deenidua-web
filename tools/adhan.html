@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>अज़ान ऑडियो व सीखने का सही तरीका | Listen Adhan in Hindi</title>
-  <meta name="description" content="मक्का, मदीना और फज्र की खूबसूरत अज़ान लाइव सुनें, अज़ान देने का तरीका, कलमात और अज़ान के बाद की दुआ हिंदी में सीखें।">
+  <title>अज़ान सुनें व सीखने का सही तरीका | Listen Adhan</title>
   <link rel="stylesheet" href="../style.css">
   <style>
     .audio-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .adhan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 15px; }
-    .player-box { background: #f9fdfa; border: 1px solid #c3e6cb; border-radius: 8px; padding: 15px; text-align: left; }
-    .player-title { font-weight: bold; color: #0f5132; margin-bottom: 8px; font-size: 1rem; }
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; margin-top: 10px; margin-bottom: 20px; }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px; }
     .adhan-line { border-bottom: 1px solid #f1f1f1; padding: 12px 0; }
-    audio { width: 100%; border-radius: 20px; outline: none; }
-    ol, ul { margin-left: 20px; line-height: 1.8; margin-top: 8px; }
+    ol { margin-left: 20px; line-height: 1.8; margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -24,69 +21,21 @@
 
 <div class="container">
   <h1 style="color:#0f5132; margin-bottom: 8px;">अज़ान सुनना व सीखने का मुकम्मल तरीका</h1>
-  <p style="color:#6c757d; margin-bottom: 20px;">खूबसूरत आवाज़ में अज़ान सुनें और सुन्नत के मुताबिक अज़ान देना सीखें।</p>
+  <p style="color:#6c757d; margin-bottom: 20px;">मक्का और मदीना की रूहानी अज़ान लाइव सुनें और सही तलफ़्फ़ुज़ सीखें।</p>
 
-  <!-- Working Audio Players -->
+  <!-- 1. Makkah Adhan Player -->
   <div class="audio-card">
-    <h2 style="color:#0f5132; font-size:1.25rem;">खूबसूरत अज़ान सुनें (Live Audio)</h2>
-    <div class="adhan-grid">
+    <h3 style="color:#0f5132;">1. मस्जिद अल-हरम (मक्का मुकर्रमा की अज़ान)</h3>
+    <div class="video-container">
+      <iframe src="https://www.youtube-nocookie.com/embed/mU4fKjG7YfA" title="Makkah Adhan" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
 
-      <!-- 1. Makkah Adhan -->
-      <div class="player-box">
-        <div class="player-title">1. मस्जिद अल-हरम (मक्का शरीफ)</div>
-        <audio controls preload="none">
-          <source src="https://upload.wikimedia.org/wikipedia/commons/2/29/Adhan_Makkah.ogg" type="audio/ogg">
-          <source src="https://archive.org/download/AdhanMakkah/Adhan%20Makkah.mp3" type="audio/mpeg">
-          आपका ब्राउज़र ऑडियो सपोर्ट नहीं करता।
-        </audio>
-      </div>
-
-      <!-- 2. Madinah Adhan -->
-      <div class="player-box">
-        <div class="player-title">2. मस्जिद-ए-नबवी (मदीना मुनव्वरा)</div>
-        <audio controls preload="none">
-          <source src="https://archive.org/download/AdhanMadinah/Adhan%20Madinah.mp3" type="audio/mpeg">
-          <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/2/29/Adhan_Makkah.ogg/Adhan_Makkah.ogg.mp3" type="audio/mpeg">
-          आपका ब्राउज़र ऑडियो सपोर्ट नहीं करता।
-        </audio>
-      </div>
-
-      <!-- 3. Fajr Adhan -->
-      <div class="player-box">
-        <div class="player-title">3. फज्र की अज़ान (अस्सलातु खैरूम मिनन-नौम)</div>
-        <audio controls preload="none">
-          <source src="https://archive.org/download/AdhanFajr/Adhan%20Fajr.mp3" type="audio/mpeg">
-          आपका ब्राउज़र ऑडियो सपोर्ट नहीं करता।
-        </audio>
-      </div>
-
-      <!-- 4. Al-Aqsa Adhan -->
-      <div class="player-box">
-        <div class="player-title">4. मस्जिद अल-अक्सा (कुद्स)</div>
-        <audio controls preload="none">
-          <source src="https://archive.org/download/AdhanAlAqsa/Adhan%20Al-Aqsa.mp3" type="audio/mpeg">
-          आपका ब्राउज़र ऑडियो सपोर्ट नहीं करता।
-        </audio>
-      </div>
-
-      <!-- 5. Egypt Style -->
-      <div class="player-box">
-        <div class="player-title">5. मिस्र (इजिप्ट) स्टाइल अज़ान</div>
-        <audio controls preload="none">
-          <source src="https://archive.org/download/AdhanEgypt/Adhan%20Egypt.mp3" type="audio/mpeg">
-          आपका ब्राउज़र ऑडियो सपोर्ट नहीं करता।
-        </audio>
-      </div>
-
-      <!-- 6. Turkey Style -->
-      <div class="player-box">
-        <div class="player-title">6. तुर्की (इस्तांबुल) स्टाइल अज़ान</div>
-        <audio controls preload="none">
-          <source src="https://archive.org/download/AdhanTurkey/Adhan%20Turkey.mp3" type="audio/mpeg">
-          आपका ब्राउज़र ऑडियो सपोर्ट नहीं करता।
-        </audio>
-      </div>
-
+  <!-- 2. Madinah Adhan Player -->
+  <div class="audio-card">
+    <h3 style="color:#0f5132;">2. मस्जिद-ए-नबवी (मदीना मुनव्वरा की अज़ान)</h3>
+    <div class="video-container">
+      <iframe src="https://www.youtube-nocookie.com/embed/feZ23Z1cwt8" title="Madinah Adhan" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
 
@@ -95,17 +44,17 @@
     <h2 style="color:#0f5132;">अज़ान देने का सही सुन्नत तरीका</h2>
     <ol>
       <li>अज़ान देने वाला बा-वुज़ू (पाक-साफ) हो।</li>
-      <li>किबला (काबा शरीफ) की तरफ मुंह करके किसी ऊंची जगह या माइक के सामने खड़ा हो।</li>
-      <li>दोनों शहादत की उंगलियों (Forefingers) को दोनों कानों के सुराखों में रखे।</li>
-      <li>आवाज़ बुलंद हो और शब्दों को ठहर-ठहर कर (तरतील से) अदा करे।</li>
-      <li><strong>"हय्या अलस-सलाह"</strong> कहते वक्त चेहरा सीधे (दाएं) तरफ मोड़े (सीने को किबले से न हटाए)।</li>
-      <li><strong>"हय्या अलल-फलाह"</strong> कहते वक्त चेहरा उल्टे (बाएं) तरफ मोड़े।</li>
+      <li>किबला (काबा शरीफ) की तरफ मुंह करके खड़ा हो।</li>
+      <li>दोनों शहादत की उंगलियों को कानों के सुराखों में रखे।</li>
+      <li>आवाज़ बुलंद हो और शब्दों को ठहर-ठहर कर अदा करे।</li>
+      <li><strong>"हय्या अलस-सलाह"</strong> कहते वक्त चेहरा दाएं तरफ मोड़े।</li>
+      <li><strong>"हय्या अलल-फलाह"</strong> कहते वक्त चेहरा बाएं तरफ मोड़े।</li>
     </ol>
   </div>
 
   <!-- Complete Adhan Words & Response -->
   <div class="audio-card">
-    <h2 style="color:#0f5132; margin-bottom: 15px;">अज़ान के मुकम्मल कलमात व उनका जवाब</h2>
+    <h2 style="color:#0f5132; margin-bottom: 15px;">अज़ान के कलमात व उनका जवाब</h2>
     
     <div class="adhan-line">
       <div class="arabic">اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ (४ बार)</div>
@@ -128,7 +77,7 @@
     <div class="adhan-line">
       <div class="arabic">حَيَّ عَلَى الصَّلَاةِ (२ बार)</div>
       <p><strong>हिंदी:</strong> हय्या अलस-सलाह (आओ नमाज़ की तरफ)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब में कहें: <em>ला हौल वला कुव्वता इल्ला बिल्लाह</em> (बुराई से बचने और भलाई करने की ताकत अल्लाह ही की तरफ से है)</p>
+      <p style="color:#0f5132; font-size:0.85rem;">जवाब में कहें: <em>ला हौल वला कुव्वता इल्ला बिल्लाह</em></p>
     </div>
 
     <div class="adhan-line">
@@ -140,7 +89,7 @@
     <div class="adhan-line">
       <div class="arabic">الصَّلَاةُ خَيْرٌ مِنَ النَّوْمِ (२ बार - सिर्फ फज्र में)</div>
       <p><strong>हिंदी:</strong> अस्सलातु खैरूम मिनन-नौम (नमाज़ नींद से बेहतर है)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब में कहें: <em>सदक़्ता व बररता</em> (तूने सच कहा और नेक बात कही)</p>
+      <p style="color:#0f5132; font-size:0.85rem;">जवाब में कहें: <em>सदक़्ता व बररता</em></p>
     </div>
 
     <div class="adhan-line">
@@ -159,15 +108,9 @@
   <!-- Dua After Adhan -->
   <div class="audio-card">
     <h2 style="color:#0f5132;">अज़ान के बाद की दुआ</h2>
-    <p style="color:#666; font-size:0.9rem;">हदीस: जो शख्स अज़ान सुनकर यह दुआ पढ़े, कयामत के दिन उसके लिए नबी करीम ﷺ की शिफाअत वाजिब हो जाती है। (सहीह बुखारी)</p>
-    
     <div class="arabic">اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ، وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ، إِنَّكَ لَا تُخْلِفُ الْمِيعَادَ</div>
-    
     <div class="label">हिंदी उच्चारण:</div>
     <p>अल्लाहुम्मा रब्बा हाज़िहिद-दा'वतिल-ताम्मति, वस-सलातिल काइमाह, आति मुहम्मद-निल वसील-ता वल-फज़ीलह, वब-असहू मकामन महमूद-निल्लज़ी व-अत्तह, इन्नका ला तुख़लिफुल मीआद।</p>
-    
-    <div class="label">हिंदी तर्जुमा:</div>
-    <p>ऐ अल्लाह! इस मुकम्मल दावत और कायम रहने वाली नमाज़ के रब, हमारे नबी हज़रत मुहम्मद ﷺ को 'वसीला' और बुज़ुर्गी अता फरमा, और उन्हें उस 'मकाम-ए-महमूद' पर पहुंचा जिसका तूने उनसे वादा फरमाया है, बेशक तू वादे के खिलाफ नहीं करता।</p>
   </div>
 </div>
 
