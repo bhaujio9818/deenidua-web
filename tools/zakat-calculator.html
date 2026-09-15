@@ -3,28 +3,204 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ज़कात कैलकुलेटर</title>
+  <title>ज़कात कैलकुलेटर ऑनलाइन (2.5%) | Zakat Calculator in Hindi - Deeni Dua</title>
+  <meta name="description" content="अपनी संपत्ति, सोने, चांदी, नकद और व्यापारिक माल पर सही ज़कात (2.5%) का ऑनलाइन हिसाब लगाएं। निसाब और ज़कात के शरई मसाइल हिंदी में।">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="canonical" href="https://www.deenidua.in/tools/zakat-calculator.html">
+  <meta name="theme-color" content="#0f5132">
+
+  <!-- Google AdSense Code -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015"
+     crossorigin="anonymous"></script>
+
   <style>
-    body { font-family: sans-serif; background: #f4f6f8; padding: 20px; }
-    .card { background: #fff; max-width: 450px; margin: auto; padding: 25px; border-radius: 10px; border: 1px solid #e0e0e0; }
-    input { width: 100%; padding: 10px; margin: 8px 0 15px 0; border: 1px solid #ccc; border-radius: 5px; }
-    .btn { width: 100%; background: #0f5132; color: #fff; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+    .zakat-wrap {
+      max-width: 620px;
+      margin: 15px auto;
+      padding: 0 16px;
+    }
+    .zakat-card { 
+      background: var(--card, #ffffff); 
+      border: 1px solid var(--border, #e0e0e0); 
+      border-radius: 12px; 
+      padding: 24px; 
+      margin-bottom: 20px; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03); 
+    }
+    .field-group {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+    .field-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text, #1e293b);
+      margin-bottom: 6px;
+    }
+    .field-group small {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--subtext, #64748b);
+      margin-top: 3px;
+    }
+    .input-box { 
+      width: 100%; 
+      padding: 11px 14px; 
+      border: 1.5px solid var(--border, #cbd5e1); 
+      border-radius: 8px; 
+      font-size: 0.95rem;
+      color: inherit;
+      background: var(--card, #fff);
+      box-sizing: border-box; 
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-box:focus {
+      border-color: #0f5132;
+    }
+    .btn-calc { 
+      width: 100%; 
+      background: #0f5132; 
+      color: #ffffff; 
+      border: none; 
+      padding: 13px; 
+      border-radius: 25px; 
+      font-size: 1rem;
+      font-weight: bold; 
+      cursor: pointer; 
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .btn-calc:hover {
+      background: #146c43;
+    }
+    .result-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 10px;
+      background: #e8f5e9;
+      border: 1px solid #c3e6cb;
+      text-align: center;
+      display: none;
+    }
+    .result-amt {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #0f5132;
+      margin: 4px 0 0 0;
+    }
+    .info-card {
+      background: var(--card, #ffffff);
+      border: 1px solid var(--border, #e0e0e0);
+      border-radius: 12px;
+      padding: 22px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
-<div class="card">
-  <a href="../index.html" style="color:#0f5132; font-weight:bold;">← मुख्य पेज</a>
-  <h2 style="color:#0f5132; margin: 15px 0;">ज़कात कैलकुलेटर (2.5%)</h2>
-  <label>नकद रकम (₹):</label><input type="number" id="cash" placeholder="0">
-  <label>सोने/चांदी की कीमत (₹):</label><input type="number" id="gold" placeholder="0">
-  <button class="btn" onclick="calc()">हिसाब लगाएं</button>
-  <h3 id="res" style="margin-top:15px; color:#0f5132; text-align:center;"></h3>
+
+<header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+  <!-- क्लिक करने पर सीधे मुख्य पेज जाएगा -->
+  <a href="../index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+    <img src="../logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
+    <span style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
+  </a>
+
+  <!-- होम बटन -->
+  <a href="../index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
+    🏠 होम
+  </a>
+</header>
+
+<div class="zakat-wrap">
+  <div style="text-align:center; margin: 15px 0;">
+    <h1 style="color:#0f5132; font-size:1.6rem; margin:0 0 6px 0;">इस्लामिक ज़कात कैलकुलेटर (2.5%)</h1>
+    <p style="color:#6c757d; font-size:0.92rem; margin:0;">अपनी कुल बचत और संपत्ति पर शरीअत के मुताबिक सही ज़कात निकालें</p>
+  </div>
+
+  <div class="zakat-card">
+    <div class="field-group">
+      <label>1. नकद रकम व बैंक बैलेंस (₹):</label>
+      <input type="number" id="cash" class="input-box" placeholder="घर और बैंक में जमा कुल रकम">
+      <small>हाथ में मौजूद नकदी, सेविंग्स अकाउंट, एफडी व कमेटी की रकम</small>
+    </div>
+
+    <div class="field-group">
+      <label>2. सोने व चांदी की कुल वर्तमान कीमत (₹):</label>
+      <input type="number" id="goldSilver" class="input-box" placeholder="सोने-चांदी के जेवरात व सिक्कों का मूल्य">
+      <small>आज के बाज़ार भाव के मुताबिक सिर्फ धातु का वजन मूल्य</small>
+    </div>
+
+    <div class="field-group">
+      <label>3. व्यापार का माल (Business Stock) (₹):</label>
+      <input type="number" id="stock" class="input-box" placeholder="दुकान/कारोबार में बिकने वाले माल की थोक कीमत">
+      <small>फैक्ट्री या दुकान की मशीनरी/फर्नीचर शामिल न करें</small>
+    </div>
+
+    <div class="field-group">
+      <label>4. दिया हुआ क़र्ज़ जो वापस मिलने की उम्मीद हो (₹):</label>
+      <input type="number" id="receivables" class="input-box" placeholder="दूसरों को दी गई वह रकम जो वापस मिलेगी">
+    </div>
+
+    <div class="field-group">
+      <label style="color:#dc2626;">5. घटाएं: फौरी कर्ज़ व देनदारियां (₹):</label>
+      <input type="number" id="debts" class="input-box" placeholder="वह रकम जो आपको तुरंत दूसरों को अदा करनी है">
+      <small>मासिक बिल, दुकान का बकाया या तत्काल देय कर्ज़</small>
+    </div>
+
+    <button class="btn-calc" onclick="calcZakat()">गणना करें (Calculate Zakat)</button>
+
+    <div class="result-box" id="resBox">
+      <span style="font-size:0.9rem; color:#0f5132; font-weight:600;">कुल ज़कात वाजिब रकम (2.5%):</span>
+      <div class="result-amt" id="resAmount">₹ 0.00</div>
+      <p style="margin: 6px 0 0 0; font-size:0.82rem; color:#475569;" id="resSummary"></p>
+    </div>
+  </div>
+
+  <!-- ज़कात और निसाब के नियम -->
+  <div class="info-card">
+    <h2 style="color:#0f5132; margin-top:0; font-size:1.2rem;">ज़कात का निसाब और जरूरी मसाइल</h2>
+    <ul style="margin-left:18px; padding-left:0; font-size:0.92rem;">
+      <li><strong>निसाब क्या है?</strong> यदि किसी शख्स के पास <strong>52.5 तोला (612.36 ग्राम) चांदी</strong> या <strong>7.5 तोला (87.48 ग्राम) सोना</strong> या इसके बराबर नकद रकम/व्यापारिक माल बुनियादी ज़रूरतों से अतिरिक्त मौजूद हो, तो उस पर ज़कात फ़र्ज़ हो जाती है।</li>
+      <li><strong>साल गुज़रना (हौलान-ए-हौल):</strong> निसाब के बराबर माल पर पूरा एक चंद्र वर्ष (क़मरी साल) बीतने के बाद उस कुल जमा पूंजी का <strong>2.5% (40वाँ हिस्सा)</strong> बतौर ज़कात देना वाजिब है।</li>
+      <li><strong>ज़कात के हक़दार:</strong> ज़कात सिर्फ ग़रीबों, मिस्कीनों, मोहताजों, क़र्ज़ में डूबे हुए लोगों और नौ-मुस्लिमों को दी जा सकती है। अपने सगे मां-बाप, दादा-दादी, औलाद या जीवनसाथी को ज़कात नहीं दी जा सकती।</li>
+    </ul>
+  </div>
 </div>
+
+<footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
+
 <script>
-  function calc() {
-    let t = (parseFloat(document.getElementById('cash').value)||0) + (parseFloat(document.getElementById('gold').value)||0);
-    document.getElementById('res').innerText = "कुल ज़कात: ₹ " + (t * 0.025).toFixed(2);
+  function calcZakat() {
+    const cash = parseFloat(document.getElementById('cash').value) || 0;
+    const goldSilver = parseFloat(document.getElementById('goldSilver').value) || 0;
+    const stock = parseFloat(document.getElementById('stock').value) || 0;
+    const receivables = parseFloat(document.getElementById('receivables').value) || 0;
+    const debts = parseFloat(document.getElementById('debts').value) || 0;
+
+    const netWealth = Math.max(0, (cash + goldSilver + stock + receivables) - debts);
+    const zakatDue = netWealth * 0.025;
+
+    const resBox = document.getElementById('resBox');
+    const resAmount = document.getElementById('resAmount');
+    const resSummary = document.getElementById('resSummary');
+
+    resBox.style.display = 'block';
+    resAmount.innerText = "₹ " + zakatDue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    resSummary.innerText = `कुल शुद्ध ज़कात-योग्य संपत्ति: ₹ ${netWealth.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  });
 </script>
+
 </body>
 </html>
