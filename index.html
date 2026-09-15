@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>दीनी दुआ व सूरह संग्रह | Deeni Dua Portal</title>
-  <meta name="description" content="रोज़मर्रा की मसनून दुआएं, सूरह, 6 कलमे, डिजिटल तस्बीह और नमाज़ टाइमर हिंदी में।">
+  <meta name="description" content="रोज़मर्रा की मसनून दुआएं, सूरह, 6 कलमे, डिजिटल तस्बीह, अज़ान और नमाज़ टाइमर हिंदी में।">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 
@@ -39,11 +39,10 @@
     /* Bookmark & Dark Mode Styles */
     .fav-star { float: right; font-size: 1.3rem; cursor: pointer; color: #ccc; transition: 0.2s; padding: 0 4px; user-select: none; }
     .fav-star.active { color: #f59e0b !important; }
-    .fav-box { background: var(--card); border: 2px dashed #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 25px; }
-    .dark-toggle-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; border-radius: 20px; padding: 4px 12px; font-size: 0.9rem; cursor: pointer; margin-left: 8px; }
-    .search-input { width: 100%; padding: 12px 18px; border: 2px solid var(--border); border-radius: 25px; font-size: 1rem; outline: none; background: var(--card); color: var(--text); box-sizing: border-box; transition: border-color 0.2s; }
-    .search-input:focus { border-color: var(--primary); }
-    .header-logo { height: 38px; width: auto; max-width: 170px; object-fit: contain; vertical-align: middle; }
+    .fav-box { background: var(--card, #fff); border: 2px dashed #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 25px; }
+    .dark-toggle-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; border-radius: 20px; padding: 4px 10px; font-size: 0.9rem; cursor: pointer; }
+    .search-input { width: 100%; padding: 12px 18px; border: 2px solid var(--border, #cbd5e1); border-radius: 25px; font-size: 1rem; outline: none; background: var(--card, #fff); color: inherit; box-sizing: border-box; transition: border-color 0.2s; }
+    .search-input:focus { border-color: #0f5132; }
 
     /* Top Quick Access Cards */
     .priority-card {
@@ -59,122 +58,123 @@
 </head>
 <body>
 
-<header>
-  <a href="index.html" style="display:flex; align-items:center; text-decoration:none;">
-    <img src="logo-header.png" alt="दीनी दुआ" class="header-logo">
+<header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+  <a href="index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+    <img src="logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
+    <span style="font-size: 1.15rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
   </a>
-  <nav style="display:flex; align-items:center;">
-    <a href="tools/namaz-time.html">नमाज़ टाइम</a>
-    <a href="tools/tasbeeh.html">तस्बीह</a>
+  <nav style="display: flex; align-items: center; gap: 8px;">
+    <a href="tools/namaz-timings.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 12px;">नमाज़ टाइम</a>
+    <a href="tools/tasbeeh-counter.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 12px;">तस्बीह</a>
     <button class="dark-toggle-btn" onclick="toggleDarkMode()" id="darkBtn" title="डार्क मोड">🌙</button>
   </nav>
 </header>
 
-<div class="container">
+<div class="container" style="max-width:900px; margin:20px auto; padding:0 15px;">
 
   <!-- Live Hijri Date Badge -->
-  <div style="text-align:right; font-size:0.85rem; color:#0f5132; font-weight:bold; margin-bottom:12px;" id="hijriBox">
+  <div style="text-align:right; font-size:0.88rem; color:#0f5132; font-weight:bold; margin-bottom:12px;" id="hijriBox">
     🌙 इस्लामी तारीख लोड हो रही है...
   </div>
 
   <!-- 1. Auto Daily Hadith Card -->
-  <div style="background:#fff; border:1px solid #e0e0e0; border-left:5px solid #0f5132; border-radius:8px; padding:16px; margin-bottom:25px;" class="info-card">
+  <div style="background:var(--card, #fff); border:1px solid var(--border, #e0e0e0); border-left:5px solid #0f5132; border-radius:8px; padding:16px; margin-bottom:25px;" class="info-card">
     <span style="background:#e8f5e9; color:#0f5132; font-size:0.8rem; font-weight:bold; padding:3px 10px; border-radius:12px;">आज की हदीस (Daily Hadith)</span>
-    <p id="hadithText" style="font-size:1.05rem; margin:10px 0; line-height:1.7; color:#212529;">हदीस लोड हो रही है...</p>
-    <button onclick="shareHadith()" style="background:#25D366; color:white; border:none; padding:5px 14px; border-radius:15px; font-size:0.8rem; font-weight:bold; cursor:pointer;">WhatsApp स्टेटस</button>
+    <p id="hadithText" style="font-size:1.05rem; margin:10px 0; line-height:1.7; color:inherit;">हदीस लोड हो रही है...</p>
+    <button onclick="shareHadith()" style="background:#25D366; color:white; border:none; padding:6px 14px; border-radius:15px; font-size:0.82rem; font-weight:bold; cursor:pointer;">WhatsApp स्टेटस</button>
   </div>
 
   <!-- 2. ⭐ Always Visible Favorites Section -->
   <div class="fav-box" id="favSection">
-    <h2 style="color:#f59e0b; font-size:1.2rem; margin-bottom:8px;">⭐ मेरी पसंदीदा दुआएं (Saved)</h2>
+    <h2 style="color:#f59e0b; font-size:1.2rem; margin-top:0; margin-bottom:8px;">⭐ मेरी पसंदीदा दुआएं (Saved)</h2>
     <div class="topics-grid" id="favGrid" style="margin-top:10px;"></div>
-    <p id="emptyFavText" style="color:var(--subtext); font-size:0.9rem; margin-top:5px;">अभी कोई दुआ सेव नहीं है। नीचे किसी भी कार्ड के <strong>स्टार (★)</strong> पर क्लिक करके यहाँ जोड़ें।</p>
+    <p id="emptyFavText" style="color:var(--subtext, #6c757d); font-size:0.9rem; margin-top:5px; margin-bottom:0;">अभी कोई दुआ सेव नहीं है। नीचे किसी भी कार्ड के <strong>स्टार (★)</strong> पर क्लिक करके यहाँ जोड़ें।</p>
   </div>
 
   <!-- 3. 🔍 Live Instant Search Bar -->
   <div style="margin: 25px 0 15px 0;">
-    <input type="text" id="siteSearchInput" class="search-input" onkeyup="filterHomeCards()" placeholder="🔍 सूरह, दुआ या टूल खोजें (जैसे: यासीन, अज़ान, इस्तिख़ारा, अज़कार)...">
+    <input type="text" id="siteSearchInput" class="search-input" onkeyup="filterHomeCards()" placeholder="🔍 सूरह, दुआ या टूल खोजें (जैसे: यासीन, अज़ान, कज़ा, ज़कात, अज़कार)...">
   </div>
 
   <!-- 4. ⚡ सबसे ज़्यादा इस्तेमाल होने वाले (Quick Access) -->
   <h2 style="color:#0f5132; font-size:1.25rem; margin-top:20px;">⚡ रोज़ाना के ज़रूरी टूल्स व सूरह</h2>
   <div class="topics-grid" id="priorityCardsGrid">
-    <a href="tools/namaz-time.html" class="topic-card priority-card"><h3>🕌 नमाज़ टाइमर</h3><p>आज के लाइव नमाज़ औकात</p></a>
-    <a href="tools/tasbeeh.html" class="topic-card priority-card"><h3>📿 तस्बीह काउंटर</h3><p>डिजिटल ज़िक्र काउंटर</p></a>
-    <div class="topic-card priority-card"><span class="fav-star" onclick="toggleFav(event, 'आयतल कुर्सी', 'surah/ayatul-kursi.html')">★</span><a href="surah/ayatul-kursi.html" style="text-decoration:none; color:inherit;"><h3>📖 आयतल कुर्सी</h3><p>अरबी व तर्जुमा</p></a></div>
-    <div class="topic-card priority-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह यासीन', 'surah/yaseen.html')">★</span><a href="surah/yaseen.html" style="text-decoration:none; color:inherit;"><h3>❤️ सूरह यासीन</h3><p>कुरआन का दिल</p></a></div>
+    <a href="tools/namaz-timings.html" class="topic-card priority-card"><h3>🕌 नमाज़ टाइमर</h3><p>आज के लाइव नमाज़ औकात</p></a>
+    <a href="tools/tasbeeh-counter.html" class="topic-card priority-card"><h3>📿 तस्बीह काउंटर</h3><p>डिजिटल ज़िक्र काउंटर</p></a>
+    <div class="topic-card priority-card"><span class="fav-star" onclick="toggleFav(event, 'आयतल कुर्सी', 'duas/ayatul-kursi.html')">★</span><a href="duas/ayatul-kursi.html" style="text-decoration:none; color:inherit;"><h3>📖 आयतल कुर्सी</h3><p>अरबी व मुकम्मल तर्जुमा</p></a></div>
+    <div class="topic-card priority-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह यासीन', 'surah/surah-yaseen.html')">★</span><a href="surah/surah-yaseen.html" style="text-decoration:none; color:inherit;"><h3>❤️ सूरह यासीन</h3><p>कुरआन का दिल</p></a></div>
     <a href="namaz/namaz-ka-tarika.html" class="topic-card priority-card"><h3>🤲 नमाज़ का तरीका</h3><p>रकात चार्ट व तरीका</p></a>
     <a href="tools/card-generator.html" class="topic-card priority-card"><h3>✨ स्टेटस कार्ड</h3><p>WhatsApp फोटो बनाएं</p></a>
   </div>
 
   <!-- 5. सभी सूरह, कलमे और दुआएं -->
-  <h2 style="margin-top:35px;">सभी सूरह, कलमे और दुआएं</h2>
+  <h2 style="color:#0f5132; margin-top:35px; font-size:1.25rem;">सभी सूरह, कलमे और दुआएं</h2>
   
   <div class="topics-grid" id="mainCardsGrid">
     <!-- सूरह व कलमा -->
-    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह मुल्क', 'surah/mulk.html')">★</span><a href="surah/mulk.html" style="text-decoration:none; color:inherit;"><h3>सूरह मुल्क</h3><p>कब्र से हिफाज़त</p></a></div>
-    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह रहमान', 'surah/rahman.html')">★</span><a href="surah/rahman.html" style="text-decoration:none; color:inherit;"><h3>सूरह रहमान</h3><p>कुरआन की ज़ीनत</p></a></div>
-    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह वाकिआ', 'surah/waqiah.html')">★</span><a href="surah/waqiah.html" style="text-decoration:none; color:inherit;"><h3>सूरह वाकिआ</h3><p>रिज़्क़ में बरकत</p></a></div>
-    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'आख़िरी 10 सूरहें', 'surah/aakhri-10-surah.html')">★</span><a href="surah/aakhri-10-surah.html" style="text-decoration:none; color:inherit;"><h3>आख़िरी 10 सूरहें</h3><p>नमाज़ की छोटी सूरहें</p></a></div>
+    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह मुल्क', 'surah/surah-mulk.html')">★</span><a href="surah/surah-mulk.html" style="text-decoration:none; color:inherit;"><h3>सूरह मुल्क</h3><p>कब्र के अज़ाब से हिफाज़त</p></a></div>
+    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह रहमान', 'surah/surah-rahman.html')">★</span><a href="surah/surah-rahman.html" style="text-decoration:none; color:inherit;"><h3>सूरह रहमान</h3><p>कुरआन की ज़ीनत</p></a></div>
+    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह वाकिआ', 'surah/surah-waqiah.html')">★</span><a href="surah/surah-waqiah.html" style="text-decoration:none; color:inherit;"><h3>सूरह वाकिआ</h3><p>रिज़्क़ में बरकत</p></a></div>
+    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'आख़िरी 10 सूरहें', 'surah/last-10-surahs.html')">★</span><a href="surah/last-10-surahs.html" style="text-decoration:none; color:inherit;"><h3>आख़िरी 10 सूरहें</h3><p>नमाज़ की छोटी सूरहें</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, '6 कलमे', 'kalma/6-kalma.html')">★</span><a href="kalma/6-kalma.html" style="text-decoration:none; color:inherit;"><h3>6 कलमे</h3><p>पहला से छठा कलमा</p></a></div>
 
     <!-- ऑडियो तिलावात -->
-    <a href="surah/audio-quran.html" class="topic-card" style="border: 2px solid #0f5132;"><h3>ऑडियो कुरआन</h3><p>पूरी सूरहें सुनें</p></a>
+    <a href="pages/quran-audio.html" class="topic-card" style="border: 2px solid #0f5132;"><h3>ऑडियो कुरआन</h3><p>पूरी सूरहें सुनें (MP3)</p></a>
 
     <!-- नमाज़ व पाकी -->
     <a href="namaz/wuzu-aur-ghusl.html" class="topic-card"><h3>वुज़ू और गुस्ल</h3><p>फर्ज़ व सुन्नत तरीका</p></a>
-    <a href="namaz/eid-namaz-tarika.html" class="topic-card"><h3>ईद की नमाज़</h3><p>6 तकबीर तरीका</p></a>
-    <a href="duas/janaza-ki-dua.html" class="topic-card"><h3>नमाज़-ए-जनाज़ा</h3><p>तरीका व दुआएं</p></a>
+    <a href="namaz/eid-namaz-tarika.html" class="topic-card"><h3>ईद की नमाज़</h3><p>6 ज़ायद तकबीर तरीका</p></a>
+    <a href="duas/janaza-ki-dua.html" class="topic-card"><h3>नमाज़-ए-जनाज़ा</h3><p>तरीका व मसनून दुआएं</p></a>
 
     <!-- दुआएं व विशेष पेज -->
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सुबह-शाम अज़कार', 'duas/subah-sham-azkar.html')">★</span><a href="duas/subah-sham-azkar.html" style="text-decoration:none; color:inherit;"><h3>सुबह-शाम अज़कार</h3><p>हिफाज़त के मसनून अज़कार</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, '40 रब्बना दुआएं', 'duas/40-rabbana.html')">★</span><a href="duas/40-rabbana.html" style="text-decoration:none; color:inherit;"><h3>40 रब्बना दुआएं</h3><p>कुरआन की खास दुआएं</p></a></div>
-    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'तौबा की दुआ', 'duas/tauba-ki-dua.html')">★</span><a href="duas/tauba-ki-dua.html" style="text-decoration:none; color:inherit;"><h3>तौबा की दुआ</h3><p>सैय्यदुल इस्तिकफार</p></a></div>
+    <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'तौबा की दुआ', 'duas/tauba-ki-dua.html')">★</span><a href="duas/tauba-ki-dua.html" style="text-decoration:none; color:inherit;"><h3>तौबा की दुआ</h3><p>सैय्यदुल इस्तिग़फ़ार</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'शिफा व नज़र', 'duas/shifa-ki-dua.html')">★</span><a href="duas/shifa-ki-dua.html" style="text-decoration:none; color:inherit;"><h3>शिफा व नज़र की दुआ</h3><p>बीमारी व नज़र-ए-बद</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'इस्तिख़ारा की दुआ', 'duas/istikhara.html')">★</span><a href="duas/istikhara.html" style="text-decoration:none; color:inherit;"><h3>इस्तिख़ारा की दुआ</h3><p>तरीका व मसनून दुआ</p></a></div>
-    <a href="pages/40-hadith.html" class="topic-card"><h3>40 हदीस संग्रह</h3><p>इमाम नवीं की हदीसें</p></a>
+    <a href="pages/40-hadith.html" class="topic-card"><h3>40 हदीस संग्रह</h3><p>इमाम नववी की हदीसें</p></a>
     <a href="pages/jumma-sunnah.html" class="topic-card"><h3>जुमा की सुन्नतें</h3><p>चेकलिस्ट व आदाब</p></a>
-    <a href="pages/ramadan-duas.html" class="topic-card"><h3>रमज़ान व तरावीह</h3><p>सेहरी, इफ्तार व तस्बीह</p></a>
+    <a href="duas/ramadan-duas.html" class="topic-card"><h3>रमज़ान व तरावीह</h3><p>सेहरी, इफ्तार व तस्बीह</p></a>
     <a href="pages/jumma-mubarak.html" class="topic-card"><h3>जुमा मुबारक</h3><p>स्टेटस व कोट्स</p></a>
     <a href="pages/99-names.html" class="topic-card"><h3>अल्लाह के 99 नाम</h3><p>अस्मा-उल-हुस्ना</p></a>
-    <a href="pages/islamic-names.html" class="topic-card"><h3>इस्लामिक नाम</h3><p>लड़के व लड़कियाँ</p></a>
+    <a href="pages/islamic-names.html" class="topic-card"><h3>इस्लामिक नाम</h3><p>लड़के व लड़कियाँ (100+)</p></a>
     <a href="duas/safar-ki-dua.html" class="topic-card"><h3>सफर की दुआ</h3><p>सवारी की सुन्नत दुआ</p></a>
     <a href="duas/khana-khane-ki-dua.html" class="topic-card"><h3>खाने की दुआ</h3><p>खाने से पहले व बाद</p></a>
     <a href="duas/sone-ki-dua.html" class="topic-card"><h3>सोने की दुआ</h3><p>सोते व उठते वक्त</p></a>
     <a href="duas/masjid-ki-dua.html" class="topic-card"><h3>मस्जिद की दुआ</h3><p>आने-जाने की दुआ</p></a>
 
     <!-- इस्लामिक टूल्स -->
-    <a href="tools/adhan.html" class="topic-card"><h3>अज़ान ऑडियो</h3><p>सुनें व सीखें</p></a>
-    <a href="tools/quiz.html" class="topic-card"><h3>दीनी क्विज़</h3><p>सवालों के जवाब दें</p></a>
-    <a href="tools/zakat-calculator.html" class="topic-card"><h3>ज़कात कैलकुलेटर</h3><p>2.5% हिसाब</p></a>
-    <a href="tools/qaza-tracker.html" class="topic-card"><h3>कज़ा ट्रैकर</h3><p>छूटी नमाज़ें</p></a>
+    <a href="pages/learn-adhan.html" class="topic-card"><h3>अज़ान ऑडियो</h3><p>सुनें व तलफ़्फ़ुज़ सीखें</p></a>
+    <a href="tools/islamic-quiz.html" class="topic-card"><h3>दीनी क्विज़</h3><p>सवाल-जवाब प्रतियोगिता</p></a>
+    <a href="tools/zakat-calculator.html" class="topic-card"><h3>ज़कात कैलकुलेटर</h3><p>2.5% सटीक हिसाब</p></a>
+    <a href="tools/qaza-tracker.html" class="topic-card"><h3>कज़ा ट्रैकर</h3><p>छूटी नमाज़ों का हिसाब</p></a>
   </div>
 
-  <!-- 6. Affiliate Section (100% Live & Verified Direct Product Links) -->
-  <div style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:20px; margin:35px 0;" class="info-card">
-    <h3 style="color:#0f5132; margin-bottom:5px;">दीनी व इबादत सामग्री (Recommended)</h3>
-    <p style="font-size:0.85rem; color:#6c757d; margin-bottom:15px;">घर और इबादत के लिए उपयोगी चीजें</p>
+  <!-- 6. Affiliate Section -->
+  <div style="background:var(--card, #fff); border:1px solid var(--border, #e0e0e0); border-radius:10px; padding:20px; margin:35px 0;" class="info-card">
+    <h3 style="color:#0f5132; margin-top:0; margin-bottom:5px;">दीनी व इबादत सामग्री (Recommended)</h3>
+    <p style="font-size:0.85rem; color:var(--subtext, #6c757d); margin-bottom:15px;">घर और इबादत के लिए उपयोगी चीजें</p>
     <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:15px;">
       
       <!-- 1. डिजिटल तस्बीह -->
-      <div style="border:1px solid #eee; padding:12px; border-radius:6px; text-align:center;">
+      <div style="border:1px solid var(--border, #eee); padding:14px; border-radius:8px; text-align:center;">
         <div style="font-size:1.8rem;">📿</div>
         <h4 style="font-size:0.95rem; margin:6px 0;">डिजिटल फिंगर तस्बीह</h4>
-        <a href="https://www.amazon.in/dp/B0G26FFXDN?tag=deenidua-21" target="_blank" rel="nofollow noopener sponsored" style="display:inline-block; margin-top:8px; background:#ff9900; color:#000; padding:5px 12px; border-radius:15px; text-decoration:none; font-size:0.8rem; font-weight:bold;">Amazon पर देखें</a>
+        <a href="https://www.amazon.in/dp/B0G26FFXDN?tag=deenidua-21" target="_blank" rel="nofollow noopener sponsored" style="display:inline-block; margin-top:8px; background:#ff9900; color:#000; padding:6px 14px; border-radius:15px; text-decoration:none; font-size:0.82rem; font-weight:bold;">Amazon पर देखें</a>
       </div>
 
       <!-- 2. प्रीमियम चेनील जानमाज़ -->
-      <div style="border:1px solid #eee; padding:12px; border-radius:6px; text-align:center;">
+      <div style="border:1px solid var(--border, #eee); padding:14px; border-radius:8px; text-align:center;">
         <div style="font-size:1.8rem;">🕋</div>
         <h4 style="font-size:0.95rem; margin:6px 0;">प्रीमियम चेनील जानमाज़</h4>
-        <a href="https://www.amazon.in/dp/B0H598YML8?tag=deenidua-21" target="_blank" rel="nofollow noopener sponsored" style="display:inline-block; margin-top:8px; background:#ff9900; color:#000; padding:5px 12px; border-radius:15px; text-decoration:none; font-size:0.8rem; font-weight:bold;">Amazon पर देखें</a>
+        <a href="https://www.amazon.in/dp/B0H598YML8?tag=deenidua-21" target="_blank" rel="nofollow noopener sponsored" style="display:inline-block; margin-top:8px; background:#ff9900; color:#000; padding:6px 14px; border-radius:15px; text-decoration:none; font-size:0.82rem; font-weight:bold;">Amazon पर देखें</a>
       </div>
 
       <!-- 3. AdilQadri कस्तूरी अत्तर -->
-      <div style="border:1px solid #eee; padding:12px; border-radius:6px; text-align:center;">
+      <div style="border:1px solid var(--border, #eee); padding:14px; border-radius:8px; text-align:center;">
         <div style="font-size:1.8rem;">🌸</div>
         <h4 style="font-size:0.95rem; margin:6px 0;">अल्कोहल-फ्री कस्तूरी अत्तर</h4>
-        <a href="https://www.amazon.in/dp/B0GTZPX3RT?tag=deenidua-21" target="_blank" rel="nofollow noopener sponsored" style="display:inline-block; margin-top:8px; background:#ff9900; color:#000; padding:5px 12px; border-radius:15px; text-decoration:none; font-size:0.8rem; font-weight:bold;">Amazon पर देखें</a>
+        <a href="https://www.amazon.in/dp/B0GTZPX3RT?tag=deenidua-21" target="_blank" rel="nofollow noopener sponsored" style="display:inline-block; margin-top:8px; background:#ff9900; color:#000; padding:6px 14px; border-radius:15px; text-decoration:none; font-size:0.82rem; font-weight:bold;">Amazon पर देखें</a>
       </div>
 
     </div>
@@ -182,13 +182,13 @@
 
 </div>
 
-<footer>
+<footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
   <!-- Social Media Links -->
   <div style="margin-bottom: 12px; display: flex; justify-content: center; gap: 15px; align-items: center;">
     <a href="https://www.facebook.com/profile.php?id=61593439228630" target="_blank" rel="noopener noreferrer" style="color: #1877F2; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem;">
       📘 Facebook
     </a>
-    <span style="color: var(--border);">|</span>
+    <span style="color: var(--border, #e0e0e0);">|</span>
     <a href="https://www.instagram.com/vinsonaspark/" target="_blank" rel="noopener noreferrer" style="color: #E1306C; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem;">
       📷 Instagram
     </a>
@@ -290,7 +290,7 @@
   // 5. Instant Live Filter Function
   function filterHomeCards() {
     const query = document.getElementById('siteSearchInput').value.toLowerCase();
-    const cards = document.querySelectorAll('.topics-grid .topic-card');
+    const cards = document.querySelectorAll('#mainCardsGrid .topic-card, #priorityCardsGrid .topic-card');
     cards.forEach(card => {
       const text = card.innerText.toLowerCase();
       card.style.display = text.includes(query) ? '' : 'none';
