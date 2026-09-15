@@ -64,8 +64,9 @@
     <span style="font-size: 1.15rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
   </a>
   <nav style="display: flex; align-items: center; gap: 8px;">
-    <a href="tools/namaz-timings.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 12px;">नमाज़ टाइम</a>
-    <a href="tools/tasbeeh-counter.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 12px;">तस्बीह</a>
+    <!-- अपडेटेड लिंक्स -->
+    <a href="tools/namaz-time.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 12px;">नमाज़ टाइम</a>
+    <a href="tools/tasbeeh.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 12px;">तस्बीह</a>
     <button class="dark-toggle-btn" onclick="toggleDarkMode()" id="darkBtn" title="डार्क मोड">🌙</button>
   </nav>
 </header>
@@ -99,8 +100,8 @@
   <!-- 4. ⚡ सबसे ज़्यादा इस्तेमाल होने वाले (Quick Access) -->
   <h2 style="color:#0f5132; font-size:1.25rem; margin-top:20px;">⚡ रोज़ाना के ज़रूरी टूल्स व सूरह</h2>
   <div class="topics-grid" id="priorityCardsGrid">
-    <a href="tools/namaz-timings.html" class="topic-card priority-card"><h3>🕌 नमाज़ टाइमर</h3><p>आज के लाइव नमाज़ औकात</p></a>
-    <a href="tools/tasbeeh-counter.html" class="topic-card priority-card"><h3>📿 तस्बीह काउंटर</h3><p>डिजिटल ज़िक्र काउंटर</p></a>
+    <a href="tools/namaz-time.html" class="topic-card priority-card"><h3>🕌 नमाज़ टाइमर</h3><p>आज के लाइव नमाज़ औकात</p></a>
+    <a href="tools/tasbeeh.html" class="topic-card priority-card"><h3>📿 तस्बीह काउंटर</h3><p>डिजिटल ज़िक्र काउंटर</p></a>
     <div class="topic-card priority-card"><span class="fav-star" onclick="toggleFav(event, 'आयतल कुर्सी', 'duas/ayatul-kursi.html')">★</span><a href="duas/ayatul-kursi.html" style="text-decoration:none; color:inherit;"><h3>📖 आयतल कुर्सी</h3><p>अरबी व मुकम्मल तर्जुमा</p></a></div>
     <div class="topic-card priority-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह यासीन', 'surah/surah-yaseen.html')">★</span><a href="surah/surah-yaseen.html" style="text-decoration:none; color:inherit;"><h3>❤️ सूरह यासीन</h3><p>कुरआन का दिल</p></a></div>
     <a href="namaz/namaz-ka-tarika.html" class="topic-card priority-card"><h3>🤲 नमाज़ का तरीका</h3><p>रकात चार्ट व तरीका</p></a>
@@ -111,22 +112,18 @@
   <h2 style="color:#0f5132; margin-top:35px; font-size:1.25rem;">सभी सूरह, कलमे और दुआएं</h2>
   
   <div class="topics-grid" id="mainCardsGrid">
-    <!-- सूरह व कलमा -->
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह मुल्क', 'surah/surah-mulk.html')">★</span><a href="surah/surah-mulk.html" style="text-decoration:none; color:inherit;"><h3>सूरह मुल्क</h3><p>कब्र के अज़ाब से हिफाज़त</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह रहमान', 'surah/surah-rahman.html')">★</span><a href="surah/surah-rahman.html" style="text-decoration:none; color:inherit;"><h3>सूरह रहमान</h3><p>कुरआन की ज़ीनत</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सूरह वाकिआ', 'surah/surah-waqiah.html')">★</span><a href="surah/surah-waqiah.html" style="text-decoration:none; color:inherit;"><h3>सूरह वाकिआ</h3><p>रिज़्क़ में बरकत</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'आख़िरी 10 सूरहें', 'surah/last-10-surahs.html')">★</span><a href="surah/last-10-surahs.html" style="text-decoration:none; color:inherit;"><h3>आख़िरी 10 सूरहें</h3><p>नमाज़ की छोटी सूरहें</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, '6 कलमे', 'kalma/6-kalma.html')">★</span><a href="kalma/6-kalma.html" style="text-decoration:none; color:inherit;"><h3>6 कलमे</h3><p>पहला से छठा कलमा</p></a></div>
 
-    <!-- ऑडियो तिलावात -->
     <a href="pages/quran-audio.html" class="topic-card" style="border: 2px solid #0f5132;"><h3>ऑडियो कुरआन</h3><p>पूरी सूरहें सुनें (MP3)</p></a>
 
-    <!-- नमाज़ व पाकी -->
     <a href="namaz/wuzu-aur-ghusl.html" class="topic-card"><h3>वुज़ू और गुस्ल</h3><p>फर्ज़ व सुन्नत तरीका</p></a>
     <a href="namaz/eid-namaz-tarika.html" class="topic-card"><h3>ईद की नमाज़</h3><p>6 ज़ायद तकबीर तरीका</p></a>
     <a href="duas/janaza-ki-dua.html" class="topic-card"><h3>नमाज़-ए-जनाज़ा</h3><p>तरीका व मसनून दुआएं</p></a>
 
-    <!-- दुआएं व विशेष पेज -->
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'सुबह-शाम अज़कार', 'duas/subah-sham-azkar.html')">★</span><a href="duas/subah-sham-azkar.html" style="text-decoration:none; color:inherit;"><h3>सुबह-शाम अज़कार</h3><p>हिफाज़त के मसनून अज़कार</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, '40 रब्बना दुआएं', 'duas/40-rabbana.html')">★</span><a href="duas/40-rabbana.html" style="text-decoration:none; color:inherit;"><h3>40 रब्बना दुआएं</h3><p>कुरआन की खास दुआएं</p></a></div>
     <div class="topic-card"><span class="fav-star" onclick="toggleFav(event, 'तौबा की दुआ', 'duas/tauba-ki-dua.html')">★</span><a href="duas/tauba-ki-dua.html" style="text-decoration:none; color:inherit;"><h3>तौबा की दुआ</h3><p>सैय्यदुल इस्तिग़फ़ार</p></a></div>
@@ -143,7 +140,6 @@
     <a href="duas/sone-ki-dua.html" class="topic-card"><h3>सोने की दुआ</h3><p>सोते व उठते वक्त</p></a>
     <a href="duas/masjid-ki-dua.html" class="topic-card"><h3>मस्जिद की दुआ</h3><p>आने-जाने की दुआ</p></a>
 
-    <!-- इस्लामिक टूल्स -->
     <a href="pages/learn-adhan.html" class="topic-card"><h3>अज़ान ऑडियो</h3><p>सुनें व तलफ़्फ़ुज़ सीखें</p></a>
     <a href="tools/islamic-quiz.html" class="topic-card"><h3>दीनी क्विज़</h3><p>सवाल-जवाब प्रतियोगिता</p></a>
     <a href="tools/zakat-calculator.html" class="topic-card"><h3>ज़कात कैलकुलेटर</h3><p>2.5% सटीक हिसाब</p></a>
@@ -156,21 +152,18 @@
     <p style="font-size:0.85rem; color:var(--subtext, #6c757d); margin-bottom:15px;">घर और इबादत के लिए उपयोगी चीजें</p>
     <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:15px;">
       
-      <!-- 1. डिजिटल तस्बीह -->
       <div style="border:1px solid var(--border, #eee); padding:14px; border-radius:8px; text-align:center;">
         <div style="font-size:1.8rem;">📿</div>
         <h4 style="font-size:0.95rem; margin:6px 0;">डिजिटल फिंगर तस्बीह</h4>
         <a href="https://www.amazon.in/dp/B0G26FFXDN?tag=deenidua-21" target="_blank" rel="nofollow noopener sponsored" style="display:inline-block; margin-top:8px; background:#ff9900; color:#000; padding:6px 14px; border-radius:15px; text-decoration:none; font-size:0.82rem; font-weight:bold;">Amazon पर देखें</a>
       </div>
 
-      <!-- 2. प्रीमियम चेनील जानमाज़ -->
       <div style="border:1px solid var(--border, #eee); padding:14px; border-radius:8px; text-align:center;">
         <div style="font-size:1.8rem;">🕋</div>
         <h4 style="font-size:0.95rem; margin:6px 0;">प्रीमियम चेनील जानमाज़</h4>
         <a href="https://www.amazon.in/dp/B0H598YML8?tag=deenidua-21" target="_blank" rel="nofollow noopener sponsored" style="display:inline-block; margin-top:8px; background:#ff9900; color:#000; padding:6px 14px; border-radius:15px; text-decoration:none; font-size:0.82rem; font-weight:bold;">Amazon पर देखें</a>
       </div>
 
-      <!-- 3. AdilQadri कस्तूरी अत्तर -->
       <div style="border:1px solid var(--border, #eee); padding:14px; border-radius:8px; text-align:center;">
         <div style="font-size:1.8rem;">🌸</div>
         <h4 style="font-size:0.95rem; margin:6px 0;">अल्कोहल-फ्री कस्तूरी अत्तर</h4>
@@ -183,7 +176,6 @@
 </div>
 
 <footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
-  <!-- Social Media Links -->
   <div style="margin-bottom: 12px; display: flex; justify-content: center; gap: 15px; align-items: center;">
     <a href="https://www.facebook.com/profile.php?id=61593439228630" target="_blank" rel="noopener noreferrer" style="color: #1877F2; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem;">
       📘 Facebook
