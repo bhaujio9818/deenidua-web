@@ -143,7 +143,7 @@
 
   <!-- विशेष पेज व कंटेंट -->
   <url>
-    <loc>https://www.deenidua.in/pages/ramadan-duas.html</loc>
+    <loc>https://www.deenidua.in/duas/ramadan-duas.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -207,7 +207,7 @@
   <url>
     <loc>https://www.deenidua.in/tools/zakat-calculator.html</loc>
     <lastmod>2026-09-15</lastmod>
-    <changeFreq>monthly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
