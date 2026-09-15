@@ -3,32 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>अज़ान ऑडियो व सीखने का तरीका | Listen Adhan MP3</title>
+  <title>अज़ान ऑडियो व सीखने का तरीका | Listen Adhan MP3 in Hindi - Deeni Dua</title>
+  <meta name="description" content="मक्का, मदीना और अक्सा की खूबसूरत अज़ान ऑनलाइन सुनें। अज़ान के कलमात, जवाब देने का तरीका, अज़ान के बाद की दुआ और सुन्नतें हिंदी में।">
   <link rel="stylesheet" href="../style.css">
+  <link rel="canonical" href="https://www.deenidua.in/pages/learn-adhan.html">
+  <meta name="theme-color" content="#0f5132">
+
+  <!-- Google AdSense Code -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015"
+     crossorigin="anonymous"></script>
+
   <style>
-    .audio-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .adhan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; margin-top: 15px; }
-    .player-box { background: #f9fdfa; border: 1px solid #c3e6cb; border-radius: 8px; padding: 15px; text-align: center; }
-    .player-title { font-weight: bold; color: #0f5132; margin-bottom: 10px; font-size: 1rem; }
-    .btn-play { background: #0f5132; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; }
-    .btn-play:hover { background: #146c43; }
-    .adhan-line { border-bottom: 1px solid #f1f1f1; padding: 12px 0; }
+    .audio-card { 
+      background: var(--card, #fff); 
+      border: 1px solid var(--border, #e0e0e0); 
+      border-radius: 8px; 
+      padding: 22px; 
+      margin-bottom: 20px; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+    }
+    .adhan-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+      gap: 15px; 
+      margin-top: 15px; 
+    }
+    .player-box { 
+      background: var(--card, #f9fdfa); 
+      border: 1px solid var(--border, #c3e6cb); 
+      border-radius: 8px; 
+      padding: 16px; 
+      text-align: center; 
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .player-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .player-title { 
+      font-weight: bold; 
+      color: #0f5132; 
+      margin-bottom: 10px; 
+      font-size: 0.98rem; 
+    }
+    .btn-play { 
+      background: #0f5132; 
+      color: white; 
+      border: none; 
+      padding: 8px 20px; 
+      border-radius: 20px; 
+      font-size: 0.9rem; 
+      cursor: pointer; 
+      font-weight: bold; 
+      width: 100%; 
+      transition: background 0.2s ease; 
+    }
+    .btn-play:hover { 
+      background: #146c43; 
+    }
+    .btn-play.playing {
+      background: #dc3545;
+    }
+    .adhan-line { 
+      border-bottom: 1px solid var(--border, #f1f1f1); 
+      padding: 12px 0; 
+    }
+    .adhan-line:last-child {
+      border-bottom: none;
+    }
+    .arabic {
+      font-size: 1.55rem;
+      line-height: 2;
+      text-align: right;
+      direction: rtl;
+      font-family: 'Amiri', 'Traditional Arabic', serif;
+      color: #0f5132;
+      margin: 6px 0;
+    }
+    .label {
+      font-weight: bold;
+      font-size: 0.92rem;
+      color: #6c757d;
+      margin-top: 10px;
+    }
     ol { margin-left: 20px; line-height: 1.8; margin-top: 8px; }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="../index.html">← मुख्य पेज</a>
+<header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+  <!-- क्लिक करने पर सीधे मुख्य पेज जाएगा -->
+  <a href="../index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+    <img src="../logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
+    <span style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
+  </a>
+
+  <!-- होम बटन -->
+  <a href="../index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
+    🏠 होम
+  </a>
 </header>
 
-<div class="container">
-  <h1 style="color:#0f5132; margin-bottom: 8px;">अज़ान सुनना व सीखने का मुकम्मल तरीका</h1>
-  <p style="color:#6c757d; margin-bottom: 20px;">विश्व प्रसिद्ध खूबसूरत अज़ान लाइव सुनें और सही तलफ़्फ़ुज़ सीखें।</p>
+<div class="container" style="max-width:850px; margin:20px auto; padding:0 15px;">
+  <h1 style="color:#0f5132; margin-bottom: 8px; font-size:1.6rem;">अज़ान सुनना व सीखने का मुकम्मल तरीका</h1>
+  <p style="color:#6c757d; margin-bottom: 20px; line-height:1.6;">विश्व प्रसिद्ध मस्जिदों की दिलकश अज़ान लाइव सुनें, सही तलफ़्फ़ुज़ सीखें और अज़ान का जवाब देने का तरीका जानें:</p>
 
-  <!-- 6 Matched Audio Players -->
+  <!-- 6 Audio Players -->
   <div class="audio-card">
-    <h2 style="color:#0f5132; font-size:1.25rem;">खूबसूरत अज़ान सुनें (Click to Play)</h2>
+    <h2 style="color:#0f5132; font-size:1.25rem; margin-top:0;">खूबसूरत अज़ान सुनें (Click to Play)</h2>
     <div class="adhan-grid">
 
       <div class="player-box">
@@ -42,7 +124,7 @@
       </div>
 
       <div class="player-box">
-        <div class="player-title">3. मस्जिद अल-अक्सा (कुद्स)</div>
+        <div class="player-title">3. मस्जिद अल-अक्सा (क़ुद्स)</div>
         <button class="btn-play" onclick="toggleAudio('https://www.islamcan.com/audio/adhan/azan3.mp3', this)">▶ चलाएं</button>
       </div>
 
@@ -66,80 +148,86 @@
 
   <!-- Adhan Dene Ka Sunnat Tarika -->
   <div class="audio-card">
-    <h2 style="color:#0f5132;">अज़ान देने का सही सुन्नत तरीका</h2>
+    <h2 style="color:#0f5132; margin-top:0; font-size:1.25rem;">अज़ान देने का सही सुन्नत तरीका</h2>
     <ol>
-      <li>अज़ान देने वाला बा-वुज़ू (पाक-साफ) हो।</li>
-      <li>किबला (काबा शरीफ) की तरफ मुंह करके खड़ा हो।</li>
-      <li>दोनों शहादत की उंगलियों को कानों के सुराखों में रखे।</li>
-      <li>आवाज़ बुलंद हो और शब्दों को ठहर-ठहर कर अदा करे।</li>
-      <li><strong>"हय्या अलस-सलाह"</strong> कहते वक्त चेहरा दाएं तरफ मोड़े।</li>
-      <li><strong>"हय्या अलल-फलाह"</strong> कहते वक्त चेहरा बाएं तरफ मोड़े।</li>
+      <li>अज़ान देने वाला (मुअज़्ज़िन) बा-वुज़ू (पाक-साफ) हो।</li>
+      <li>किबला (काबा शरीफ़) की तरफ रुख करके खड़ा हो।</li>
+      <li>दोनों हाथों की शहादत की उंगलियों को कानों के सुराखों में रखे।</li>
+      <li>बुलंद आवाज़ में और ठहर-ठहर कर कलमात अदा करे (हड़बड़ाहट न करे)।</li>
+      <li><strong>"हय्या अलस-सलाह"</strong> कहते वक्त सीना किबला रुख रखते हुए चेहरा दाएँ तरफ मोड़े।</li>
+      <li><strong>"हय्या अलल-फलाह"</strong> कहते वक्त चेहरा बाएँ तरफ मोड़े।</li>
     </ol>
   </div>
 
   <!-- Complete Adhan Words & Response -->
   <div class="audio-card">
-    <h2 style="color:#0f5132; margin-bottom: 15px;">अज़ान के कलमात व उनका जवाब</h2>
+    <h2 style="color:#0f5132; margin-top:0; margin-bottom: 15px; font-size:1.25rem;">अज़ान के कलमात व उनका जवाब</h2>
     
     <div class="adhan-line">
       <div class="arabic">اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ (४ बार)</div>
-      <p><strong>हिंदी:</strong> अल्लाहु अकबर, अल्लाहु अकबर (अल्लाह सबसे बड़ा है)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब: यही कलमा दोहराएं</p>
+      <p><strong>हिंदी उच्चारण:</strong> अल्लाहु अकबर, अल्लाहु अकबर (अल्लाह सबसे बड़ा है)</p>
+      <p style="color:#0f5132; font-size:0.88rem; margin:3px 0;"><strong>जवाब:</strong> सुनने वाला भी यही कलमा दोहराए।</p>
     </div>
 
     <div class="adhan-line">
       <div class="arabic">أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللَّهُ (२ बार)</div>
-      <p><strong>हिंदी:</strong> अशहदु अल्लाह इलाहा इल्लल्लाह (मैं गवाही देता हूँ कि अल्लाह के सिवा कोई माबूद नहीं)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब: यही कलमा दोहराएं</p>
+      <p><strong>हिंदी उच्चारण:</strong> अशहदु अल-ला इलाहा इल्लल्लाह (मैं गवाही देता हूँ कि अल्लाह के सिवा कोई माबूद नहीं)</p>
+      <p style="color:#0f5132; font-size:0.88rem; margin:3px 0;"><strong>जवाब:</strong> यही कलमा दोहराएं।</p>
     </div>
 
     <div class="adhan-line">
       <div class="arabic">أَشْهَدُ أَنَّ مُحَمَّدًا رَّسُولُ اللَّهِ (२ बार)</div>
-      <p><strong>हिंदी:</strong> अशहदु अन्ना मुहम्मदर रसूलुल्लाह (मैं गवाही देता हूँ कि मुहम्मद ﷺ अल्लाह के रसूल हैं)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब: यही कलमा दोहराएं और 'सल्लल्लाहु अलैहि वसल्लम' कहें</p>
+      <p><strong>हिंदी उच्चारण:</strong> अशहदु अन्ना मुहम्मदर रसूलुल्लाह (मैं गवाही देता हूँ कि मुहम्मद ﷺ अल्लाह के रसूल हैं)</p>
+      <p style="color:#0f5132; font-size:0.88rem; margin:3px 0;"><strong>जवाब:</strong> यही कलमा दोहराएं और <em>'सल्लल्लाहु अलैहि वसल्लम'</em> कहें।</p>
     </div>
 
     <div class="adhan-line">
       <div class="arabic">حَيَّ عَلَى الصَّلَاةِ (२ बार)</div>
-      <p><strong>हिंदी:</strong> हय्या अलस-सलाह (आओ नमाज़ की तरफ)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब में कहें: <em>ला हौल वला कुव्वता इल्ला बिल्लाह</em></p>
+      <p><strong>हिंदी उच्चारण:</strong> हय्या अलस-सलाह (आओ नमाज़ की तरफ)</p>
+      <p style="color:#0f5132; font-size:0.88rem; margin:3px 0;"><strong>जवाब:</strong> कहें: <em>ला ह़ौला वला क़ुव्वता इल्ला बिल्लाह</em> (बुराई से बचने और नेकी करने की ताक़त सिर्फ अल्लाह की तरफ से है)।</p>
     </div>
 
     <div class="adhan-line">
       <div class="arabic">حَيَّ عَلَى الْفَلَاحِ (२ बार)</div>
-      <p><strong>हिंदी:</strong> हय्या अलल-फलाह (आओ कामयाबी की तरफ)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब में कहें: <em>ला हौल वला कुव्वता इल्ला बिल्लाह</em></p>
+      <p><strong>हिंदी उच्चारण:</strong> हय्या अलल-फलाह (आओ कामयाबी की तरफ)</p>
+      <p style="color:#0f5132; font-size:0.88rem; margin:3px 0;"><strong>जवाब:</strong> कहें: <em>ला ह़ौला वला क़ुव्वता इल्ला बिल्लाह</em>।</p>
     </div>
 
     <div class="adhan-line">
-      <div class="arabic">الصَّلَاةُ خَيْرٌ مِنَ النَّوْمِ (२ बार - सिर्फ फज्र में)</div>
-      <p><strong>हिंदी:</strong> अस्सलातु खैरूम मिनन-नौम (नमाज़ नींद से बेहतर है)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब में कहें: <em>सदक़्ता व बररता</em></p>
+      <div class="arabic">الصَّلَاةُ خَيْرٌ مِنَ النَّوْمِ (२ बार - सिर्फ फ़ज्र में)</div>
+      <p><strong>हिंदी उच्चारण:</strong> अस्सलातु खैरूम-मिनन-नौम (नमाज़ नींद से बेहतर है)</p>
+      <p style="color:#0f5132; font-size:0.88rem; margin:3px 0;"><strong>जवाब:</strong> कहें: <em>सदक़्ता व बररता</em> (तूने सच कहा और नेक बात कही)।</p>
     </div>
 
     <div class="adhan-line">
       <div class="arabic">اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ (२ बार)</div>
-      <p><strong>हिंदी:</strong> अल्लाहु अकबर, अल्लाहु अकबर (अल्लाह सबसे बड़ा है)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब: यही कलमा दोहराएं</p>
+      <p><strong>हिंदी उच्चारण:</strong> अल्लाहु अकबर, अल्लाहु अकबर (अल्लाह सबसे बड़ा है)</p>
+      <p style="color:#0f5132; font-size:0.88rem; margin:3px 0;"><strong>जवाब:</strong> यही कलमा दोहराएं।</p>
     </div>
 
     <div class="adhan-line">
       <div class="arabic">لَا إِلٰهَ إِلَّا اللَّهُ (१ बार)</div>
-      <p><strong>हिंदी:</strong> ला इलाहा इल्लल्लाह (अल्लाह के सिवा कोई सच्चा माबूद नहीं)</p>
-      <p style="color:#0f5132; font-size:0.85rem;">जवाब: यही कलमा कहें</p>
+      <p><strong>हिंदी उच्चारण:</strong> ला इलाहा इल्लल्लाह (अल्लाह के सिवा कोई सच्चा माबूद नहीं)</p>
+      <p style="color:#0f5132; font-size:0.88rem; margin:3px 0;"><strong>जवाब:</strong> यही कलमा कहें।</p>
     </div>
   </div>
 
   <!-- Dua After Adhan -->
   <div class="audio-card">
-    <h2 style="color:#0f5132;">अज़ान के बाद की दुआ</h2>
+    <h2 style="color:#0f5132; margin-top:0; font-size:1.25rem;">अज़ान के बाद की मसनून दुआ</h2>
+    <p style="font-size:0.9rem; color:#6c757d;">अज़ान मुकम्मल होने के बाद पहले नबी करीम ﷺ पर दुरूद शरीफ पढ़ें, फिर यह दुआ मांगें:</p>
+    
     <div class="arabic">اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ، وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ، إِنَّكَ لَا تُخْلِفُ الْمِيعَادَ</div>
+    
     <div class="label">हिंदी उच्चारण:</div>
-    <p>अल्लाहुम्मा रब्बा हाज़िहिद-दा'वतिल-ताम्मति, वस-सलातिल काइमाह, आति मुहम्मद-निल वसील-ता वल-फज़ीलह, वब-असहू मकामन महमूद-निल्लज़ी व-अत्तह, इन्नका ला तुख़लिफुल मीआद।</p>
+    <p style="line-height:1.7;">अल्लाहुम्मा रब्बा हाज़िहिद-दा'वतिल-ताम्मति, वस-सलातिल क़ाइमाह, आति मुहम्मद-निल वसील-ता वल-फ़ज़ीलह, वब-असहू मक़ामम-मह़मूद-निल्लज़ी व-अत्तह, इन्नका ला तुख़लिफुल मीआद।</p>
+    
+    <div class="label">हिंदी तर्जुमा (अर्थ):</div>
+    <p style="line-height:1.7;">ऐ अल्लाह! इस कामिल दावत और क़ायम होने वाली नमाज़ के रब! हज़रत मुहम्मद ﷺ को 'वसीला' (जन्नत का सबसे आला दर्जा) और फ़ज़ीलत अता फरमा, और उन्हें उस 'मक़ाम-ए-महमूद' पर पहुँचा जिसका तूने उनसे वादा फरमाया है। बेशक तू वादे के खिलाफ नहीं करता। (सहीह बुखारी)</p>
   </div>
 </div>
 
-<footer>
+<footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
   <p>© 2026 दीनी दुआ | deenidua.in</p>
 </footer>
 
@@ -151,6 +239,7 @@
     if (currentAudio && !currentAudio.paused) {
       currentAudio.pause();
       currentButton.innerText = "▶ चलाएं";
+      currentButton.classList.remove('playing');
       if (currentButton === btn) {
         currentAudio = null;
         currentButton = null;
@@ -164,16 +253,23 @@
 
     currentAudio.play().then(() => {
       btn.innerText = "⏸ रोकें";
+      btn.classList.add('playing');
     }).catch(err => {
-      alert("ऑडियो प्ले करने में रुकावट आई, कृपया दोबारा क्लिक करें।");
+      alert("ऑडियो लोड नहीं हो सका, कृपया दोबारा कोशिश करें।");
       btn.innerText = "▶ चलाएं";
+      btn.classList.remove('playing');
     });
 
     currentAudio.onended = function() {
       btn.innerText = "▶ चलाएं";
+      btn.classList.remove('playing');
       currentAudio = null;
       currentButton = null;
     };
+  }
+
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
   }
 </script>
 
