@@ -2,14 +2,24 @@
   "name": "दीनी दुआ व सूरह संग्रह",
   "short_name": "दीनी दुआ",
   "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#0f5132",
   "theme_color": "#0f5132",
+  "description": "रोज़मर्रा की मसनून दुआएं, सूरह, 6 कलमे, डिजिटल तस्बीह और नमाज़ टाइमर हिंदी में।",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2972/2972531.png",
+      "src": "/logo-mobile.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-mobile.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
