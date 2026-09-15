@@ -3,46 +3,183 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>दीनी क्विज़ | Islamic Knowledge Quiz</title>
+  <title>दीनी क्विज़ | Islamic Knowledge Quiz in Hindi - Deeni Dua</title>
+  <meta name="description" content="इस्लामिक मालूमात क्विज़ हिंदी में खेलें। कुरआन, हदीस, नबियों और अरकान-ए-इस्लाम से जुड़े सवालों के जवाब देकर अपनी दीनी जानकारी परखें।">
   <link rel="stylesheet" href="../style.css">
+  <link rel="canonical" href="https://www.deenidua.in/tools/islamic-quiz.html">
+  <meta name="theme-color" content="#0f5132">
+
+  <!-- Google AdSense Code -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015"
+     crossorigin="anonymous"></script>
+
   <style>
-    .quiz-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 25px; margin-top: 20px; }
-    .q-title { font-size: 1.2rem; color: #0f5132; margin-bottom: 18px; font-weight: bold; }
-    .opt-btn { display: block; width: 100%; text-align: left; padding: 12px 16px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; background: #f8f9fa; font-size: 1rem; cursor: pointer; transition: 0.2s; }
-    .opt-btn:hover { background: #e9ecef; }
-    .correct { background: #d1e7dd !important; border-color: #0f5132 !important; color: #0f5132 !important; font-weight: bold; }
-    .wrong { background: #f8d7da !important; border-color: #842029 !important; color: #842029 !important; }
-    .nav-btn { background: #0f5132; color: white; border: none; padding: 10px 22px; border-radius: 20px; font-size: 0.95rem; cursor: pointer; margin-top: 15px; display: none; }
+    .quiz-card { 
+      background: var(--card, #fff); 
+      border: 1px solid var(--border, #e0e0e0); 
+      border-radius: 12px; 
+      padding: 24px; 
+      margin-top: 15px; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .progress-track {
+      background: var(--border, #e2e8f0);
+      border-radius: 10px;
+      height: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progress-fill {
+      background: #0f5132;
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .q-count {
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #0f5132;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .q-title { 
+      font-size: 1.15rem; 
+      color: var(--text, #1e293b); 
+      margin-bottom: 18px; 
+      font-weight: 700; 
+      line-height: 1.5;
+    }
+    .opt-btn { 
+      display: block; 
+      width: 100%; 
+      text-align: left; 
+      padding: 13px 16px; 
+      margin: 10px 0; 
+      border: 1.5px solid var(--border, #cbd5e1); 
+      border-radius: 8px; 
+      background: var(--card, #f8fafc); 
+      color: inherit;
+      font-size: 0.98rem; 
+      cursor: pointer; 
+      transition: all 0.2s ease; 
+      box-sizing: border-box;
+    }
+    .opt-btn:hover:not(:disabled) { 
+      background: rgba(15, 81, 50, 0.05); 
+      border-color: #0f5132;
+    }
+    .correct { 
+      background: #d1e7dd !important; 
+      border-color: #0f5132 !important; 
+      color: #0f5132 !important; 
+      font-weight: bold; 
+    }
+    .wrong { 
+      background: #f8d7da !important; 
+      border-color: #dc3545 !important; 
+      color: #842029 !important; 
+    }
+    .nav-btn { 
+      background: #0f5132; 
+      color: white; 
+      border: none; 
+      padding: 11px 24px; 
+      border-radius: 25px; 
+      font-size: 0.95rem; 
+      font-weight: bold;
+      cursor: pointer; 
+      margin-top: 15px; 
+      display: none; 
+      transition: background 0.2s;
+    }
+    .nav-btn:hover {
+      background: #146c43;
+    }
+    .btn-share {
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 25px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="../index.html">← मुख्य पेज</a>
+<header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+  <!-- क्लिक करने पर सीधे मुख्य पेज जाएगा -->
+  <a href="../index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+    <img src="../logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
+    <span style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
+  </a>
+
+  <!-- होम बटन -->
+  <a href="../index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
+    🏠 होम
+  </a>
 </header>
 
-<div class="container">
+<div class="container" style="max-width:650px; margin:20px auto; padding:0 15px;">
+  <h1 style="color:#0f5132; margin-bottom: 6px; font-size:1.6rem; text-align:center;">इस्लामिक मालूमात क्विज़ (Quiz)</h1>
+  <p style="color:#6c757d; margin-bottom: 20px; text-align:center; font-size:0.92rem;">कुरआन, हदीस और इस्लामी तारीख पर आधारित रोचक सवालों से अपना इल्म परखें।</p>
+
   <div class="quiz-card" id="quizBox">
+    <!-- Progress Bar -->
+    <div class="progress-track">
+      <div class="progress-fill" id="progFill"></div>
+    </div>
+
+    <!-- Active Question View -->
     <div id="quizContent">
+      <span class="q-count" id="questionCount">सवाल 1 / 10</span>
       <div class="q-title" id="questionText">सवाल लोड हो रहा है...</div>
       <div id="optionsBox"></div>
-      <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">अगला सवाल →</button>
+      <div style="text-align: right;">
+        <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">अगला सवाल →</button>
+      </div>
     </div>
-    <div id="resultBox" style="display:none; text-align:center; padding:20px;">
-      <h2 style="color:#0f5132;">माशा-अल्लाह! क्विज़ मुकम्मल हुआ</h2>
-      <p id="scoreText" style="font-size:1.3rem; margin:15px 0; font-weight:bold;"></p>
-      <button class="nav-btn" style="display:inline-block;" onclick="restartQuiz()">दोबारा खेलें</button>
+
+    <!-- Result View -->
+    <div id="resultBox" style="display:none; text-align:center; padding:20px 10px;">
+      <div style="font-size:3rem; margin-bottom:10px;">🏆</div>
+      <h2 style="color:#0f5132; margin-top:0;">माशा-अल्लाह! क्विज़ मुकम्मल हुआ</h2>
+      <p id="scoreText" style="font-size:1.35rem; margin:15px 0; font-weight:bold; color:var(--text, #1e293b);"></p>
+      <p id="feedbackText" style="color:#6c757d; font-size:0.95rem; margin-bottom:20px;"></p>
+      
+      <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
+        <button class="btn-share" onclick="shareScore()">💬 दोस्तों को चैलेंज करें (WhatsApp)</button>
+        <button class="nav-btn" style="display:inline-block; background:var(--text, #334155);" onclick="restartQuiz()">🔄 दोबारा खेलें</button>
+      </div>
     </div>
   </div>
 </div>
 
+<footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
+
 <script>
   const questions = [
-    { q: "1. कुरआन पाक में कुल कितनी सूरहें हैं?", opts: ["112", "114", "110", "120"], ans: 1 },
-    { q: "2. कुरआन मजीद की सबसे बड़ी सूरह कौन सी है?", opts: ["सूरह यासीन", "सूरह रहमान", "सूरह अल-बकरा", "सूरह मुल्क"], ans: 2 },
-    { q: "3. इस्लाम के कितने बुनियादी अरकान (खंभे) हैं?", opts: ["3", "4", "5", "6"], ans: 2 },
-    { q: "4. सबसे पहली वही किस मुकद्दस गार (गुफा) में नाज़िल हुई?", opts: ["गारे हिरा", "गारे सौर", "कोहे तूर", "गारे कहफ"], ans: 0 },
-    { q: "5. कुरआन का दिल किस सूरह को कहा गया है?", opts: ["सूरह फातिहा", "सूरह इखलास", "सूरह मुल्क", "सूरह यासीन"], ans: 3 }
+    { q: "कुरआन पाक में कुल कितनी सूरहें हैं?", opts: ["112", "114", "110", "120"], ans: 1 },
+    { q: "कुरआन मजीद की सबसे बड़ी सूरह कौन सी है?", opts: ["सूरह यासीन", "सूरह रहमान", "सूरह अल-बक़रह", "सूरह मुल्क"], ans: 2 },
+    { q: "इस्लाम के कितने बुनियादी अरकान (खंभे) हैं?", opts: ["3", "4", "5", "6"], ans: 2 },
+    { q: "सबसे पहली वही किस मुक़द्दस ग़ार (गुफा) में नाज़िल हुई?", opts: ["ग़ार-ए-हिरा", "ग़ार-ए-सौर", "कोह-ए-तूर", "ग़ार-ए-कहफ़"], ans: 0 },
+    { q: "कुरआन का दिल किस सूरह को कहा गया है?", opts: ["सूरह फ़ातिहा", "सूरह इख़्लास", "सूरह मुल्क", "सूरह यासीन"], ans: 3 },
+    { q: "अल्लाह के कुल कितने मुबारक नाम (अस्मा-उल-हुस्ना) हैं?", opts: ["66", "77", "99", "101"], ans: 2 },
+    { q: "हज़रत मुहम्मद ﷺ के सबसे पहले मुअज़्ज़िन कौन थे?", opts: ["हज़रत बिलाल (रज़ि.)", "हज़रत अनस (रज़ि.)", "हज़रत सलमान फ़ारसी (रज़ि.)", "हज़रत ज़ैद (रज़ि.)"], ans: 0 },
+    { q: "कुरआन मजीद की किस आयत को सबसे अज़ीम आयत कहा गया है?", opts: ["सूरह इख़्लास", "आयतल कुर्सी", "सूरह फ़ातिहा", "सूरह कौसर"], ans: 1 },
+    { q: "दिनों का सरदार किस दिन को कहा गया है?", opts: ["पीर (सोमवार)", "जुमा (शुक्रवार)", "इतवार (रविवार)", "शनिवार"], ans: 1 },
+    { q: "माह-ए-रमज़ान के रोज़े इस्लाम के अरकान में किस नंबर पर आते हैं?", opts: ["दूसरे", "तीसरे", "चौथे", "पाँचवे"], ans: 2 }
   ];
 
   let curQ = 0;
@@ -51,7 +188,11 @@
   function loadQ() {
     document.getElementById('nextBtn').style.display = 'none';
     const qData = questions[curQ];
+    
+    document.getElementById('questionCount').innerText = `सवाल ${curQ + 1} / ${questions.length}`;
     document.getElementById('questionText').innerText = qData.q;
+    document.getElementById('progFill').style.width = `${((curQ) / questions.length) * 100}%`;
+
     const optsContainer = document.getElementById('optionsBox');
     optsContainer.innerHTML = '';
 
@@ -84,9 +225,15 @@
     if (curQ < questions.length) {
       loadQ();
     } else {
+      document.getElementById('progFill').style.width = '100%';
       document.getElementById('quizContent').style.display = 'none';
       document.getElementById('resultBox').style.display = 'block';
       document.getElementById('scoreText').innerText = `आपका स्कोर: ${score} / ${questions.length}`;
+
+      let fb = "बहुत खूब! अपनी दीनी मालूमात को ऐसे ही बढ़ाते रहें।";
+      if (score === 10) fb = "लाजवाब! आपकी दीनी मालूमात माशा-अल्लाह बहुत मुकम्मल है।";
+      else if (score < 5) fb = "अच्छा प्रयास! दोबारा खेलें और अपनी दीनी जानकारी में इज़ाफ़ा करें।";
+      document.getElementById('feedbackText').innerText = fb;
     }
   }
 
@@ -98,7 +245,17 @@
     loadQ();
   }
 
-  window.onload = loadQ;
+  function shareScore() {
+    const text = encodeURIComponent(`🌙 मैंने दीनी दुआ क्विज़ में ${score}/${questions.length} स्कोर हासिल किया!\nक्या आप मुझे हरा सकते हैं? अभी खेलें:\nhttps://www.deenidua.in/tools/islamic-quiz.html`);
+    window.open("https://api.whatsapp.com/send?text=" + text, '_blank');
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    loadQ();
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  });
 </script>
 
 </body>
