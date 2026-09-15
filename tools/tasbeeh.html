@@ -3,26 +3,280 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>डिजिटल तस्बीह</title>
+  <title>डिजिटल तस्बीह काउंटर ऑनलाइन | Digital Tasbeeh Counter - Deeni Dua</title>
+  <meta name="description" content="ऑनलाइन डिजिटल तस्बीह काउंटर। सुब्हानल्लाह, अल्हम्दुलिल्लाह, अल्लाहु अकबर और दुरूद शरीफ का विर्द करें। वाइब्रेशन और साउंड सपोर्ट के साथ।">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="canonical" href="https://www.deenidua.in/tools/tasbeeh-counter.html">
+  <meta name="theme-color" content="#0f5132">
+
+  <!-- Google AdSense Code -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015"
+     crossorigin="anonymous"></script>
+
   <style>
-    body { font-family: sans-serif; background: #0f5132; color: #fff; text-align: center; padding: 30px 20px; }
-    .display { font-size: 5rem; font-weight: bold; margin: 20px 0; }
-    .pad { width: 200px; height: 200px; border-radius: 50%; background: #198754; margin: auto; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; border: 5px solid #ffc107; cursor: pointer; }
-    .pad:active { transform: scale(0.95); }
-    .btn-reset { background: transparent; border: 1px solid #fff; color: #fff; padding: 8px 18px; border-radius: 20px; cursor: pointer; margin-top: 30px; }
+    .tasbeeh-wrap {
+      max-width: 520px;
+      margin: 15px auto;
+      padding: 0 16px;
+    }
+    .tasbeeh-card {
+      background: var(--card, #ffffff);
+      border: 1px solid var(--border, #e0e0e0);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    }
+    .preset-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      scrollbar-width: thin;
+    }
+    .preset-btn {
+      background: var(--card, #f1f5f9);
+      border: 1px solid var(--border, #cbd5e1);
+      color: inherit;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .preset-btn.active {
+      background: #0f5132;
+      color: #ffffff;
+      border-color: #0f5132;
+    }
+    .counter-screen {
+      background: #0f2e1e;
+      border: 3px solid #d4af37;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 22px;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .target-badge {
+      color: #a7f3d0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .display-num {
+      font-size: 4.8rem;
+      font-weight: 800;
+      color: #34d399;
+      font-family: monospace, system-ui;
+      line-height: 1;
+      margin: 6px 0;
+      text-shadow: 0 0 15px rgba(52, 211, 153, 0.4);
+    }
+    .round-info {
+      color: #cbd5e1;
+      font-size: 0.85rem;
+    }
+    .tap-pad {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #198754 0%, #0f5132 100%);
+      margin: 10px auto 20px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 1.25rem;
+      font-weight: bold;
+      border: 5px solid #d4af37;
+      box-shadow: 0 10px 25px rgba(15, 81, 50, 0.35);
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s ease;
+    }
+    .tap-pad:active {
+      transform: scale(0.93);
+      box-shadow: 0 4px 10px rgba(15, 81, 50, 0.4);
+    }
+    .control-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .btn-tool {
+      background: var(--card, #f8fafc);
+      border: 1px solid var(--border, #cbd5e1);
+      color: inherit;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-tool:hover {
+      background: #e2e8f0;
+    }
+    .info-card {
+      background: var(--card, #ffffff);
+      border: 1px solid var(--border, #e0e0e0);
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 20px;
+      line-height: 1.7;
+      text-align: left;
+    }
   </style>
 </head>
 <body>
-<a href="../index.html" style="color:#d1e7dd; font-weight:bold;">← मुख्य पेज</a>
-<h2>डिजिटल तस्बीह काउंटर</h2>
-<div class="display" id="val">0</div>
-<div class="pad" onclick="count()">टैप करें</div>
-<button class="btn-reset" onclick="reset()">रीसेट करें</button>
+
+<header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+  <a href="../index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+    <img src="../logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
+    <span style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
+  </a>
+
+  <a href="../index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
+    🏠 होम
+  </a>
+</header>
+
+<div class="tasbeeh-wrap">
+  <div style="text-align:center; margin: 15px 0;">
+    <h1 style="color:#0f5132; font-size:1.6rem; margin:0 0 6px 0;">डिजिटल तस्बीह काउंटर</h1>
+    <p style="color:#6c757d; font-size:0.92rem; margin:0;">दैनिक अज़कार, दुरूद शरीफ व तस्बीह-ए-फ़ातिमी का ऑनलाइन विर्द करें</p>
+  </div>
+
+  <div class="tasbeeh-card">
+    <div class="preset-scroll">
+      <button class="preset-btn active" onclick="setPreset('तस्बीह-ए-फ़ातिमी', 33, this)">🌸 तस्बीह (33)</button>
+      <button class="preset-btn" onclick="setPreset('सुब्हानल्लाह', 33, this)">सुब्हानल्लाह</button>
+      <button class="preset-btn" onclick="setPreset('अल्हम्दुलिल्लाह', 33, this)">अल्हम्दुलिल्लाह</button>
+      <button class="preset-btn" onclick="setPreset('अल्लाहु अकबर', 34, this)">अल्लाहु अकबर (34)</button>
+      <button class="preset-btn" onclick="setPreset('अस्तग़फ़िरुल्लाह', 100, this)">अस्तग़फ़ार (100)</button>
+      <button class="preset-btn" onclick="setPreset('दुरूद शरीफ', 100, this)">दुरूद शरीफ (100)</button>
+      <button class="preset-btn" onclick="setPreset('खुला विर्द', 0, this)">खुला ज़िक्र (∞)</button>
+    </div>
+
+    <div class="counter-screen">
+      <span class="target-badge" id="currentDhikrLabel">तस्बीह-ए-फ़ातिमी • लक्ष्य: 33</span>
+      <div class="display-num" id="val">0</div>
+      <div class="round-info" id="roundInfo">मुकम्मल चक्र: 0</div>
+    </div>
+
+    <div class="tap-pad" onclick="count()">
+      <span style="font-size:1.6rem; margin-bottom:4px;">👆</span>
+      <span>टैप करें</span>
+    </div>
+
+    <div class="control-row">
+      <button class="btn-tool" onclick="undoCount()">↩ 1 घटाएं</button>
+      <button class="btn-tool" onclick="reset()">🔄 रीसेट</button>
+      <button class="btn-tool" id="vibBtn" onclick="toggleVibrate()">📳 वाइब्रेशन: ऑन</button>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <h2 style="color:#0f5132; margin-top:0; font-size:1.2rem;">तस्बीह-ए-फ़ातिमी की फ़ज़ीलत</h2>
+    <p style="font-size:0.92rem; color:inherit; margin-bottom:10px;">
+      रसूलुल्लाह ﷺ ने अपनी लाडली बेटी हज़रत फ़ातिमा (रज़ि.) और हज़रत अली (रज़ि.) को रात को सोते वक्त और हर फर्ज़ नमाज़ के बाद यह तस्बीह पढ़ने की ताकीद फरमाई:
+    </p>
+    <ul style="margin-left:18px; padding-left:0; font-size:0.92rem; line-height:1.8;">
+      <li><strong>33 मर्तबा:</strong> سُبْحَانَ اللَّهِ (सुब्हानल्लाह - अल्लाह पाक है)</li>
+      <li><strong>33 मर्तबा:</strong> الْحَمْدُ لِلَّهِ (अल्हम्दुलिल्लाह - सब तारीफें अल्लाह के लिए हैं)</li>
+      <li><strong>34 मर्तबा:</strong> اللَّهُ أَكْبَرُ (अल्लाहु अकबर - अल्लाह सबसे बड़ा है)</li>
+    </ul>
+    <p style="font-size:0.88rem; color:#6c757d; margin:0;">
+      हदीस के मुताबिक यह विर्द दिन भर की थकान दूर करता है और गुनाहों की मग़फ़िरत का ज़रिया बनता है।
+    </p>
+  </div>
+</div>
+
+<footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
+
 <script>
-  let n = parseInt(localStorage.getItem('tasbeeh_save')) || 0;
-  document.getElementById('val').innerText = n;
-  function count() { n++; document.getElementById('val').innerText = n; localStorage.setItem('tasbeeh_save', n); }
-  function reset() { n = 0; document.getElementById('val').innerText = 0; localStorage.removeItem('tasbeeh_save'); }
+  let n = parseInt(localStorage.getItem('tasbeeh_val')) || 0;
+  let rounds = parseInt(localStorage.getItem('tasbeeh_rounds')) || 0;
+  let target = 33;
+  let currentTitle = "तस्बीह-ए-फ़ातिमी";
+  let vibrateEnabled = true;
+
+  function updateUI() {
+    document.getElementById('val').innerText = n;
+    document.getElementById('roundInfo').innerText = `मुकम्मल चक्र: ${rounds}`;
+    document.getElementById('currentDhikrLabel').innerText = target > 0 ? `${currentTitle} • लक्ष्य: ${target}` : `${currentTitle} • खुला ज़िक्र`;
+  }
+
+  function count() {
+    n++;
+    if (vibrateEnabled && navigator.vibrate) {
+      navigator.vibrate(40);
+    }
+
+    if (target > 0 && n >= target) {
+      rounds++;
+      n = 0;
+      if (vibrateEnabled && navigator.vibrate) {
+        navigator.vibrate([80, 50, 80]);
+      }
+    }
+
+    localStorage.setItem('tasbeeh_val', n);
+    localStorage.setItem('tasbeeh_rounds', rounds);
+    updateUI();
+  }
+
+  function undoCount() {
+    if (n > 0) {
+      n--;
+      localStorage.setItem('tasbeeh_val', n);
+      updateUI();
+    }
+  }
+
+  function reset() {
+    if (confirm("क्या आप काउंटर और चक्र शून्य करना चाहते हैं?")) {
+      n = 0;
+      rounds = 0;
+      localStorage.removeItem('tasbeeh_val');
+      localStorage.removeItem('tasbeeh_rounds');
+      updateUI();
+    }
+  }
+
+  function setPreset(title, tgt, btn) {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTitle = title;
+    target = tgt;
+    n = 0;
+    localStorage.setItem('tasbeeh_val', 0);
+    updateUI();
+  }
+
+  function toggleVibrate() {
+    vibrateEnabled = !vibrateEnabled;
+    document.getElementById('vibBtn').innerText = vibrateEnabled ? "📳 वाइब्रेशन: ऑन" : "📴 वाइब्रेशन: ऑफ";
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    updateUI();
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  });
 </script>
+
 </body>
 </html>
