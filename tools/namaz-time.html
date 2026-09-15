@@ -3,36 +3,190 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>नमाज़ के औकात</title>
+  <title>आज की नमाज़ के औकात | Namaz Timings Today in Hindi - Deeni Dua</title>
+  <meta name="description" content="आज की 5 वक्त की नमाज़ (फज्र, ज़ुहर, अस्र, मग़रिब, इशा) के सही औकात और हिजरी तारीख। अपने शहर के अनुसार नमाज़ का सटीक समय जानें।">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="canonical" href="https://www.deenidua.in/tools/namaz-time.html">
+  <meta name="theme-color" content="#0f5132">
+
+  <!-- Google AdSense Code -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015"
+     crossorigin="anonymous"></script>
+
   <style>
-    body { font-family: sans-serif; background: #f4f6f8; padding: 20px; }
-    .card { background: #fff; max-width: 450px; margin: auto; padding: 20px; border-radius: 10px; border: 1px solid #e0e0e0; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    td { padding: 10px; border-bottom: 1px solid #eee; }
+    .prayer-card { 
+      background: var(--card, #fff); 
+      border: 1px solid var(--border, #e0e0e0); 
+      border-radius: 10px; 
+      padding: 22px; 
+      margin-bottom: 20px; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03); 
+    }
+    .city-select-box {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border, #cbd5e1);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: var(--card, #fff);
+      color: inherit;
+      margin-bottom: 15px;
+      outline: none;
+    }
+    .timing-table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-top: 10px; 
+    }
+    .timing-table tr {
+      border-bottom: 1px solid var(--border, #f1f1f1);
+    }
+    .timing-table tr:last-child {
+      border-bottom: none;
+    }
+    .timing-table td { 
+      padding: 12px 6px; 
+      font-size: 1rem;
+    }
+    .prayer-name {
+      font-weight: 600;
+      color: var(--text, #212529);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .prayer-time {
+      font-weight: 700;
+      text-align: right;
+      color: #0f5132;
+      font-size: 1.1rem;
+    }
+    .date-badge {
+      background: #e8f5e9;
+      color: #0f5132;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
-<div class="card">
-  <a href="../index.html" style="color:#0f5132; font-weight:bold;">← मुख्य पेज</a>
-  <h2 style="color:#0f5132; margin-top:10px;">नमाज़ के औकात</h2>
-  <table>
-    <tr><td>फज्र</td><td id="fajr" style="font-weight:bold; text-align:right;">-</td></tr>
-    <tr><td>ज़ुहर</td><td id="dhuhr" style="font-weight:bold; text-align:right;">-</td></tr>
-    <tr><td>अस्र</td><td id="asr" style="font-weight:bold; text-align:right;">-</td></tr>
-    <tr><td>मग़रिब</td><td id="maghrib" style="font-weight:bold; text-align:right;">-</td></tr>
-    <tr><td>इशा</td><td id="isha" style="font-weight:bold; text-align:right;">-</td></tr>
-  </table>
+
+<header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+  <a href="../index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+    <img src="../logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
+    <span style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
+  </a>
+
+  <a href="../index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
+    🏠 होम
+  </a>
+</header>
+
+<div class="container" style="max-width:600px; margin:20px auto; padding:0 15px;">
+  <h1 style="color:#0f5132; margin-bottom: 6px; font-size:1.6rem; text-align:center;">आज की नमाज़ के औकात</h1>
+  <p style="color:#6c757d; margin-bottom: 20px; text-align:center; font-size:0.92rem;">सटीक नमाज़ का समय, सूरज निकलने का वक्त और हिजरी तारीख</p>
+
+  <div class="prayer-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+      <span class="date-badge" id="hijriDate">📅 हिजरी तारीख लोड हो रही है...</span>
+      <span style="font-size:0.85rem; color:#6c757d; margin-bottom:15px;" id="englishDate"></span>
+    </div>
+
+    <!-- City Selector -->
+    <label style="font-size:0.85rem; font-weight:bold; color:#6c757d; display:block; margin-bottom:6px;">अपना शहर चुनें:</label>
+    <select id="citySelect" class="city-select-box" onchange="loadTimings(this.value)">
+      <option value="Delhi">दिल्ली (Delhi)</option>
+      <option value="Mumbai">मुंबई (Mumbai)</option>
+      <option value="Lucknow">लखनऊ (Lucknow)</option>
+      <option value="Hyderabad">हैदराबाद (Hyderabad)</option>
+      <option value="Kolkata">कोलकाता (Kolkata)</option>
+      <option value="Bengaluru">बेंगलुरु (Bengaluru)</option>
+      <option value="Patna">पटना (Patna)</option>
+      <option value="Ahmedabad">अहमदाबाद (Ahmedabad)</option>
+      <option value="Srinagar">श्रीनगर (Srinagar)</option>
+      <option value="Bhopal">भोपाल (Bhopal)</option>
+      <option value="Jaipur">जयपुर (Jaipur)</option>
+    </select>
+
+    <table class="timing-table">
+      <tr>
+        <td class="prayer-name">🌅 फज्र (Fajr)</td>
+        <td class="prayer-time" id="fajr">--:--</td>
+      </tr>
+      <tr>
+        <td class="prayer-name">☀️ तुलू-ए-आफताब (Sunrise)</td>
+        <td class="prayer-time" id="sunrise" style="color:#6c757d; font-size:0.95rem;">--:--</td>
+      </tr>
+      <tr>
+        <td class="prayer-name">☀️ ज़ुहर (Dhuhr)</td>
+        <td class="prayer-time" id="dhuhr">--:--</td>
+      </tr>
+      <tr>
+        <td class="prayer-name">🌤️ अस्र (Asr)</td>
+        <td class="prayer-time" id="asr">--:--</td>
+      </tr>
+      <tr>
+        <td class="prayer-name">🌇 मग़रिब (Maghrib)</td>
+        <td class="prayer-time" id="maghrib">--:--</td>
+      </tr>
+      <tr>
+        <td class="prayer-name">🌙 इशा (Isha)</td>
+        <td class="prayer-time" id="isha">--:--</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="prayer-card">
+    <h2 style="color:#0f5132; margin-top:0; font-size:1.15rem;">नमाज़ के जरूरी आदाब</h2>
+    <ul style="margin-left:20px; line-height:1.8; margin-bottom:0; font-size:0.92rem;">
+      <li>नमाज़ को उसके मुस्तहब (शुरुआती) वक्त में अदा करना अफ़ज़ल है।</li>
+      <li>सूरज निकलते वक्त, ठीक दोपहर (ज़वाल) के वक्त और ठीक गुरूब (डूबते) वक्त नमाज़ पढ़ना मकरूह/मना है।</li>
+      <li>अज़ान की आवाज़ सुनते ही दुनियावी काम छोड़कर नमाज़ की तैयारी करना सुन्नत है।</li>
+    </ul>
+  </div>
 </div>
+
+<footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
+
 <script>
-  fetch('https://api.aladhan.com/v1/timingsByCity?city=Delhi&country=India&method=1')
-    .then(r => r.json()).then(d => {
-      let t = d.data.timings;
-      document.getElementById('fajr').innerText = t.Fajr;
-      document.getElementById('dhuhr').innerText = t.Dhuhr;
-      document.getElementById('asr').innerText = t.Asr;
-      document.getElementById('maghrib').innerText = t.Maghrib;
-      document.getElementById('isha').innerText = t.Isha;
-    });
+  function loadTimings(city) {
+    const url = `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=India&method=1`;
+    
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const t = data.data.timings;
+        const d = data.data.date;
+
+        document.getElementById('fajr').innerText = t.Fajr;
+        document.getElementById('sunrise').innerText = t.Sunrise;
+        document.getElementById('dhuhr').innerText = t.Dhuhr;
+        document.getElementById('asr').innerText = t.Asr;
+        document.getElementById('maghrib').innerText = t.Maghrib;
+        document.getElementById('isha').innerText = t.Isha;
+
+        document.getElementById('hijriDate').innerText = `🌙 ${d.hijri.day} ${d.hijri.month.en} ${d.hijri.year} हिजरी`;
+        document.getElementById('englishDate').innerText = d.readable;
+      })
+      .catch(() => {
+        document.getElementById('hijriDate').innerText = "औकात लोड नहीं हो सके, कृपया दोबारा प्रयास करें।";
+      });
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    loadTimings('Delhi');
+  });
+
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
 </script>
+
 </body>
 </html>
