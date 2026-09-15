@@ -3,32 +3,262 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>कज़ा नमाज़ ट्रैकर</title>
+  <title>कज़ा नमाज़ ट्रैकर व कैलकुलेटर | Qaza Namaz Tracker in Hindi - Deeni Dua</title>
+  <meta name="description" content="अपनी छूटी हुई फ़र्ज़ और वित्र नमाज़ों का मुकम्मल हिसाब रखें। कज़ा नमाज़ कैलकुलेटर, नीयत का तरीका और शरई मसाइल हिंदी में।">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="canonical" href="https://www.deenidua.in/tools/qaza-tracker.html">
+  <meta name="theme-color" content="#0f5132">
+
+  <!-- Google AdSense Code -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015"
+     crossorigin="anonymous"></script>
+
   <style>
-    body { font-family: sans-serif; background: #f4f6f8; padding: 20px; }
-    .card { background: #fff; max-width: 450px; margin: auto; padding: 20px; border-radius: 10px; border: 1px solid #e0e0e0; }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-    .btn { width: 30px; height: 30px; border-radius: 50%; border: none; font-weight: bold; cursor: pointer; }
+    .tracker-card { 
+      background: var(--card, #fff); 
+      border: 1px solid var(--border, #e0e0e0); 
+      border-radius: 12px; 
+      padding: 22px; 
+      margin-bottom: 20px; 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03); 
+    }
+    .total-badge-box {
+      background: #e8f5e9;
+      border: 1px solid #c3e6cb;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .total-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #0f5132;
+      display: block;
+      margin-top: 4px;
+    }
+    .prayer-row { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 14px 6px; 
+      border-bottom: 1px solid var(--border, #f1f1f1); 
+    }
+    .prayer-row:last-child { 
+      border-bottom: none; 
+    }
+    .prayer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .prayer-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text, #212529);
+    }
+    .prayer-rakat {
+      font-size: 0.8rem;
+      color: var(--subtext, #6c757d);
+    }
+    .counter-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .count-display {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f5132;
+      min-width: 45px;
+      text-align: center;
+    }
+    .btn-counter { 
+      width: 36px; 
+      height: 36px; 
+      border-radius: 50%; 
+      border: 1.5px solid var(--border, #cbd5e1); 
+      background: var(--card, #fff);
+      color: var(--text, #212529);
+      font-weight: bold; 
+      font-size: 1.1rem;
+      cursor: pointer; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .btn-counter:active {
+      transform: scale(0.92);
+    }
+    .btn-counter.plus {
+      background: #0f5132;
+      color: #ffffff;
+      border-color: #0f5132;
+    }
+    .btn-counter.minus:hover {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #dc2626;
+    }
+    .info-box {
+      background: var(--card, #fff);
+      border: 1px solid var(--border, #e0e0e0);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
   </style>
 </head>
 <body>
-<div class="card">
-  <a href="../index.html" style="color:#0f5132; font-weight:bold;">← मुख्य पेज</a>
-  <h2 style="color:#0f5132; margin: 10px 0;">कज़ा नमाज़ ट्रैकर</h2>
-  <div class="row"><span>फज्र: <strong id="q_fajr">0</strong></span><div><button class="btn" onclick="setQ('fajr',-1)">-</button> <button class="btn" onclick="setQ('fajr',1)">+</button></div></div>
-  <div class="row"><span>ज़ुहर: <strong id="q_dhuhr">0</strong></span><div><button class="btn" onclick="setQ('dhuhr',-1)">-</button> <button class="btn" onclick="setQ('dhuhr',1)">+</button></div></div>
-  <div class="row"><span>अस्र: <strong id="q_asr">0</strong></span><div><button class="btn" onclick="setQ('asr',-1)">-</button> <button class="btn" onclick="setQ('asr',1)">+</button></div></div>
-  <div class="row"><span>मग़रिब: <strong id="q_maghrib">0</strong></span><div><button class="btn" onclick="setQ('maghrib',-1)">-</button> <button class="btn" onclick="setQ('maghrib',1)">+</button></div></div>
-  <div class="row"><span>इशा: <strong id="q_isha">0</strong></span><div><button class="btn" onclick="setQ('isha',-1)">-</button> <button class="btn" onclick="setQ('isha',1)">+</button></div></div>
+
+<header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+  <!-- क्लिक करने पर सीधे मुख्य पेज जाएगा -->
+  <a href="../index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+    <img src="../logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
+    <span style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
+  </a>
+
+  <!-- होम बटन -->
+  <a href="../index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
+    🏠 होम
+  </a>
+</header>
+
+<div class="container" style="max-width:600px; margin:20px auto; padding:0 15px;">
+  <h1 style="color:#0f5132; margin-bottom: 6px; font-size:1.6rem; text-align:center;">कज़ा नमाज़ ट्रैकर (Qaza Tracker)</h1>
+  <p style="color:#6c757d; margin-bottom: 20px; text-align:center; font-size:0.92rem; line-height:1.5;">छूटी हुई फ़र्ज़ व वित्र नमाज़ों का आसान हिसाब रखें और अदा करने के बाद घटाते जाएं।</p>
+
+  <div class="tracker-card">
+    <!-- कुल योग -->
+    <div class="total-badge-box">
+      <span style="font-size:0.88rem; color:#0f5132; font-weight:600;">कुल बाकी कज़ा नमाज़ें:</span>
+      <span class="total-number" id="totalQaza">0</span>
+    </div>
+
+    <!-- फज्र -->
+    <div class="prayer-row">
+      <div class="prayer-info">
+        <span class="prayer-title">🌅 फज्र (Fajr)</span>
+        <span class="prayer-rakat">2 रकअत फ़र्ज़</span>
+      </div>
+      <div class="counter-controls">
+        <button class="btn-counter minus" onclick="setQ('fajr', -1)" title="1 कम करें">-</button>
+        <span class="count-display" id="q_fajr">0</span>
+        <button class="btn-counter plus" onclick="setQ('fajr', 1)" title="1 बढ़ाएं">+</button>
+      </div>
+    </div>
+
+    <!-- ज़ुहर -->
+    <div class="prayer-row">
+      <div class="prayer-info">
+        <span class="prayer-title">☀️ ज़ुहर (Dhuhr)</span>
+        <span class="prayer-rakat">4 रकअत फ़र्ज़</span>
+      </div>
+      <div class="counter-controls">
+        <button class="btn-counter minus" onclick="setQ('dhuhr', -1)" title="1 कम करें">-</button>
+        <span class="count-display" id="q_dhuhr">0</span>
+        <button class="btn-counter plus" onclick="setQ('dhuhr', 1)" title="1 बढ़ाएं">+</button>
+      </div>
+    </div>
+
+    <!-- अस्र -->
+    <div class="prayer-row">
+      <div class="prayer-info">
+        <span class="prayer-title">🌤️ अस्र (Asr)</span>
+        <span class="prayer-rakat">4 रकअत फ़र्ज़</span>
+      </div>
+      <div class="counter-controls">
+        <button class="btn-counter minus" onclick="setQ('asr', -1)" title="1 कम करें">-</button>
+        <span class="count-display" id="q_asr">0</span>
+        <button class="btn-counter plus" onclick="setQ('asr', 1)" title="1 बढ़ाएं">+</button>
+      </div>
+    </div>
+
+    <!-- मग़रिब -->
+    <div class="prayer-row">
+      <div class="prayer-info">
+        <span class="prayer-title">🌇 मग़रिब (Maghrib)</span>
+        <span class="prayer-rakat">3 रकअत फ़र्ज़</span>
+      </div>
+      <div class="counter-controls">
+        <button class="btn-counter minus" onclick="setQ('maghrib', -1)" title="1 कम करें">-</button>
+        <span class="count-display" id="q_maghrib">0</span>
+        <button class="btn-counter plus" onclick="setQ('maghrib', 1)" title="1 बढ़ाएं">+</button>
+      </div>
+    </div>
+
+    <!-- इशा -->
+    <div class="prayer-row">
+      <div class="prayer-info">
+        <span class="prayer-title">🌙 इशा (Isha)</span>
+        <span class="prayer-rakat">4 रकअत फ़र्ज़</span>
+      </div>
+      <div class="counter-controls">
+        <button class="btn-counter minus" onclick="setQ('isha', -1)" title="1 कम करें">-</button>
+        <span class="count-display" id="q_isha">0</span>
+        <button class="btn-counter plus" onclick="setQ('isha', 1)" title="1 बढ़ाएं">+</button>
+      </div>
+    </div>
+
+    <!-- वित्र वाजिब -->
+    <div class="prayer-row">
+      <div class="prayer-info">
+        <span class="prayer-title">⭐ वित्र (Witr)</span>
+        <span class="prayer-rakat">3 रकअत वाजिब</span>
+      </div>
+      <div class="counter-controls">
+        <button class="btn-counter minus" onclick="setQ('witr', -1)" title="1 कम करें">-</button>
+        <span class="count-display" id="q_witr">0</span>
+        <button class="btn-counter plus" onclick="setQ('witr', 1)" title="1 बढ़ाएं">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- कज़ा नमाज़ के ज़रूरी मसाइल -->
+  <div class="info-box">
+    <h2 style="color:#0f5132; margin-top:0; font-size:1.2rem;">कज़ा नमाज़ की नीयत व जरूरी मसाइल</h2>
+    <ul style="margin-left:18px; padding-left:0; font-size:0.92rem;">
+      <li><strong>कज़ा में क्या पढ़ना होता है?</strong> सिर्फ 5 वक्त के फ़र्ज़ और इशा की 3 रकअत वित्र वाजिब की कज़ा होती है (सुन्नतों की कज़ा नहीं होती)। 1 दिन की कुल 20 रकअतें बनती हैं।</li>
+      <li><strong>नीयत का तरीका:</strong> अगर बहुत सारी नमाज़ें कज़ा हों, तो इस तरह नीयत करें: <em>"नीयत करता हूँ मैं अपने ज़िम्मे बाकी सबसे पहली (या सबसे आख़िरी) कज़ा फ़ज्र/ज़ुहर के फ़र्ज़ की।"</em></li>
+      <li><strong>कब पढ़ सकते हैं?</strong> मकरूह औकात (सूरज निकलते, डूबते और ठीक दोपहर/ज़वाल के वक्त) को छोड़कर दिन-रात में कभी भी कज़ा नमाज़ पढ़ी जा सकती है।</li>
+    </ul>
+  </div>
 </div>
+
+<footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
+
 <script>
-  let arr = ['fajr','dhuhr','asr','maghrib','isha'];
-  arr.forEach(p => document.getElementById('q_'+p).innerText = localStorage.getItem('qz_'+p) || 0);
+  const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'witr'];
+
+  function updateTotal() {
+    let total = 0;
+    prayers.forEach(p => {
+      let count = parseInt(localStorage.getItem('qz_' + p)) || 0;
+      document.getElementById('q_' + p).innerText = count;
+      total += count;
+    });
+    document.getElementById('totalQaza').innerText = total;
+  }
+
   function setQ(p, v) {
-    let c = Math.max(0, (parseInt(localStorage.getItem('qz_'+p)) || 0) + v);
-    localStorage.setItem('qz_'+p, c);
-    document.getElementById('q_'+p).innerText = c;
+    let current = parseInt(localStorage.getItem('qz_' + p)) || 0;
+    let nextVal = Math.max(0, current + v);
+    localStorage.setItem('qz_' + p, nextVal);
+    updateTotal();
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    updateTotal();
+  });
+
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
   }
 </script>
+
 </body>
 </html>
