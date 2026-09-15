@@ -11,43 +11,43 @@
 
   <!-- सूरह संग्रह व तिलावात -->
   <url>
-    <loc>https://www.deenidua.in/duas/ayatul-kursi.html</loc>
+    <loc>https://www.deenidua.in/surah/ayatul-kursi.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.deenidua.in/surah/surah-yaseen.html</loc>
+    <loc>https://www.deenidua.in/surah/yaseen.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.deenidua.in/surah/surah-mulk.html</loc>
+    <loc>https://www.deenidua.in/surah/mulk.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.deenidua.in/surah/surah-rahman.html</loc>
+    <loc>https://www.deenidua.in/surah/rahman.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.deenidua.in/surah/surah-waqiah.html</loc>
+    <loc>https://www.deenidua.in/surah/waqiah.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.deenidua.in/surah/last-10-surahs.html</loc>
+    <loc>https://www.deenidua.in/surah/aakhri-10-surah.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.deenidua.in/pages/quran-audio.html</loc>
+    <loc>https://www.deenidua.in/surah/audio-quran.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -143,7 +143,7 @@
 
   <!-- विशेष पेज व कंटेंट -->
   <url>
-    <loc>https://www.deenidua.in/duas/ramadan-duas.html</loc>
+    <loc>https://www.deenidua.in/pages/ramadan-duas.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -181,7 +181,7 @@
 
   <!-- इस्लामिक टूल्स -->
   <url>
-    <loc>https://www.deenidua.in/pages/learn-adhan.html</loc>
+    <loc>https://www.deenidua.in/tools/adhan.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -193,13 +193,13 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.deenidua.in/tools/islamic-quiz.html</loc>
+    <loc>https://www.deenidua.in/tools/quiz.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.deenidua.in/tools/tasbeeh-counter.html</loc>
+    <loc>https://www.deenidua.in/tools/tasbeeh.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -207,11 +207,11 @@
   <url>
     <loc>https://www.deenidua.in/tools/zakat-calculator.html</loc>
     <lastmod>2026-09-15</lastmod>
-    <changefreq>monthly</changefreq>
+    <changeFreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.deenidua.in/tools/namaz-timings.html</loc>
+    <loc>https://www.deenidua.in/tools/namaz-time.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
