@@ -9,6 +9,10 @@
   <link rel="canonical" href="https://www.deenidua.in/tools/card-generator.html">
   <meta name="theme-color" content="#0f5132">
 
+  <!-- Google AdSense Code -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015"
+     crossorigin="anonymous"></script>
+
   <style>
     :root {
       --primary: #0f5132;
@@ -28,32 +32,6 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
       padding-bottom: 50px;
-    }
-
-    .tool-header {
-      background: linear-gradient(135deg, #0f5132 0%, #063822 100%);
-      color: #ffffff;
-      padding: 14px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 15px rgba(15, 81, 50, 0.2);
-    }
-
-    .tool-header a {
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .tool-header span {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--gold-light);
     }
 
     .main-wrapper {
@@ -218,6 +196,7 @@
       outline: none;
       font-family: inherit;
       transition: border-color 0.2s;
+      background: var(--surface);
     }
 
     .custom-input:focus {
@@ -297,12 +276,24 @@
 </head>
 <body>
 
-<header class="tool-header">
-  <a href="../index.html">← मुख्य होमपेज</a>
-  <span>✨ इस्लामिक स्टेटस कार्ड</span>
+<header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+  <!-- क्लिक करने पर सीधे मुख्य पेज जाएगा -->
+  <a href="../index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
+    <img src="../logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
+    <span style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
+  </a>
+
+  <!-- होम बटन -->
+  <a href="../index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
+    🏠 होम
+  </a>
 </header>
 
 <div class="main-wrapper">
+  <div style="text-align: center; margin-bottom: 18px;">
+    <h1 style="color: var(--primary); font-size: 1.55rem; margin: 8px 0 4px 0;">इस्लामिक WhatsApp स्टेटस कार्ड</h1>
+    <p style="color: var(--muted); font-size: 0.9rem; margin: 0;">सुंदर कार्ड्स बनाएं और सवाब-ए-जारिया के लिए शेयर करें</p>
+  </div>
 
   <!-- Mode Toggle Tabs -->
   <div class="tab-container">
@@ -357,7 +348,7 @@
       <input type="text" id="senderNameInput" class="custom-input" placeholder="जैसे: मोहम्मद ज़ैद / आपका नाम" value="दीनी दुआ संग्रह" oninput="onCustomChange()">
     </div>
 
-    <!-- Font Size & Ornament Settings -->
+    <!-- Font Size Settings -->
     <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
       <label style="margin: 0; white-space: nowrap;">अक्षरों का साइज़:</label>
       <input type="range" id="fontSizeSlider" min="36" max="64" value="50" style="flex: 1;" oninput="onCustomChange()">
@@ -387,8 +378,11 @@
       💬 WhatsApp शेयर
     </button>
   </div>
-
 </div>
+
+<footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
+  <p>© 2026 दीनी दुआ | deenidua.in</p>
+</footer>
 
 <script>
   // 1. Ready-Made Curated Cards Data
@@ -467,7 +461,7 @@
     }
   ];
 
-  // 2. Visual Luxury Theme Profiles
+  // 2. Visual Theme Profiles
   const themes = [
     { bg1: "#064e3b", bg2: "#022c22", border: "#d4af37", text: "#ffffff", sub: "#cbd5e1" }, // Medina Green
     { bg1: "#1e1b4b", bg2: "#090d16", border: "#93c5fd", text: "#ffffff", sub: "#94a3b8" }, // Midnight Royal
@@ -480,11 +474,10 @@
   const ctx = canvas.getContext('2d');
 
   let activeThemeIdx = 0;
-  let activeMode = 'ready'; // 'ready' or 'custom'
+  let activeMode = 'ready';
   let currentCardText = readyCards[0].text;
   let currentSender = readyCards[0].sender;
 
-  // Mode Switcher (Ready Cards vs Custom Text)
   function switchMode(mode) {
     activeMode = mode;
     const tabReady = document.getElementById('tabReady');
@@ -508,7 +501,6 @@
     drawCanvas();
   }
 
-  // Populate Ready Cards
   function renderReadyCardsList(list) {
     const container = document.getElementById('presetCardsList');
     container.innerHTML = '';
@@ -544,7 +536,6 @@
     currentSender = card.sender;
     activeThemeIdx = card.themeIdx;
     
-    // Update theme swatches
     const swatches = document.querySelectorAll('.theme-swatch');
     swatches.forEach((s, idx) => {
       s.classList.toggle('active', idx === activeThemeIdx);
@@ -587,7 +578,6 @@
     ctx.lineWidth = 2;
     ctx.strokeRect(64, 64, W - 128, H - 128);
 
-    // Decorative Corner Motifs
     const drawCorner = (x, y) => {
       ctx.fillStyle = theme.border;
       ctx.fillRect(x - 8, y - 8, 16, 16);
@@ -609,14 +599,13 @@
     ctx.arc(W / 2, 216, 6, 0, Math.PI * 2);
     ctx.fill();
 
-    // 4. Main Body Text Rendering (Word-wrap & vertical centering)
+    // 4. Main Body Text Rendering
     ctx.fillStyle = theme.text;
     ctx.font = `600 ${fontSize}px system-ui, -apple-system, sans-serif`;
 
     const maxWidth = W - 240;
     const lineHeight = fontSize * 1.55;
 
-    // Split paragraphs if line breaks exist
     const rawLines = currentCardText.split("\n");
     let allRenderLines = [];
 
@@ -632,7 +621,6 @@
     const totalTextHeight = allRenderLines.length * lineHeight;
     let startY = (H / 2) - (totalTextHeight / 2) + 20;
 
-    // Keep within safe upper and lower bounds
     if (startY < 270) startY = 270;
 
     allRenderLines.forEach(line => {
@@ -672,7 +660,6 @@
     return lines;
   }
 
-  // 1-Click HD Image Download
   function downloadHDCard() {
     const link = document.createElement('a');
     link.download = 'deenidua-status-card.png';
@@ -680,7 +667,6 @@
     link.click();
   }
 
-  // Quick WhatsApp Share
   function shareToWhatsApp() {
     const shareText = encodeURIComponent(
       currentCardText + 
@@ -690,11 +676,14 @@
     window.open("https://api.whatsapp.com/send?text=" + shareText, '_blank');
   }
 
-  // Initial Boot
   window.addEventListener('DOMContentLoaded', () => {
     renderReadyCardsList(readyCards);
     loadReadyCard(readyCards[0]);
   });
+
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
 </script>
 
 </body>
