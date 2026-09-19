@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>दुआ रिक्वेस्ट वॉल - Deeni Dua</title>
+  <!-- SEO Meta Tags for Dua Wall -->
+    <meta name="description" content="Deeni Dua par apni pareshani ya dua share karein. Yahan hazaron muslim bhai-behen aapki dua mein ameen kahenge aur behtareen Islamic dua request wall ka anand lein.">
+    <meta name="keywords" content="Islamic dua request, mere liye dua karein, online dua wall, deeni dua, aameen for dua, islamic community dua, dua for success hindi">
+    <meta name="robots" content="index, follow">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 20px; line-height: 1.6; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        h1 { color: #047857; text-align: center; font-size: 22px; margin-bottom: 5px; }
+        p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 15px; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+        textarea { resize: vertical; height: 80px; }
+        button.submit-btn { width: 100%; background: #047857; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+        button.submit-btn:hover { background: #065f46; }
+
+        .wall-title { font-size: 18px; font-weight: bold; color: #1f2937; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #e5e7eb; padding-bottom: 5px; }
+        
+        .dua-card { background: #f0fdf4; border: 1px solid #a7f3d0; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .dua-name { font-weight: bold; color: #065f46; font-size: 14px; margin-bottom: 5px; }
+        .dua-text { font-size: 15px; color: #374151; margin-bottom: 10px; }
+        .amen-btn { background: #25D366; color: white; border: none; padding: 6px 14px; font-size: 13px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .amen-btn:hover { background: #1ebe5d; }
+        .back-btn { display: inline-block; margin-top: 20px; color: #047857; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🤲 दुआ रिक्वेस्ट वॉल</h1>
+    <p class="subtitle">अपनी परेशानी यहाँ साझा करें, भाई-बहन आपके लिए दुआ करेंगे</p>
+
+    <!-- Form to Submit Dua -->
+    <div class="form-group">
+        <input type="text" id="userName" placeholder="अपना नाम या 'एक भाई/बहन'">
+    </div>
+    <div class="form-group">
+        <textarea id="userDua" placeholder="अपनी दुआ या परेशानी यहाँ लिखें (जैसे: परीक्षा के लिए दुआ करें...)"></textarea>
+    </div>
+    <button class="submit-btn" onclick="postDua()">दुआ पोस्ट करें</button>
+
+    <div class="wall-title">💬 हाल ही में मांगी गई दुआएं</div>
+    
+    <!-- List of Duas -->
+    <div id="duaList">
+        <!-- Sample Dua Card -->
+        <div class="dua-card">
+            <div class="dua-name">अगु्यात भाई</div>
+            <div class="dua-text">मेरी नौकरी के लिए दुआ करें कि अल्लाह बेहतर जरिया पैदा फरमाए।</div>
+            <button class="amen-btn" onclick="countAmen(this)">🤲 आमीन (<span>12</span>)</button>
+        </div>
+    </div>
+
+    <a href="../index.html" class="back-btn">← होमपेज पर वापस जाएं</a>
+</div>
+
+<script>
+    function postDua() {
+        const name = document.getElementById("userName").value.trim();
+        const dua = document.getElementById("userDua").value.trim();
+        const list = document.getElementById("duaList");
+
+        if (dua === "") {
+            alert("कृपया दुआ या परेशानी जरूर लिखें!");
+            return;
+        }
+
+        const displayName = name === "" ? "एक मुस्लिम भाई/बहन" : name;
+
+        // Create new card element
+        const card = document.createElement("div");
+        card.className = "dua-card";
+        card.innerHTML = `
+            <div class="dua-name">${escapeHtml(displayName)}</div>
+            <div class="dua-text">${escapeHtml(dua)}</div>
+            <button class="amen-btn" onclick="countAmen(this)">🤲 आमीन (<span>1</span>)</button>
+        `;
+
+        // Add to top of the list
+        list.prepend(card);
+
+        // Clear inputs
+        document.getElementById("userName").value = "";
+        document.getElementById("userDua").value = "";
+    }
+
+    function countAmen(btn) {
+        const span = btn.querySelector("span");
+        let count = parseInt(span.innerText);
+        span.innerText = count + 1;
+        btn.style.background = "#059669";
+        btn.innerText = "✓ आमीन कहा गया (" + span.innerText + ")";
+        btn.disabled = true;
+    }
+
+    function escapeHtml(text) {
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+</script>
+
+</body>
+</html>
