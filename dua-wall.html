@@ -14,13 +14,13 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015" crossorigin="anonymous"></script>
 
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; line-height: 1.6; }
-        .container { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        body { font-family: Arial, sans-serif; background: var(--bg, #f4f6f8); color: var(--text, #333); margin: 0; padding: 0; line-height: 1.6; }
+        .container { max-width: 600px; margin: 20px auto; background: var(--card, white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         h1 { color: #047857; text-align: center; font-size: 22px; margin-bottom: 5px; }
         p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 20px; }
         
         .form-group { margin-bottom: 15px; }
-        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; background: var(--card, #fff); color: inherit; }
         textarea { resize: vertical; height: 80px; }
         button.submit-btn { width: 100%; background: #047857; color: white; border: none; padding: 12px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
         button.submit-btn:hover { background: #065f46; }
@@ -30,8 +30,9 @@
         .dua-card { background: #f0fdf4; border: 1px solid #a7f3d0; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         .dua-name { font-weight: bold; color: #065f46; font-size: 14px; margin-bottom: 5px; }
         .dua-text { font-size: 15px; color: #374151; margin-bottom: 10px; }
-        .amen-btn { background: #25D366; color: white; border: none; padding: 6px 14px; font-size: 13px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .amen-btn { background: #25D366; color: white; border: none; padding: 6px 14px; font-size: 13px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
         .amen-btn:hover { background: #1ebe5d; }
+        .amen-btn.voted { background: #059669; }
         .back-btn { display: inline-block; margin-top: 20px; color: #047857; text-decoration: none; font-weight: bold; }
     </style>
 </head>
@@ -64,23 +65,47 @@
     <div class="wall-title">💬 हाल ही में मांगी गई दुआएं</div>
     
     <!-- List of Duas -->
-    <div id="duaList">
-        <!-- Sample Dua Card -->
-        <div class="dua-card">
-            <div class="dua-name">एक भाई</div>
-            <div class="dua-text">मेरी नौकरी के लिए दुआ करें कि अल्लाह बेहतर जरिया पैदा फरमाए।</div>
-            <button class="amen-btn" onclick="countAmen(this)">🤲 आमीन (<span>12</span>)</button>
-        </div>
-    </div>
+    <div id="duaList"></div>
 
     <a href="../index.html" class="back-btn">← होमपेज पर वापस जाएं</a>
 </div>
 
 <script>
-    function postDua() {
-        const name = document.getElementById("userName").value.trim();
-        const dua = document.getElementById("userDua").value.trim();
+    // Initial default duas if localStorage is empty
+    let duas = JSON.parse(localStorage.getItem('deeni_duas')) || [
+        {
+            id: 1,
+            name: "एक भाई",
+            text: "मेरी नौकरी के लिए दुआ करें कि अल्लाह बेहतर जरिया पैदा फरमाए।",
+            amenCount: 12,
+            voted: false
+        }
+    ];
+
+    function renderDuas() {
         const list = document.getElementById("duaList");
+        list.innerHTML = "";
+
+        duas.forEach((item) => {
+            const card = document.createElement("div");
+            card.className = "dua-card";
+            card.innerHTML = `
+                <div class="dua-name">${escapeHtml(item.name)}</div>
+                <div class="dua-text">${escapeHtml(item.text)}</div>
+                <button class="amen-btn ${item.voted ? 'voted' : ''}" onclick="countAmen(${item.id})">
+                    🤲 ${item.voted ? '✓ आमीन कहा गया' : 'आमीन'} (<span>${item.amenCount}</span>)
+                </button>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function postDua() {
+        const nameInput = document.getElementById("userName");
+        const duaInput = document.getElementById("userDua");
+        
+        const name = nameInput.value.trim();
+        const dua = duaInput.value.trim();
 
         if (dua === "") {
             alert("कृपया दुआ या परेशानी जरूर लिखें!");
@@ -89,35 +114,51 @@
 
         const displayName = name === "" ? "एक मुस्लिम भाई/बहन" : name;
 
-        // Create new card element
-        const card = document.createElement("div");
-        card.className = "dua-card";
-        card.innerHTML = `
-            <div class="dua-name">${escapeHtml(displayName)}</div>
-            <div class="dua-text">${escapeHtml(dua)}</div>
-            <button class="amen-btn" onclick="countAmen(this)">🤲 आमीन (<span>1</span>)</button>
-        `;
+        const newDua = {
+            id: Date.now(),
+            name: displayName,
+            text: dua,
+            amenCount: 1,
+            voted: true
+        };
 
-        // Add to top of the list
-        list.prepend(card);
+        duas.unshift(newDua);
+        saveAndRender();
 
-        // Clear inputs
-        document.getElementById("userName").value = "";
-        document.getElementById("userDua").value = "";
+        nameInput.value = "";
+        duaInput.value = "";
     }
 
-    function countAmen(btn) {
-        const span = btn.querySelector("span");
-        let count = parseInt(span.innerText);
-        span.innerText = count + 1;
-        btn.style.background = "#059669";
-        btn.innerText = "✓ आमीन कहा गया (" + span.innerText + ")";
-        btn.disabled = true;
+    function countAmen(id) {
+        const duaObj = duas.find(d => d.id === id);
+        if (duaObj) {
+            if (!duaObj.voted) {
+                duaObj.amenCount += 1;
+                duaObj.voted = true;
+            } else {
+                duaObj.amenCount -= 1;
+                duaObj.voted = false;
+            }
+            saveAndRender();
+        }
+    }
+
+    function saveAndRender() {
+        localStorage.setItem('deeni_duas', JSON.stringify(duas));
+        renderDuas();
     }
 
     function escapeHtml(text) {
         return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
+
+    // Load on page startup
+    window.onload = function() {
+        renderDuas();
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    };
 </script>
 
 </body>
