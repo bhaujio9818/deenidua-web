@@ -1,0 +1,16 @@
+backend:
+  name: git-gateway
+  branch: main # आपकी गिट रिपॉजिटरी की मुख्य ब्रांच का नाम
+
+media_folder: "images/uploads" # जहाँ इमेजेज अपलोड होंगी
+public_folder: "/images/uploads"
+
+collections:
+  - name: "blogs"
+    label: "Islamic Blogs"
+    folder: "blogs/" # आपके ब्लॉग की फाइलों का फोल्डर
+    create: true
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Body", name: "body", widget: "markdown"}
