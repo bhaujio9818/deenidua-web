@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Deeni Dua</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; }
+    .container { max-width: 700px; margin: 30px auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    h1, h2 { color: #0f5132; text-align: center; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; font-weight: bold; margin-bottom: 5px; color: #0f5132; }
+    input, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+    textarea { height: 120px; resize: vertical; }
+    .btn { background: #0f5132; color: white; border: none; padding: 12px 20px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; }
+    .btn:hover { background: #146c43; }
+    .btn-danger { background: #dc3545; padding: 6px 12px; font-size: 0.85rem; width: auto; }
+    #adminDashboard, #loginSection { display: none; }
+    #loginSection.show, #adminDashboard.show { display: block; }
+    .blog-item { background: #f9fdfa; border: 1px solid #c3e6cb; padding: 15px; border-radius: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Login Section -->
+  <div id="loginSection" class="show">
+    <h2>🔐 Admin Login</h2>
+    <div class="form-group" style="margin-top: 20px;">
+      <label>Password:</label>
+      <input type="password" id="adminPassword" placeholder="Password dalein (jaise: deenidua2026)">
+    </div>
+    <button class="btn" onclick="checkLogin()">Login Karein</button>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div id="adminDashboard">
+    <h2>✍️ Naya Islamic Blog Likhein</h2>
+    <div class="form-group">
+      <label>Blog Title:</label>
+      <input type="text" id="blogTitle" placeholder="Jaise: Ramzan ki Fazilat...">
+    </div>
+    <div class="form-group">
+      <label>Blog Content:</label>
+      <textarea id="blogContent" placeholder="Yahan apna pura lekh likhein..."></textarea>
+    </div>
+    <button class="btn" onclick="publishBlog()">Publish Karein</button>
+
+    <h2 style="margin-top: 35px; border-top: 2px solid #eee; padding-top: 20px;">📋 Published Blogs</h2>
+    <div id="blogList"></div>
+  </div>
+</div>
+
+<script>
+  const ADMIN_PASS = "deenidua2026"; // Aap ise badal bhi sakte hain
+
+  function checkLogin() {
+    const pass = document.getElementById("adminPassword").value;
+    if (pass === ADMIN_PASS) {
+      document.getElementById("loginSection").classList.remove("show");
+      document.getElementById("adminDashboard").classList.add("show");
+      loadAdminBlogs();
+    } else {
+      alert("Galat password! Sahi password dalein.");
+    }
+  }
+
+  function publishBlog() {
+    const title = document.getElementById("blogTitle").value.trim();
+    const content = document.getElementById("blogContent").value.trim();
+
+    if (title === "" || content === "") {
+      alert("Kripya title aur content dono bharein!");
+      return;
+    }
+
+    const blogs = JSON.parse(localStorage.getItem('deeni_blogs')) || [];
+    const newBlog = {
+      id: Date.now(),
+      title: title,
+      content: content,
+      date: new Date().toLocaleDateString('hi-IN')
+    };
+
+    blogs.unshift(newBlog);
+    localStorage.setItem('deeni_blogs', JSON.stringify(blogs));
+
+    document.getElementById("blogTitle").value = "";
+    document.getElementById("blogContent").value = "";
+
+    alert("Blog safaltapurvak publish ho gaya hai!");
+    loadAdminBlogs();
+  }
+
+    function loadAdminBlogs() {
+    const blogs = JSON.parse(localStorage.getItem('deeni_blogs')) || [];
+    const listDiv = document.getElementById("blogList");
+    listDiv.innerHTML = "";
+
+    if (blogs.length === 0) {
+      listDiv.innerHTML = "<p style='text-align:center; color:#777;'>Abhi koi blog post nahi hai.</p>";
+      return;
+    }
+
+    blogs.forEach(blog => {
+      const item = document.createElement("div");
+      item.className = "blog-item";
+      item.innerHTML = `
+        <div>
+          <h4>${escapeHtml(blog.title)}</h4>
+          <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date}</p>
+        </div>
+        <button class="btn btn-danger" onclick="deleteBlog(${blog.id})">Delete</button>
+      `;
+      listDiv.appendChild(item);
+    });
+  }
+
+  function deleteBlog(id) {
+    if (confirm("Kya aap is blog ko delete karna chahte hain?")) {
+      let blogs = JSON.parse(localStorage.getItem('deeni_blogs')) || [];
+      blogs = blogs.filter(b => b.id !== id);
+      localStorage.setItem('deeni_blogs', JSON.stringify(blogs));
+      loadAdminBlogs();
+    }
+  }
+
+  function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+</script>
+
+</body>
+</html>
