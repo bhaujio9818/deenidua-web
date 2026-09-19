@@ -1,16 +1,52 @@
-backend:
-  name: git-gateway
-  branch: main # आपकी गिट रिपॉजिटरी की मुख्य ब्रांच का नाम
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Manager - Deeni Dua</title>
+  <!-- Netlify Identity Widget -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <!-- Include the script that powers Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <script>
+    // सीधे जावास्क्रिप्ट के ज़रिए कॉन्फिगरेशन लोड करना ताकि 404 एरर न आए
+    CMS.init({
+      config: {
+        backend: {
+          name: 'git-gateway',
+          branch: 'main'
+        },
+        media_folder: 'images/uploads',
+        public_folder: '/images/uploads',
+        collections: [
+          {
+            name: 'blogs',
+            label: 'Islamic Blogs',
+            folder: 'blogs',
+            create: true,
+            fields: [
+              { label: 'Title', name: 'title', widget: 'string' },
+              { label: 'Publish Date', name: 'date', widget: 'datetime' },
+              { label: 'Body', name: 'body', widget: 'markdown' }
+            ]
+          }
+        ]
+      }
+    });
 
-media_folder: "images/uploads" # जहाँ इमेजेज अपलोड होंगी
-public_folder: "/images/uploads"
-
-collections:
-  - name: "blogs"
-    label: "Islamic Blogs"
-    folder: "blogs/" # आपके ब्लॉग की फाइलों का फोल्डर
-    create: true
-    fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Body", name: "body", widget: "markdown"}
+    // Netlify Identity Login Redirect
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.reload();
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>
