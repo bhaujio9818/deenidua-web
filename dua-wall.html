@@ -48,15 +48,20 @@
 </head>
 <body>
 
-<!-- Website Header -->
+<!-- Website Header with Blog & Home Links -->
 <header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
   <a href="../index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
     <img src="../logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
     <span style="font-size: 1.15rem; font-weight: bold; letter-spacing: 0.5px;">दीनी दुआ</span>
   </a>
-  <a href="../index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
-    🏠 होम
-  </a>
+  <div style="display: flex; gap: 8px; align-items: center;">
+    <a href="blog.html" style="color: #d1fae5; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
+      📚 ब्लॉग्स
+    </a>
+    <a href="../index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">
+      🏠 होम
+    </a>
+  </div>
 </header>
 
 <div class="container">
@@ -117,7 +122,6 @@
                 const card = document.createElement("div");
                 card.className = "dua-card";
                 
-                // Using safe DOM creation / dataset to avoid quote breaking errors
                 card.innerHTML = `
                     <div class="dua-name"></div>
                     <div class="dua-text"></div>
@@ -131,11 +135,9 @@
                     </div>
                 `;
                 
-                // Safely assign text to prevent any script injection or breaking
                 card.querySelector(".dua-name").textContent = item.name;
                 card.querySelector(".dua-text").textContent = item.text;
                 
-                // Store data securely in button dataset
                 const shareBtn = card.querySelector(".share-btn");
                 shareBtn.dataset.name = item.name;
                 shareBtn.dataset.text = item.text;
