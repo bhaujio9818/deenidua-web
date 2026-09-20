@@ -13,6 +13,10 @@
     <!-- Google AdSense Code -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015" crossorigin="anonymous"></script>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
     <style>
         body { font-family: Arial, sans-serif; background: var(--bg, #f4f6f8); color: var(--text, #333); margin: 0; padding: 0; line-height: 1.6; }
         .container { max-width: 600px; margin: 20px auto; background: var(--card, white); padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
@@ -30,9 +34,15 @@
         .dua-card { background: #f0fdf4; border: 1px solid #a7f3d0; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         .dua-name { font-weight: bold; color: #065f46; font-size: 14px; margin-bottom: 5px; }
         .dua-text { font-size: 15px; color: #374151; margin-bottom: 10px; }
+        
+        .card-actions { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
         .amen-btn { background: #25D366; color: white; border: none; padding: 6px 14px; font-size: 13px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
         .amen-btn:hover { background: #1ebe5d; }
         .amen-btn.voted { background: #059669; }
+        
+        .share-btn { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; padding: 6px 12px; font-size: 13px; border-radius: 20px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 4px; text-decoration: none; }
+        .share-btn:hover { background: #dbeafe; }
+
         .back-btn { display: inline-block; margin-top: 20px; color: #047857; text-decoration: none; font-weight: bold; }
     </style>
 </head>
@@ -65,42 +75,68 @@
     <div class="wall-title">💬 हाल ही में मांगी गई दुआएं</div>
     
     <!-- List of Duas -->
-    <div id="duaList"></div>
+    <div id="duaList"><p style="text-align:center; color:#777;">दुआएं लोड हो रही हैं...</p></div>
 
     <a href="../index.html" class="back-btn">← होमपेज पर वापस जाएं</a>
 </div>
 
 <script>
-    // Initial default duas if localStorage is empty
-    let duas = JSON.parse(localStorage.getItem('deeni_duas')) || [
-        {
-            id: 1,
-            name: "एक भाई",
-            text: "मेरी नौकरी के लिए दुआ करें कि अल्लाह बेहतर जरिया पैदा फरमाए।",
-            amenCount: 12,
-            voted: false
-        }
-    ];
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDIc_0jZ3GSziO_s1wBB3Cz5radLDqM7Rg",
+        authDomain: "deenidua-a5413.firebaseapp.com",
+        projectId: "deenidua-a5413",
+        storageBucket: "deenidua-a5413.firebasestorage.app",
+        messagingSenderId: "494498303568",
+        appId: "1:494498303568:web:921f12b2d7962d2928cb55"
+    };
 
-    function renderDuas() {
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Fetch and display duas in real-time from Firestore
+    function loadDuas() {
         const list = document.getElementById("duaList");
-        list.innerHTML = "";
 
-        duas.forEach((item) => {
-            const card = document.createElement("div");
-            card.className = "dua-card";
-            card.innerHTML = `
-                <div class="dua-name">${escapeHtml(item.name)}</div>
-                <div class="dua-text">${escapeHtml(item.text)}</div>
-                <button class="amen-btn ${item.voted ? 'voted' : ''}" onclick="countAmen(${item.id})">
-                    🤲 ${item.voted ? '✓ आमीन कहा गया' : 'आमीन'} (<span>${item.amenCount}</span>)
-                </button>
-            `;
-            list.appendChild(card);
+        db.collection("duas").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+            list.innerHTML = "";
+
+            if (snapshot.empty) {
+                list.innerHTML = "<p style='text-align:center; color:#777;'>अभी कोई दुआ पोस्ट नहीं की गई है।</p>";
+                return;
+            }
+
+            snapshot.forEach((doc) => {
+                const item = doc.data();
+                const id = doc.id;
+                
+                const votedKey = "voted_dua_" + id;
+                const isVoted = localStorage.getItem(votedKey) === "true";
+                const amenCount = item.amenCount || 0;
+
+                const card = document.createElement("div");
+                card.className = "dua-card";
+                card.innerHTML = `
+                    <div class="dua-name">${escapeHtml(item.name)}</div>
+                    <div class="dua-text">${escapeHtml(item.text)}</div>
+                    <div class="card-actions">
+                        <button class="amen-btn ${isVoted ? 'voted' : ''}" onclick="countAmen('${id}', ${isVoted}, ${amenCount})">
+                            🤲 ${isVoted ? '✓ आमीन कहा गया' : 'आमीन'} (<span>${amenCount}</span>)
+                        </button>
+                        <button class="share-btn" onclick="shareDua('${escapeHtml(item.name)}', '${escapeHtml(item.text)}')">
+                            📤 शेयर करें
+                        </button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }, (error) => {
+            list.innerHTML = "<p style='text-align:center; color:red;'>दुआएं लोड करने में त्रुटि हुई।</p>";
         });
     }
 
-    function postDua() {
+    // Post new Dua to Firestore
+    async function postDua() {
         const nameInput = document.getElementById("userName");
         const duaInput = document.getElementById("userDua");
         
@@ -114,47 +150,66 @@
 
         const displayName = name === "" ? "एक मुस्लिम भाई/बहन" : name;
 
-        const newDua = {
-            id: Date.now(),
-            name: displayName,
-            text: dua,
-            amenCount: 1,
-            voted: true
-        };
+        try {
+            await db.collection("duas").add({
+                name: displayName,
+                text: dua,
+                amenCount: 0,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
 
-        duas.unshift(newDua);
-        saveAndRender();
-
-        nameInput.value = "";
-        duaInput.value = "";
-    }
-
-    function countAmen(id) {
-        const duaObj = duas.find(d => d.id === id);
-        if (duaObj) {
-            if (!duaObj.voted) {
-                duaObj.amenCount += 1;
-                duaObj.voted = true;
-            } else {
-                duaObj.amenCount -= 1;
-                duaObj.voted = false;
-            }
-            saveAndRender();
+            nameInput.value = "";
+            duaInput.value = "";
+            alert("आपकी दुआ सफलतापूर्वक पोस्ट हो गई है! جزاك الله خيرًا");
+        } catch (e) {
+            alert("दुआ पोस्ट करने में दिक्कत आई। कृपया दोबारा कोशिश करें।");
         }
     }
 
-    function saveAndRender() {
-        localStorage.setItem('deeni_duas', JSON.stringify(duas));
-        renderDuas();
+    // Increment or Decrement Amen count safely
+    async function countAmen(id, isVoted, currentCount) {
+        const votedKey = "voted_dua_" + id;
+        const docRef = db.collection("duas").doc(id);
+
+        try {
+            await db.runTransaction(async (transaction) => {
+                const doc = await transaction.get(docRef);
+                if (!doc.exists) return;
+
+                let newCount = doc.data().amenCount || 0;
+
+                if (!isVoted) {
+                    newCount += 1;
+                    localStorage.setItem(votedKey, "true");
+                } else {
+                    newCount = Math.max(0, newCount - 1);
+                    localStorage.removeItem(votedKey);
+                }
+
+                transaction.update(docRef, { amenCount: newCount });
+            });
+        } catch (e) {
+            console.log("Amen transaction error: ", e);
+        }
+    }
+
+    // Share Dua Function (Copies short crisp text & link)
+    function shareDua(name, text) {
+        const shareText = `🤲 ${name} की दुआ:\n"${text}"\n\nआप भी दीनी दुआ वॉल पर आमीन कहें: ${window.location.href}`;
+        
+        navigator.clipboard.writeText(shareText).then(() => {
+            alert("✅ दुआ का संदेश कॉपी हो गया है!\nअब आप इसे WhatsApp या कहीं भी शेयर कर सकते हैं।");
+        }).catch(() => {
+            prompt("इस लिंक को कॉपी करें:", window.location.href);
+        });
     }
 
     function escapeHtml(text) {
         return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // Load on page startup
     window.onload = function() {
-        renderDuas();
+        loadDuas();
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
         }
