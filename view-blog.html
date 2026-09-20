@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deeni Dua - Article</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
     
     /* Header Style */
     header { background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
@@ -14,12 +14,15 @@
     header span.site-title { font-size: 1.2rem; font-weight: bold; color: white; }
     header a.home-btn { color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 5px 12px; border-radius: 15px; }
 
-    .container { max-width: 800px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .container { max-width: 800px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); flex: 1; box-sizing: border-box; width: calc(100% - 30px); }
     h1 { color: #0f5132; margin-top: 0; font-size: 1.8rem; }
-    .meta { color: #666; font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+    .meta { color: #666; font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; flex-wrap: gap; }
     .content { line-height: 1.8; color: #374151; white-space: pre-line; font-size: 1.05rem; }
     .back-btn { display: inline-block; background: #0f5132; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
     .back-btn:hover { background: #146c43; }
+
+    /* Footer Style */
+    footer { text-align: center; padding: 25px 15px; color: #6c757d; font-size: 0.9rem; border-top: 1px solid #eee; background: #fff; margin-top: auto; }
   </style>
 
   <!-- Firebase SDKs -->
@@ -42,6 +45,21 @@
   <p style="text-align:center; color:#777;">लेख लोड हो रहा है...</p>
 </div>
 
+<!-- Footer with Legal Links -->
+<footer>
+  <div style="margin-bottom: 10px; display: flex; justify-content: center; gap: 15px; align-items: center;">
+    <a href="https://www.facebook.com/profile.php?id=61593439228630" target="_blank" rel="noopener noreferrer" style="color: #1877F2; text-decoration: none; font-weight: bold; font-size: 0.9rem;">📘 Facebook</a>
+    <span style="color: #ddd;">|</span>
+    <a href="https://www.instagram.com/vinsonaspark/" target="_blank" rel="noopener noreferrer" style="color: #E1306C; text-decoration: none; font-weight: bold; font-size: 0.9rem;">📷 Instagram</a>
+  </div>
+  <p>© 2026 दीनी दुआ | सर्वाधिकार सुरक्षित</p>
+  <p style="margin-top:8px;">
+    <a href="pages/about.html" style="color:#0f5132; margin:0 5px; text-decoration:none; font-weight:600;">About Us</a> | 
+    <a href="pages/contact.html" style="color:#0f5132; margin:0 5px; text-decoration:none; font-weight:600;">Contact Us</a> | 
+    <a href="pages/privacy-policy.html" style="color:#0f5132; margin:0 5px; text-decoration:none; font-weight:600;">Privacy Policy</a>
+  </p>
+</footer>
+
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyDIc_0jZ3GSziO_s1wBB3Cz5radLDqM7Rg",
@@ -55,7 +73,6 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // URL se blog ki ID nikalna
   const urlParams = new URLSearchParams(window.location.search);
   const blogId = urlParams.get('id');
 
@@ -78,7 +95,6 @@
       const views = blog.views || 1;
       const likes = blog.likes || 0;
       
-      // View count badhana
       incrementViews(blogId, views);
 
       container.innerHTML = `
