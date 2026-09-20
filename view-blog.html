@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deeni Dua - Article</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; }
+    .container { max-width: 800px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    h1 { color: #0f5132; margin-top: 0; font-size: 1.8rem; }
+    .meta { color: #666; font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+    .content { line-height: 1.8; color: #374151; white-space: pre-line; font-size: 1.05rem; }
+    .back-btn { display: inline-block; background: #0f5132; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
+    .back-btn:hover { background: #146c43; }
+  </style>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<div class="container" id="articleContainer">
+  <a href="blog.html" class="back-btn">← सभी ब्लॉग्स पर वापस जाएं</a>
+  <p style="text-align:center; color:#777;">लेख लोड हो रहा है...</p>
+</div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDIc_0jZ3GSziO_s1wBB3Cz5radLDqM7Rg",
+    authDomain: "deenidua-a5413.firebaseapp.com",
+    projectId: "deenidua-a5413",
+    storageBucket: "deenidua-a5413.firebasestorage.app",
+    messagingSenderId: "494498303568",
+    appId: "1:494498303568:web:921f12b2d7962d2928cb55"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // URL se blog ki ID nikalna
+  const urlParams = new URLSearchParams(window.location.search);
+  const blogId = urlParams.get('id');
+
+  async function loadSingleBlog() {
+    const container = document.getElementById("articleContainer");
+
+    if (!blogId) {
+      container.innerHTML = `<a href="blog.html" class="back-btn">← वापस जाएं</a><p style="color:red; text-align:center;">गलत लिंक!</p>`;
+      return;
+    }
+
+    try {
+      const doc = await db.collection("blogs").doc(blogId).get();
+      if (!doc.exists) {
+        container.innerHTML = `<a href="blog.html" class="back-btn">← वापस जाएं</a><p style="color:red; text-align:center;">यह लेख नहीं मिला या डिलीट हो चुका है।</p>`;
+        return;
+      }
+
+      const blog = doc.data();
+      const views = blog.views || 1;
+      const likes = blog.likes || 0;
+      
+      // View count badhana
+      incrementViews(blogId, views);
+
+      container.innerHTML = `
+        <a href="blog.html" class="back-btn">← सभी ब्लॉग्स पर वापस जाएं</a>
+        <h1>${escapeHtml(blog.title)}</h1>
+        <div class="meta">
+          <span>📅 ${blog.date || 'हाल ही में'}</span>
+          <span>👁️ ${views} Views &nbsp;|&nbsp; ❤️ <span id="likeCount">${likes}</span> Likes</span>
+        </div>
+        <div class="content">${escapeHtml(blog.content)}</div>
+        
+        <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; text-align: center;">
+          <button onclick="likeArticle('${blogId}')" style="background: #f0fdf4; border: 1px solid #c3e6cb; color: #0f5132; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;">👍 इस लेख को लाइक करें (<span id="btnLikeCount">${likes}</span>)</button>
+        </div>
+      `;
+    } catch (error) {
+      container.innerHTML = `<a href="blog.html" class="back-btn">← वापस जाएं</a><p style="color:red; text-align:center;">लेख लोड करने में समस्या आई।</p>`;
+    }
+  }
+
+  async function incrementViews(id, currentViews) {
+    const viewKey = "viewed_" + id;
+    if (!localStorage.getItem(viewKey)) {
+      localStorage.setItem(viewKey, "true");
+      try {
+        await db.collection("blogs").doc(id).update({ views: currentViews + 1 });
+      } catch (e) {}
+    }
+  }
+
+  async function likeArticle(id) {
+    const likeKey = "liked_" + id;
+    if (localStorage.getItem(likeKey)) {
+      alert("आप पहले ही इस लेख को लाइक कर चुके हैं!");
+      return;
+    }
+
+    const docRef = db.collection("blogs").doc(id);
+    try {
+      await db.runTransaction(async (transaction) => {
+        const doc = await transaction.get(docRef);
+        if (!doc.exists) return;
+        const newLikes = (doc.data().likes || 0) + 1;
+        transaction.update(docRef, { likes: newLikes });
+        
+        document.getElementById("likeCount").innerText = newLikes;
+        document.getElementById("btnLikeCount").innerText = newLikes;
+        localStorage.setItem(likeKey, "true");
+        alert("लेख को लाइक करने के लिए शुक्रिया! ❤️");
+      });
+    } catch (e) {
+      alert("लाइक करने में दिक्कत आई।");
+    }
+  }
+
+  function escapeHtml(text) {
+    return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : "";
+  }
+
+  window.onload = loadSingleBlog;
+</script>
+
+</body>
+</html>
