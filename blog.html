@@ -195,14 +195,15 @@
     }
   }
 
-  // Updated Share Function (Crisp and Short text)
+  // Instant Copy & Share Function
   function sharePost(title) {
-    const shareText = "दीनी दुआ लेख पढ़ें: " + title;
-    if (navigator.share) {
-      navigator.share({ title: title, text: shareText, url: window.location.href }).catch(() => {});
-    } else {
-      prompt("लिंक कॉपी करें:", window.location.href);
-    }
+    const shareText = "दीनी दुआ लेख पढ़ें: " + title + " \n" + window.location.href;
+    
+    navigator.clipboard.writeText(shareText).then(() => {
+      alert("✅ लिंक और टेक्स्ट कॉपी हो गया है!\nअब आप इसे WhatsApp या कहीं भी आसानी से पेस्ट (शेयर) कर सकते हैं।");
+    }).catch(() => {
+      prompt("इस लिंक को कॉपी करें:", window.location.href);
+    });
   }
 
   function escapeHtml(text) {
