@@ -116,18 +116,30 @@
 
                 const card = document.createElement("div");
                 card.className = "dua-card";
+                
+                // Using safe DOM creation / dataset to avoid quote breaking errors
                 card.innerHTML = `
-                    <div class="dua-name">${escapeHtml(item.name)}</div>
-                    <div class="dua-text">${escapeHtml(item.text)}</div>
+                    <div class="dua-name"></div>
+                    <div class="dua-text"></div>
                     <div class="card-actions">
                         <button class="amen-btn ${isVoted ? 'voted' : ''}" onclick="countAmen('${id}', ${isVoted}, ${amenCount})">
                             🤲 ${isVoted ? '✓ आमीन कहा गया' : 'आमीन'} (<span>${amenCount}</span>)
                         </button>
-                        <button class="share-btn" onclick="shareDua('${escapeHtml(item.name)}', '${escapeHtml(item.text)}')">
+                        <button class="share-btn" onclick="shareDuaFromCard(this)">
                             📤 शेयर करें
                         </button>
                     </div>
                 `;
+                
+                // Safely assign text to prevent any script injection or breaking
+                card.querySelector(".dua-name").textContent = item.name;
+                card.querySelector(".dua-text").textContent = item.text;
+                
+                // Store data securely in button dataset
+                const shareBtn = card.querySelector(".share-btn");
+                shareBtn.dataset.name = item.name;
+                shareBtn.dataset.text = item.text;
+
                 list.appendChild(card);
             });
         }, (error) => {
@@ -193,8 +205,11 @@
         }
     }
 
-    // Share Dua Function (Copies short crisp text & link)
-    function shareDua(name, text) {
+    // Safe Share Dua Function reading from dataset
+    function shareDuaFromCard(button) {
+        const name = button.dataset.name;
+        const text = button.dataset.text;
+        
         const shareText = `🤲 ${name} की दुआ:\n"${text}"\n\nआप भी दीनी दुआ वॉल पर आमीन कहें: ${window.location.href}`;
         
         navigator.clipboard.writeText(shareText).then(() => {
