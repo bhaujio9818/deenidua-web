@@ -6,32 +6,60 @@
   <title>Islamic Blogs & Articles - Deeni Dua</title>
   
   <meta name="description" content="दीनी दुआ के इस्लामिक ब्लॉग और आर्टिकल्स पढ़ें। कुरआन, हदीस और दीनी मालूमात।">
-    <meta name="keywords" content="islamic blogs in hindi, deeni dua articles, ramzan ki fazilat hindi, jumma ki sunnat hindi, quran aur hadith in hindi, islamic gyan hindi, deeni malumat, masnoon duayein hindi, namaz aur roza ke masail, islamic articles deenidua">
-
+  <meta name="keywords" content="islamic blogs in hindi, deeni dua articles, ramzan ki fazilat hindi, jumma ki sunnat hindi, quran aur hadith in hindi, islamic gyan hindi, deeni malumat, masnoon duayein hindi">
   <meta name="robots" content="index, follow">
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="style.css">
   <style>
     body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; }
-    .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
-    .blog-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .blog-title { color: #0f5132; font-size: 1.4rem; margin-top: 0; }
-    .blog-meta { display: flex; justify-content: space-between; align-items: center; color: #6c757d; font-size: 0.85rem; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
-    .blog-body { line-height: 1.8; color: #374151; white-space: pre-line; margin-bottom: 15px; }
-    .blog-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 12px; font-size: 0.9rem; }
-    .action-btn { background: #f0fdf4; border: 1px solid #c3e6cb; color: #0f5132; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 5px; text-decoration: none; }
+    .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+    
+    /* Blogs Grid Layout - Fix Width & Height */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(302px, 1fr));
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    /* Fixed Box Size: Max Width 523px, Height 302px */
+    .blog-card {
+      width: 100%;
+      max-width: 523px;
+      height: 302px;
+      background: #ffffff;
+      border: 1px solid #c3e6cb;
+      border-radius: 12px;
+      padding: 18px;
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden; /* Extra text chupane ke liye */
+    }
+
+    .blog-title { color: #0f5132; font-size: 1.1rem; margin: 0 0 8px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    
+    .blog-meta { display: flex; justify-content: space-between; align-items: center; color: #6c757d; font-size: 0.75rem; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+    
+    /* Snippet taaki lamba content chup jaye aur sirf chhota hissa dikhe */
+    .blog-body { font-size: 0.88rem; color: #374151; line-height: 1.4; flex-grow: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
+    
+    .blog-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 8px; font-size: 0.85rem; }
+    
+    .action-btn { background: #f0fdf4; border: 1px solid #c3e6cb; color: #0f5132; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 0.8rem; }
     .action-btn:hover { background: #d1fae5; }
     .share-btn { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
     .share-btn:hover { background: #dbeafe; }
     
-    /* Pagination Buttons Style */
-    .pagination { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; }
-    .page-btn { background: #0f5132; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
-    .page-btn:disabled { background: #ccc; cursor: not-allowed; }
-    .page-info { font-weight: bold; color: #555; }
+    /* Numbered Pagination Buttons Style (1, 2, 3...) */
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 6px; margin: 30px 0; }
+    .page-btn { background: #fff; color: #0f5132; border: 1px solid #0f5132; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+    .page-btn.active, .page-btn:hover { background: #0f5132; color: white; }
   </style>
 
   <!-- Firebase SDKs -->
@@ -42,24 +70,22 @@
 
 <header style="background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;">
   <a href="index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: white;">
-    <img src="logo-mobile.png" alt="दीनी दुआ" style="height: 32px; width: 32px; border-radius: 6px; object-fit: contain;">
     <span style="font-size: 1.1rem; font-weight: bold; color: white;">दीनी दुआ</span>
   </a>
   <a href="index.html" style="color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 15px;">🏠 होम</a>
 </header>
 
 <div class="container">
-  <h1 style="color:#0f5132; text-align:center; margin-top:20px;">दीनी दुआ - इस्लामिक ब्लॉग्स</h1>
-  <p style="text-align:center; color:#6c757d; margin-bottom:30px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
+  <h1 style="color:#0f5132; text-align:center; margin-top:15px;">दीनी दुआ - इस्लामिक ब्लॉग्स</h1>
+  <p style="text-align:center; color:#6c757d; margin-bottom:20px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
 
-  <div id="publicBlogList"><p style="text-align:center; color:#777;">लोड हो रहा है...</p></div>
-
-  <!-- Pagination Controls -->
-  <div class="pagination" id="paginationControls" style="display: none;">
-    <button class="page-btn" id="prevBtn" onclick="loadPreviousPage()" disabled>⬅️ पिछला</button>
-    <span class="page-info" id="pageIndicator">पेज 1</span>
-    <button class="page-btn" id="nextBtn" onclick="loadNextPage()">अगला ➡️</button>
+  <!-- Yahan Grid Format me Blogs Load Honge -->
+  <div id="publicBlogList" class="blog-grid">
+    <p style="text-align:center; width:100%; color:#777;">लोड हो रहा है...</p>
   </div>
+
+  <!-- Page Number Buttons (1, 2, 3...) -->
+  <div class="pagination" id="paginationControls" style="display: none;"></div>
 </div>
 
 <script>
@@ -75,90 +101,95 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  let lastVisible = null;
-  let firstVisible = null;
-  let pageStack = [];
+  let allBlogsCache = [];
+  const pageSize = 6; // Ek page par kitne blogs dikhenge (Aap apne hisab se badha bhi sakte hain)
   let currentPage = 1;
-  const pageSize = 10;
 
-  async function loadPublicBlogs(direction = 'next') {
+  async function fetchAllBlogs() {
     const container = document.getElementById("publicBlogList");
-    container.innerHTML = "<p style='text-align:center; color:#777;'>लोड हो रहा है...</p>";
-
     try {
-      let query = db.collection("blogs").orderBy("createdAt", "desc").limit(pageSize);
-
-      if (direction === 'next' && lastVisible && pageStack.length > 0) {
-        query = db.collection("blogs").orderBy("createdAt", "desc").startAfter(lastVisible).limit(pageSize);
-      } else if (direction === 'prev' && pageStack.length > 1) {
-        pageStack.pop(); 
-        let previousStart = pageStack[pageStack.length - 1];
-        if (previousStart) {
-          query = db.collection("blogs").orderBy("createdAt", "desc").startAfter(previousStart).limit(pageSize);
-        } else {
-          query = db.collection("blogs").orderBy("createdAt", "desc").limit(pageSize);
-        }
-      }
-
-      const snapshot = await query.get();
-
+      const snapshot = await db.collection("blogs").orderBy("createdAt", "desc").get();
+      
       if (snapshot.empty) {
-        container.innerHTML = "<p style='text-align:center; color:#777;'>और कोई पोस्ट उपलब्ध नहीं है।</p>";
+        container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>अभी कोई ब्लॉग पोस्ट उपलब्ध नहीं है।</p>";
         return;
       }
 
-      container.innerHTML = "";
-      firstVisible = snapshot.docs[0];
-      lastVisible = snapshot.docs[snapshot.docs.length - 1];
-
-      snapshot.forEach(doc => {
-        const blog = doc.data();
-        const id = doc.id;
-        const views = blog.views || 1;
-        const likes = blog.likes || 0;
-        incrementViews(id, views);
-
-        const card = document.createElement("div");
-        card.className = "blog-card";
-        card.innerHTML = `
-          <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
-          <div class="blog-meta">
-            <span>📅 ${blog.date}</span>
-            <span>👁️ ${views} Views &nbsp;&nbsp;|&nbsp;&nbsp; ❤️ <span id="like-count-${id}">${likes}</span> Likes</span>
-          </div>
-          <div class="blog-body">${escapeHtml(blog.content)}</div>
-          <div class="blog-footer">
-            <button class="action-btn" onclick="likePost('${id}')">👍 लाइक करें (<span id="like-btn-count-${id}">${likes}</span>)</button>
-            <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}')">📤 शेयर करें</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-
-      document.getElementById("paginationControls").style.display = "flex";
-      document.getElementById("pageIndicator").innerText = `पेज ${currentPage}`;
-      document.getElementById("prevBtn").disabled = currentPage === 1;
-      
-      const nextCheck = await db.collection("blogs").orderBy("createdAt", "desc").startAfter(lastVisible).limit(1).get();
-      document.getElementById("nextBtn").disabled = nextCheck.empty;
-
+      allBlogsCache = snapshot.docs;
+      renderPage(1);
+      setupPagination();
     } catch (error) {
-      container.innerHTML = "<p style='text-align:center; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
+      container.innerHTML = "<p style='text-align:center; width:100%; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
     }
   }
 
-  function loadNextPage() {
-    currentPage++;
-    pageStack.push(firstVisible);
-    loadPublicBlogs('next');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  function renderPage(page) {
+    currentPage = page;
+    const container = document.getElementById("publicBlogList");
+    container.innerHTML = "";
+
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const paginatedDocs = allBlogsCache.slice(startIndex, endIndex);
+
+    paginatedDocs.forEach(doc => {
+      const blog = doc.data();
+      const id = doc.id;
+      const views = blog.views || 1;
+      const likes = blog.likes || 0;
+      incrementViews(id, views);
+
+      const card = document.createElement("div");
+      card.className = "blog-card";
+      card.innerHTML = `
+        <div>
+          <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
+          <div class="blog-meta">
+            <span>📅 ${blog.date || 'हाल ही में'}</span>
+            <span>👁️ ${views} | ❤️ <span id="like-count-${id}">${likes}</span></span>
+          </div>
+          <div class="blog-body">${escapeHtml(blog.content)}</div>
+        </div>
+        <div class="blog-footer">
+          <a href="view-blog.html?id=${id}" class="action-btn">Read More →</a>
+          <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}', '${id}')">📤 शेयर</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+    // Active button highlight update karein
+    const buttons = document.querySelectorAll(".page-btn");
+    buttons.forEach((btn, idx) => {
+      if (idx + 1 === page) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
   }
 
-  function loadPreviousPage() {
-    if (currentPage > 1) {
-      currentPage--;
-      loadPublicBlogs('prev');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  function setupPagination() {
+    const totalPages = Math.ceil(allBlogsCache.length / pageSize);
+    const paginationDiv = document.getElementById("paginationControls");
+    
+    if (totalPages <= 1) {
+      paginationDiv.style.display = "none";
+      return;
+    }
+
+    paginationDiv.style.display = "flex";
+    paginationDiv.innerHTML = "";
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.className = "page-btn " + (i === 1 ? "active" : "");
+      btn.innerText = i;
+      btn.onclick = () => {
+        renderPage(i);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+      paginationDiv.appendChild(btn);
     }
   }
 
@@ -172,47 +203,22 @@
     }
   }
 
-  async function likePost(id) {
-    const likeKey = "liked_" + id;
-    if (localStorage.getItem(likeKey)) {
-      alert("आप पहले ही इस पोस्ट को लाइक कर चुके हैं!");
-      return;
-    }
-
-    const docRef = db.collection("blogs").doc(id);
-    try {
-      await db.runTransaction(async (transaction) => {
-        const doc = await transaction.get(docRef);
-        if (!doc.exists) return;
-        const newLikes = (doc.data().likes || 0) + 1;
-        transaction.update(docRef, { likes: newLikes });
-        
-        document.getElementById(`like-count-${id}`).innerText = newLikes;
-        document.getElementById(`like-btn-count-${id}`).innerText = newLikes;
-        localStorage.setItem(likeKey, "true");
-        alert("पोस्ट को लाइक करने के लिए शुक्रिया! ❤️");
-      });
-    } catch (e) {
-      alert("लाइक करने में दिक्कत आई।");
-    }
-  }
-
-  // Instant Copy & Share Function
-  function sharePost(title) {
-    const shareText = "दीनी दुआ लेख पढ़ें: " + title + " \n" + window.location.href;
+  function sharePost(title, id) {
+    const shareUrl = window.location.origin + "/view-blog.html?id=" + id;
+    const shareText = "दीनी दुआ लेख पढ़ें: " + title + " \n" + shareUrl;
     
     navigator.clipboard.writeText(shareText).then(() => {
-      alert("✅ लिंक और टेक्स्ट कॉपी हो गया है!\nअब आप इसे WhatsApp या कहीं भी आसानी से पेस्ट (शेयर) कर सकते हैं।");
+      alert("✅ लिंक कॉपी हो गया है! अब आप इसे शेयर कर सकते हैं।");
     }).catch(() => {
-      prompt("इस लिंक को कॉपी करें:", window.location.href);
+      prompt("इस लिंक को कॉपी करें:", shareUrl);
     });
   }
 
   function escapeHtml(text) {
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : "";
   }
 
-  window.onload = () => loadPublicBlogs('next');
+  window.onload = () => fetchAllBlogs();
 </script>
 
 </body>
