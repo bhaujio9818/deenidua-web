@@ -19,8 +19,13 @@
     .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
     .blog-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
     .blog-title { color: #0f5132; font-size: 1.4rem; margin-top: 0; }
-    .blog-date { color: #6c757d; font-size: 0.85rem; margin-bottom: 12px; }
-    .blog-body { line-height: 1.8; color: #374151; white-space: pre-line; }
+    .blog-meta { display: flex; justify-content: space-between; align-items: center; color: #6c757d; font-size: 0.85rem; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+    .blog-body { line-height: 1.8; color: #374151; white-space: pre-line; margin-bottom: 15px; }
+    .blog-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 12px; font-size: 0.9rem; }
+    .action-btn { background: #f0fdf4; border: 1px solid #c3e6cb; color: #0f5132; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 5px; text-decoration: none; }
+    .action-btn:hover { background: #d1fae5; }
+    .share-btn { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+    .share-btn:hover { background: #dbeafe; }
   </style>
 
   <!-- Firebase SDKs -->
@@ -72,17 +77,88 @@
 
       snapshot.forEach(doc => {
         const blog = doc.data();
+        const id = doc.id;
+        
+        // Default values agar purane post me na ho
+        const views = blog.views || 1;
+        const likes = blog.likes || 0;
+
+        // View count ko automatic badhayein (Har baar kholne par 1 bar count hoga)
+        incrementViews(id, views);
+
         const card = document.createElement("div");
         card.className = "blog-card";
         card.innerHTML = `
           <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
-          <div class="blog-date">📅 ${blog.date}</div>
+          <div class="blog-meta">
+            <span>📅 ${blog.date}</span>
+            <span>👁️ ${views} Views &nbsp;&nbsp;|&nbsp;&nbsp; ❤️ <span id="like-count-${id}">${likes}</span> Likes</span>
+          </div>
           <div class="blog-body">${escapeHtml(blog.content)}</div>
+          <div class="blog-footer">
+            <button class="action-btn" onclick="likePost('${id}')">👍 लाइक करें (<span id="like-btn-count-${id}">${likes}</span>)</button>
+            <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}')">📤 शेयर करें</button>
+          </div>
         `;
         container.appendChild(card);
       });
     } catch (error) {
       container.innerHTML = "<p style='text-align:center; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
+    }
+  }
+
+  // View Count Increment function
+  async function incrementViews(id, currentViews) {
+    const viewKey = "viewed_" + id;
+    if (!localStorage.getItem(viewKey)) {
+      localStorage.setItem(viewKey, "true");
+      try {
+        await db.collection("blogs").doc(id).update({
+          views: currentViews + 1
+        });
+      } catch (e) {
+        console.log("View update error");
+      }
+    }
+  }
+
+  // Like Function
+  async function likePost(id) {
+    const likeKey = "liked_" + id;
+    if (localStorage.getItem(likeKey)) {
+      alert("आप पहले ही इस पोस्ट को लाइक कर चुके हैं!");
+      return;
+    }
+
+    const docRef = db.collection("blogs").doc(id);
+    try {
+      await db.runTransaction(async (transaction) => {
+        const doc = await transaction.get(docRef);
+        if (!doc.exists) return;
+        const newLikes = (doc.data().likes || 0) + 1;
+        transaction.update(docRef, { likes: newLikes });
+        
+        // Update UI instantly
+        document.getElementById(`like-count-${id}`).innerText = newLikes;
+        document.getElementById(`like-btn-count-${id}`).innerText = newLikes;
+        localStorage.setItem(likeKey, "true");
+        alert("पोस्ट को लाइक करने के लिए शुक्रिया! ❤️");
+      });
+    } catch (e) {
+      alert("लाइक करने में दिक्कत आई।");
+    }
+  }
+
+  // Share Function
+  function sharePost(title) {
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: title + " - दीनी दुआ इस्लामिक ब्लॉग जरूर पढ़ें:",
+        url: window.location.href,
+      }).catch(() => {});
+    } else {
+      prompt("इस लिंक को कॉपी करके शेयर करें:", window.location.href);
     }
   }
 
