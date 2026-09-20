@@ -22,6 +22,10 @@
     .blog-date { color: #6c757d; font-size: 0.85rem; margin-bottom: 12px; }
     .blog-body { line-height: 1.8; color: #374151; white-space: pre-line; }
   </style>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -37,30 +41,49 @@
   <h1 style="color:#0f5132; text-align:center; margin-top:20px;">दीनी दुआ - इस्लामिक ब्लॉग्स</h1>
   <p style="text-align:center; color:#6c757d; margin-bottom:30px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
 
-  <div id="publicBlogList"></div>
+  <div id="publicBlogList"><p style="text-align:center; color:#777;">लोड हो रहा है...</p></div>
 </div>
 
 <script>
-  function loadPublicBlogs() {
-    const blogs = JSON.parse(localStorage.getItem('deeni_blogs')) || [];
+  // Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDIc_0jZ3GSziO_s1wBB3Cz5radLDqM7Rg",
+    authDomain: "deenidua-a5413.firebaseapp.com",
+    projectId: "deenidua-a5413",
+    storageBucket: "deenidua-a5413.firebasestorage.app",
+    messagingSenderId: "494498303568",
+    appId: "1:494498303568:web:921f12b2d7962d2928cb55"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  async function loadPublicBlogs() {
     const container = document.getElementById("publicBlogList");
-    container.innerHTML = "";
 
-    if (blogs.length === 0) {
-      container.innerHTML = "<p style='text-align:center; color:#777;'>abhi koi blog post uplabdh nahi hai.</p>";
-      return;
+    try {
+      const snapshot = await db.collection("blogs").orderBy("createdAt", "desc").get();
+      container.innerHTML = "";
+
+      if (snapshot.empty) {
+        container.innerHTML = "<p style='text-align:center; color:#777;'>abhi koi blog post uplabdh nahi hai.</p>";
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const blog = doc.data();
+        const card = document.createElement("div");
+        card.className = "blog-card";
+        card.innerHTML = `
+          <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
+          <div class="blog-date">📅 ${blog.date}</div>
+          <div class="blog-body">${escapeHtml(blog.content)}</div>
+        `;
+        container.appendChild(card);
+      });
+    } catch (error) {
+      container.innerHTML = "<p style='text-align:center; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
     }
-
-    blogs.forEach(blog => {
-      const card = document.createElement("div");
-      card.className = "blog-card";
-      card.innerHTML = `
-        <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
-        <div class="blog-date">📅 ${blog.date}</div>
-        <div class="blog-body">${escapeHtml(blog.content)}</div>
-      `;
-      container.appendChild(card);
-    });
   }
 
   function escapeHtml(text) {
