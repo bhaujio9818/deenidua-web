@@ -6,6 +6,14 @@
   <title>Deeni Dua - Article</title>
   <style>
     body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; }
+    
+    /* Header Style */
+    header { background: #0f5132; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+    header a.logo-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
+    header img { height: 36px; width: 36px; border-radius: 6px; object-fit: contain; background: white; padding: 2px; }
+    header span.site-title { font-size: 1.2rem; font-weight: bold; color: white; }
+    header a.home-btn { color: #d1fae5; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); padding: 5px 12px; border-radius: 15px; }
+
     .container { max-width: 800px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
     h1 { color: #0f5132; margin-top: 0; font-size: 1.8rem; }
     .meta { color: #666; font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; }
@@ -19,6 +27,15 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
+
+<!-- Header with Logo -->
+<header>
+  <a href="index.html" class="logo-link">
+    <img src="logo-mobile.png" alt="दीनी दुआ">
+    <span class="site-title">दीनी दुआ</span>
+  </a>
+  <a href="blog.html" class="home-btn">📜 सभी ब्लॉग्स</a>
+</header>
 
 <div class="container" id="articleContainer">
   <a href="blog.html" class="back-btn">← सभी ब्लॉग्स पर वापस जाएं</a>
