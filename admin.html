@@ -20,6 +20,10 @@
     #loginSection.show, #adminDashboard.show { display: block; }
     .blog-item { background: #f9fdfa; border: 1px solid #c3e6cb; padding: 15px; border-radius: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
   </style>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -29,7 +33,7 @@
     <h2>🔐 Admin Login</h2>
     <div class="form-group" style="margin-top: 20px;">
       <label>Password:</label>
-      <input type="password" id="adminPassword" placeholder="Password dalein (jaise: deenidua2026)">
+      <input type="password" id="adminPassword" placeholder="Password dalein">
     </div>
     <button class="btn" onclick="checkLogin()">Login Karein</button>
   </div>
@@ -53,6 +57,19 @@
 </div>
 
 <script>
+  // Firebase Configuration (Aapki details ke sath)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDIc_0jZ3GSziO_s1wBB3Cz5radLDqM7Rg",
+    authDomain: "deenidua-a5413.firebaseapp.com",
+    projectId: "deenidua-a5413",
+    storageBucket: "deenidua-a5413.firebasestorage.app",
+    messagingSenderId: "494498303568",
+    appId: "1:494498303568:web:921f12b2d7962d2928cb55"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
   const ADMIN_PASS = "deenidua9818";
 
   function checkLogin() {
@@ -62,67 +79,76 @@
       document.getElementById("adminDashboard").classList.add("show");
       loadAdminBlogs();
     } else {
-      alert("Galat password! Sahi password dalein.");
+      alert("Galat password!");
     }
   }
 
-  function publishBlog() {
+  async function publishBlog() {
     const title = document.getElementById("blogTitle").value.trim();
     const content = document.getElementById("blogContent").value.trim();
 
     if (title === "" || content === "") {
-      alert("Kripya title aur content dono bharein!");
+      alert("Kripya title aur content bharein!");
       return;
     }
 
-    const blogs = JSON.parse(localStorage.getItem('deeni_blogs')) || [];
-    const newBlog = {
-      id: Date.now(),
-      title: title,
-      content: content,
-      date: new Date().toLocaleDateString('hi-IN')
-    };
+    try {
+      await db.collection("blogs").add({
+        title: title,
+        content: content,
+        date: new Date().toLocaleDateString('hi-IN'),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
 
-    blogs.unshift(newBlog);
-    localStorage.setItem('deeni_blogs', JSON.stringify(blogs));
-
-    document.getElementById("blogTitle").value = "";
-    document.getElementById("blogContent").value = "";
-
-    alert("Blog safaltapurvak publish ho gaya hai!");
-    loadAdminBlogs();
-  }
-
-  function loadAdminBlogs() {
-    const blogs = JSON.parse(localStorage.getItem('deeni_blogs')) || [];
-    const listDiv = document.getElementById("blogList");
-    listDiv.innerHTML = "";
-
-    if (blogs.length === 0) {
-      listDiv.innerHTML = "<p style='text-align:center; color:#777;'>Abhi koi blog post nahi hai.</p>";
-      return;
-    }
-
-    blogs.forEach(blog => {
-      const item = document.createElement("div");
-      item.className = "blog-item";
-      item.innerHTML = `
-        <div>
-          <h4>${escapeHtml(blog.title)}</h4>
-          <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date}</p>
-        </div>
-        <button class="btn btn-danger" onclick="deleteBlog(${blog.id})">Delete</button>
-      `;
-      listDiv.appendChild(item);
-    });
-  }
-
-  function deleteBlog(id) {
-    if (confirm("Kya aap is blog ko delete karna chahte hain?")) {
-      let blogs = JSON.parse(localStorage.getItem('deeni_blogs')) || [];
-      blogs = blogs.filter(b => b.id !== id);
-      localStorage.setItem('deeni_blogs', JSON.stringify(blogs));
+      document.getElementById("blogTitle").value = "";
+      document.getElementById("blogContent").value = "";
+      alert("Blog safaltapurvak publish ho gaya!");
       loadAdminBlogs();
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  }
+
+  async function loadAdminBlogs() {
+    const listDiv = document.getElementById("blogList");
+    listDiv.innerHTML = "Load ho raha hai...";
+
+    try {
+      const snapshot = await db.collection("blogs").orderBy("createdAt", "desc").get();
+      listDiv.innerHTML = "";
+
+      if (snapshot.empty) {
+        listDiv.innerHTML = "<p style='text-align:center; color:#777;'>Abhi koi blog post nahi hai.</p>";
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const blog = doc.data();
+        const id = doc.id;
+        const item = document.createElement("div");
+        item.className = "blog-item";
+        item.innerHTML = `
+          <div>
+            <h4>${escapeHtml(blog.title)}</h4>
+            <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date}</p>
+          </div>
+          <button class="btn btn-danger" onclick="deleteBlog('${id}')">Delete</button>
+        `;
+        listDiv.appendChild(item);
+      });
+    } catch (error) {
+      listDiv.innerHTML = "Data load karne me samasya aayi.";
+    }
+  }
+
+  async function deleteBlog(id) {
+    if (confirm("Kya aap delete karna chahte hain?")) {
+      try {
+        await db.collection("blogs").doc(id).delete();
+        loadAdminBlogs();
+      } catch (error) {
+        alert("Delete nahi ho saka.");
+      }
     }
   }
 
