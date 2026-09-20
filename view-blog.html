@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Deeni Dua - Article</title>
+  
+  <!-- Google AdSense Verification Code -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015" crossorigin="anonymous"></script>
+
   <style>
     body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
     
@@ -16,7 +20,7 @@
 
     .container { max-width: 800px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); flex: 1; box-sizing: border-box; width: calc(100% - 30px); }
     h1 { color: #0f5132; margin-top: 0; font-size: 1.8rem; }
-    .meta { color: #666; font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; flex-wrap: gap; }
+    .meta { color: #666; font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; }
     .content { line-height: 1.8; color: #374151; white-space: pre-line; font-size: 1.05rem; }
     .back-btn { display: inline-block; background: #0f5132; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
     .back-btn:hover { background: #146c43; }
@@ -45,13 +49,14 @@
   <p style="text-align:center; color:#777;">लेख लोड हो रहा है...</p>
 </div>
 
-<!-- Footer with Legal Links -->
+<!-- Footer with Legal Links & Socials -->
 <footer>
-  <div style="margin-bottom: 10px; display: flex; justify-content: center; gap: 15px; align-items: center;">
+  <div style="margin-bottom: 12px; display: flex; justify-content: center; gap: 15px; align-items: center;">
     <a href="https://www.facebook.com/profile.php?id=61593439228630" target="_blank" rel="noopener noreferrer" style="color: #1877F2; text-decoration: none; font-weight: bold; font-size: 0.9rem;">📘 Facebook</a>
     <span style="color: #ddd;">|</span>
     <a href="https://www.instagram.com/vinsonaspark/" target="_blank" rel="noopener noreferrer" style="color: #E1306C; text-decoration: none; font-weight: bold; font-size: 0.9rem;">📷 Instagram</a>
   </div>
+
   <p>© 2026 दीनी दुआ | सर्वाधिकार सुरक्षित</p>
   <p style="margin-top:8px;">
     <a href="pages/about.html" style="color:#0f5132; margin:0 5px; text-decoration:none; font-weight:600;">About Us</a> | 
@@ -111,7 +116,7 @@
         </div>
       `;
     } catch (error) {
-      container.innerHTML = `<a href="blog.html" class="back-btn">← वापस जाएं</a><p style="color:red; text-align:center;">लेख लोड करने में समस्या आई।</p>`;
+      container.innerHTML = `<a href="blog.html" class="back-btn">← वापस जाएं</a><p style="color:red; text-align:center;">लेख लोड करने में समस्या आई।</a>`;
     }
   }
 
