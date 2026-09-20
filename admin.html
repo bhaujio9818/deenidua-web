@@ -16,6 +16,7 @@
     .btn { background: #0f5132; color: white; border: none; padding: 12px 20px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; }
     .btn:hover { background: #146c43; }
     .btn-danger { background: #dc3545; padding: 6px 12px; font-size: 0.85rem; width: auto; }
+    .btn-warning { background: #ffc107; color: #000; padding: 6px 12px; font-size: 0.85rem; width: auto; margin-right: 5px; font-weight: bold; }
     #adminDashboard, #loginSection { display: none; }
     #loginSection.show, #adminDashboard.show { display: block; }
     .blog-item { background: #f9fdfa; border: 1px solid #c3e6cb; padding: 15px; border-radius: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
@@ -40,7 +41,10 @@
 
   <!-- Admin Dashboard -->
   <div id="adminDashboard">
-    <h2>✍️ Naya Islamic Blog Likhein</h2>
+    <h2 id="formTitle">✍️ Naya Islamic Blog Likhein</h2>
+    <!-- Hidden input to store editing blog ID -->
+    <input type="hidden" id="editBlogId" value="">
+    
     <div class="form-group">
       <label>Blog Title:</label>
       <input type="text" id="blogTitle" placeholder="Jaise: Ramzan ki Fazilat...">
@@ -49,7 +53,8 @@
       <label>Blog Content:</label>
       <textarea id="blogContent" placeholder="Yahan apna pura lekh likhein..."></textarea>
     </div>
-    <button class="btn" onclick="publishBlog()">Publish Karein</button>
+    <button class="btn" id="submitBtn" onclick="publishBlog()">Publish Karein</button>
+    <button class="btn" id="cancelEditBtn" onclick="resetForm()" style="background: #6c757d; margin-top: 8px; display: none;">Cancel Edit</button>
 
     <h2 style="margin-top: 35px; border-top: 2px solid #eee; padding-top: 20px;">📋 Published Blogs</h2>
     <div id="blogList"></div>
@@ -57,7 +62,7 @@
 </div>
 
 <script>
-  // Firebase Configuration (Aapki details ke sath)
+  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDIc_0jZ3GSziO_s1wBB3Cz5radLDqM7Rg",
     authDomain: "deenidua-a5413.firebaseapp.com",
@@ -84,6 +89,7 @@
   }
 
   async function publishBlog() {
+    const editId = document.getElementById("editBlogId").value;
     const title = document.getElementById("blogTitle").value.trim();
     const content = document.getElementById("blogContent").value.trim();
 
@@ -93,16 +99,27 @@
     }
 
     try {
-      await db.collection("blogs").add({
-        title: title,
-        content: content,
-        date: new Date().toLocaleDateString('hi-IN'),
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+      if (editId === "") {
+        // Naya blog add karein
+        await db.collection("blogs").add({
+          title: title,
+          content: content,
+          date: new Date().toLocaleDateString('hi-IN'),
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert("Blog safaltapurvak publish ho gaya!");
+      } else {
+        // Purana blog update/edit karein
+        await db.collection("blogs").doc(editId).update({
+          title: title,
+          content: content
+        });
+        alert("Blog safaltapurvak update ho gaya!");
+        resetForm();
+      }
 
       document.getElementById("blogTitle").value = "";
       document.getElementById("blogContent").value = "";
-      alert("Blog safaltapurvak publish ho gaya!");
       loadAdminBlogs();
     } catch (error) {
       alert("Error: " + error.message);
@@ -130,15 +147,38 @@
         item.innerHTML = `
           <div>
             <h4>${escapeHtml(blog.title)}</h4>
-            <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date}</p>
+            <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date || 'N/A'}</p>
           </div>
-          <button class="btn btn-danger" onclick="deleteBlog('${id}')">Delete</button>
+          <div>
+            <button class="btn btn-warning" onclick="editBlog('${id}', \`${escapeAttr(blog.title)}\`, \`${escapeAttr(blog.content)}\`)">Edit</button>
+            <button class="btn btn-danger" onclick="deleteBlog('${id}')">Delete</button>
+          </div>
         `;
         listDiv.appendChild(item);
       });
     } catch (error) {
       listDiv.innerHTML = "Data load karne me samasya aayi.";
     }
+  }
+
+  // Edit button click karne par data form me load ho jayega
+  function editBlog(id, title, content) {
+    document.getElementById("editBlogId").value = id;
+    document.getElementById("blogTitle").value = title;
+    document.getElementById("blogContent").value = content;
+    document.getElementById("formTitle").innerText = "✏️ Blog Edit Karein";
+    document.getElementById("submitBtn").innerText = "Update Karein";
+    document.getElementById("cancelEditBtn").style.display = "block";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function resetForm() {
+    document.getElementById("editBlogId").value = "";
+    document.getElementById("blogTitle").value = "";
+    document.getElementById("blogContent").value = "";
+    document.getElementById("formTitle").innerText = "✍️ Naya Islamic Blog Likhein";
+    document.getElementById("submitBtn").innerText = "Publish Karein";
+    document.getElementById("cancelEditBtn").style.display = "none";
   }
 
   async function deleteBlog(id) {
@@ -153,7 +193,11 @@
   }
 
   function escapeHtml(text) {
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : "";
+  }
+
+  function escapeAttr(text) {
+    return text ? text.replace(/"/g, '&quot;').replace(/'/g, '&#39;') : "";
   }
 </script>
 
