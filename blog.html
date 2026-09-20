@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Islamic Blogs & Articles - Deeni Dua</title>
   
-  <!-- SEO Keywords -->
-  <meta name="description" content="दीनी दुआ के इस्लामिक ब्लॉग और आर्टिकल्स पढ़ें। कुरआन, हदीस, रमज़ान और दीनी मालूमात से जुड़े बेहतरीन लेख हिंदी में उपलब्ध हैं।">
+  <meta name="description" content="दीनी दुआ के इस्लामिक ब्लॉग और आर्टिकल्स पढ़ें। कुरआन, हदीस और दीनी मालूमात।">
   <meta name="robots" content="index, follow">
 
   <!-- Google AdSense -->
@@ -55,9 +54,9 @@
 
   <!-- Pagination Controls -->
   <div class="pagination" id="paginationControls" style="display: none;">
-    <button class="page-btn" id="prevBtn" onclick="changePage(-1)">⬅️ पिछला</button>
+    <button class="page-btn" id="prevBtn" onclick="loadPreviousPage()" disabled>⬅️ पिछला</button>
     <span class="page-info" id="pageIndicator">पेज 1</span>
-    <button class="page-btn" id="nextBtn" onclick="changePage(1)">अगला ➡️</button>
+    <button class="page-btn" id="nextBtn" onclick="loadNextPage()">अगला ➡️</button>
   </div>
 </div>
 
@@ -74,74 +73,98 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  let allBlogs = [];
+  let lastVisible = null;
+  let firstVisible = null;
+  let pageStack = [];
   let currentPage = 1;
-  const postsPerPage = 10;
+  const pageSize = 10;
 
-  async function loadPublicBlogs() {
+  async function loadPublicBlogs(direction = 'next') {
     const container = document.getElementById("publicBlogList");
+    container.innerHTML = "<p style='text-align:center; color:#777;'>लोड हो रहा है...</p>";
 
     try {
-      const snapshot = await db.collection("blogs").orderBy("createdAt", "desc").get();
-      
+      let query = db.collection("blogs").orderBy("createdAt", "desc").limit(pageSize);
+
+      if (direction === 'next' && lastVisible && pageStack.length > 0) {
+        query = db.collection("blogs").orderBy("createdAt", "desc").startAfter(lastVisible).limit(pageSize);
+      } else if (direction === 'prev' && pageStack.length > 1) {
+        pageStack.pop(); // Remove current page
+        let previousStart = pageStack[pageStack.length - 1];
+        if (previousStart) {
+          query = db.collection("blogs").orderBy("createdAt", "desc").startAfter(previousStart).limit(pageSize);
+        } else {
+          query = db.collection("blogs").orderBy("createdAt", "desc").limit(pageSize);
+        }
+      }
+
+      const snapshot = await query.get();
+
       if (snapshot.empty) {
-        container.innerHTML = "<p style='text-align:center; color:#777;'>abhi koi blog post uplabdh nahi hai.</p>";
+        container.innerHTML = "<p style='text-align:center; color:#777;'>और कोई पोस्ट उपलब्ध नहीं है।</p>";
         return;
       }
 
-      allBlogs = [];
+      if (direction === 'next') {
+        if (pageStack.length === 0 || pageStack[pageStack.length - 1] !== firstVisible) {
+          // Keep track of pages safely
+        }
+      }
+
+      container.innerHTML = "";
+      firstVisible = snapshot.docs[0];
+      lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
       snapshot.forEach(doc => {
-        allBlogs.push({ id: doc.id, ...doc.data() });
+        const blog = doc.data();
+        const id = doc.id;
+        const views = blog.views || 1;
+        const likes = blog.likes || 0;
+        incrementViews(id, views);
+
+        const card = document.createElement("div");
+        card.className = "blog-card";
+        card.innerHTML = `
+          <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
+          <div class="blog-meta">
+            <span>📅 ${blog.date}</span>
+            <span>👁️ ${views} Views &nbsp;&nbsp;|&nbsp;&nbsp; ❤️ <span id="like-count-${id}">${likes}</span> Likes</span>
+          </div>
+          <div class="blog-body">${escapeHtml(blog.content)}</div>
+          <div class="blog-footer">
+            <button class="action-btn" onclick="likePost('${id}')">👍 लाइक करें (<span id="like-btn-count-${id}">${likes}</span>)</button>
+            <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}')">📤 शेयर करें</button>
+          </div>
+        `;
+        container.appendChild(card);
       });
 
-      renderPage();
-      if (allBlogs.length > postsPerPage) {
-        document.getElementById("paginationControls").style.display = "flex";
-      }
+      document.getElementById("paginationControls").style.display = "flex";
+      document.getElementById("pageIndicator").innerText = `पेज ${currentPage}`;
+      document.getElementById("prevBtn").disabled = currentPage === 1;
+      
+      // Check if next page exists
+      const nextCheck = await db.collection("blogs").orderBy("createdAt", "desc").startAfter(lastVisible).limit(1).get();
+      document.getElementById("nextBtn").disabled = nextCheck.empty;
+
     } catch (error) {
       container.innerHTML = "<p style='text-align:center; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
     }
   }
 
-  function renderPage() {
-    const container = document.getElementById("publicBlogList");
-    container.innerHTML = "";
-
-    const start = (currentPage - 1) * postsPerPage;
-    const end = start + postsPerPage;
-    const paginatedBlogs = allBlogs.slice(start, end);
-
-    paginatedBlogs.forEach(blog => {
-      const views = blog.views || 1;
-      const likes = blog.likes || 0;
-      incrementViews(blog.id, views);
-
-      const card = document.createElement("div");
-      card.className = "blog-card";
-      card.innerHTML = `
-        <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
-        <div class="blog-meta">
-          <span>📅 ${blog.date}</span>
-          <span>👁️ ${views} Views &nbsp;&nbsp;|&nbsp;&nbsp; ❤️ <span id="like-count-${blog.id}">${likes}</span> Likes</span>
-        </div>
-        <div class="blog-body">${escapeHtml(blog.content)}</div>
-        <div class="blog-footer">
-          <button class="action-btn" onclick="likePost('${blog.id}')">👍 लाइक करें (<span id="like-btn-count-${blog.id}">${likes}</span>)</button>
-          <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}')">📤 शेयर करें</button>
-        </div>
-      `;
-      container.appendChild(card);
-    });
-
-    document.getElementById("pageIndicator.innerText = `पेज ${currentPage}`;
-    document.getElementById("prevBtn").disabled = currentPage === 1;
-    document.getElementById("nextBtn").disabled = end >= allBlogs.length;
+  function loadNextPage() {
+    currentPage++;
+    pageStack.push(firstVisible);
+    loadPublicBlogs('next');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function changePage(direction) {
-    currentPage += direction;
-    renderPage();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  function loadPreviousPage() {
+    if (currentPage > 1) {
+      currentPage--;
+      loadPublicBlogs('prev');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   async function incrementViews(id, currentViews) {
@@ -191,7 +214,7 @@
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  window.onload = loadPublicBlogs;
+  window.onload = () => loadPublicBlogs('next');
 </script>
 
 </body>
