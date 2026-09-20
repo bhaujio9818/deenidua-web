@@ -89,7 +89,7 @@
       if (direction === 'next' && lastVisible && pageStack.length > 0) {
         query = db.collection("blogs").orderBy("createdAt", "desc").startAfter(lastVisible).limit(pageSize);
       } else if (direction === 'prev' && pageStack.length > 1) {
-        pageStack.pop(); // Remove current page
+        pageStack.pop(); 
         let previousStart = pageStack[pageStack.length - 1];
         if (previousStart) {
           query = db.collection("blogs").orderBy("createdAt", "desc").startAfter(previousStart).limit(pageSize);
@@ -103,12 +103,6 @@
       if (snapshot.empty) {
         container.innerHTML = "<p style='text-align:center; color:#777;'>और कोई पोस्ट उपलब्ध नहीं है।</p>";
         return;
-      }
-
-      if (direction === 'next') {
-        if (pageStack.length === 0 || pageStack[pageStack.length - 1] !== firstVisible) {
-          // Keep track of pages safely
-        }
       }
 
       container.innerHTML = "";
@@ -143,7 +137,6 @@
       document.getElementById("pageIndicator").innerText = `पेज ${currentPage}`;
       document.getElementById("prevBtn").disabled = currentPage === 1;
       
-      // Check if next page exists
       const nextCheck = await db.collection("blogs").orderBy("createdAt", "desc").startAfter(lastVisible).limit(1).get();
       document.getElementById("nextBtn").disabled = nextCheck.empty;
 
@@ -202,9 +195,11 @@
     }
   }
 
+  // Updated Share Function (Crisp and Short text)
   function sharePost(title) {
+    const shareText = "दीनी दुआ लेख पढ़ें: " + title;
     if (navigator.share) {
-      navigator.share({ title: title, text: title + " - दीनी दुआ इस्लामिक ब्लॉग:", url: window.location.href }).catch(() => {});
+      navigator.share({ title: title, text: shareText, url: window.location.href }).catch(() => {});
     } else {
       prompt("लिंक कॉपी करें:", window.location.href);
     }
