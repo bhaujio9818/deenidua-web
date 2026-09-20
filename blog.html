@@ -7,10 +7,9 @@
   
   <!-- SEO Keywords -->
   <meta name="description" content="दीनी दुआ के इस्लामिक ब्लॉग और आर्टिकल्स पढ़ें। कुरआन, हदीस, रमज़ान और दीनी मालूमात से जुड़े बेहतरीन लेख हिंदी में उपलब्ध हैं।">
-  <meta name="keywords" content="islamic blogs in hindi, deeni dua articles, ramzan ki fazilat hindi, jumma ki sunnat hindi, quran aur hadith in hindi, islamic gyan hindi, deeni malumat, masnoon duayein hindi, namaz aur roza ke masail, islamic articles deenidua">
   <meta name="robots" content="index, follow">
 
-  <!-- Google AdSense Verification & Ads Code -->
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="style.css">
@@ -26,6 +25,12 @@
     .action-btn:hover { background: #d1fae5; }
     .share-btn { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
     .share-btn:hover { background: #dbeafe; }
+    
+    /* Pagination Buttons Style */
+    .pagination { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; }
+    .page-btn { background: #0f5132; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+    .page-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .page-info { font-weight: bold; color: #555; }
   </style>
 
   <!-- Firebase SDKs -->
@@ -47,10 +52,16 @@
   <p style="text-align:center; color:#6c757d; margin-bottom:30px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
 
   <div id="publicBlogList"><p style="text-align:center; color:#777;">लोड हो रहा है...</p></div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination" id="paginationControls" style="display: none;">
+    <button class="page-btn" id="prevBtn" onclick="changePage(-1)">⬅️ पिछला</button>
+    <span class="page-info" id="pageIndicator">पेज 1</span>
+    <button class="page-btn" id="nextBtn" onclick="changePage(1)">अगला ➡️</button>
+  </div>
 </div>
 
 <script>
-  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDIc_0jZ3GSziO_s1wBB3Cz5radLDqM7Rg",
     authDomain: "deenidua-a5413.firebaseapp.com",
@@ -63,66 +74,86 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
+  let allBlogs = [];
+  let currentPage = 1;
+  const postsPerPage = 10;
+
   async function loadPublicBlogs() {
     const container = document.getElementById("publicBlogList");
 
     try {
       const snapshot = await db.collection("blogs").orderBy("createdAt", "desc").get();
-      container.innerHTML = "";
-
+      
       if (snapshot.empty) {
         container.innerHTML = "<p style='text-align:center; color:#777;'>abhi koi blog post uplabdh nahi hai.</p>";
         return;
       }
 
+      allBlogs = [];
       snapshot.forEach(doc => {
-        const blog = doc.data();
-        const id = doc.id;
-        
-        // Default values agar purane post me na ho
-        const views = blog.views || 1;
-        const likes = blog.likes || 0;
-
-        // View count ko automatic badhayein (Har baar kholne par 1 bar count hoga)
-        incrementViews(id, views);
-
-        const card = document.createElement("div");
-        card.className = "blog-card";
-        card.innerHTML = `
-          <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
-          <div class="blog-meta">
-            <span>📅 ${blog.date}</span>
-            <span>👁️ ${views} Views &nbsp;&nbsp;|&nbsp;&nbsp; ❤️ <span id="like-count-${id}">${likes}</span> Likes</span>
-          </div>
-          <div class="blog-body">${escapeHtml(blog.content)}</div>
-          <div class="blog-footer">
-            <button class="action-btn" onclick="likePost('${id}')">👍 लाइक करें (<span id="like-btn-count-${id}">${likes}</span>)</button>
-            <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}')">📤 शेयर करें</button>
-          </div>
-        `;
-        container.appendChild(card);
+        allBlogs.push({ id: doc.id, ...doc.data() });
       });
+
+      renderPage();
+      if (allBlogs.length > postsPerPage) {
+        document.getElementById("paginationControls").style.display = "flex";
+      }
     } catch (error) {
       container.innerHTML = "<p style='text-align:center; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
     }
   }
 
-  // View Count Increment function
+  function renderPage() {
+    const container = document.getElementById("publicBlogList");
+    container.innerHTML = "";
+
+    const start = (currentPage - 1) * postsPerPage;
+    const end = start + postsPerPage;
+    const paginatedBlogs = allBlogs.slice(start, end);
+
+    paginatedBlogs.forEach(blog => {
+      const views = blog.views || 1;
+      const likes = blog.likes || 0;
+      incrementViews(blog.id, views);
+
+      const card = document.createElement("div");
+      card.className = "blog-card";
+      card.innerHTML = `
+        <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
+        <div class="blog-meta">
+          <span>📅 ${blog.date}</span>
+          <span>👁️ ${views} Views &nbsp;&nbsp;|&nbsp;&nbsp; ❤️ <span id="like-count-${blog.id}">${likes}</span> Likes</span>
+        </div>
+        <div class="blog-body">${escapeHtml(blog.content)}</div>
+        <div class="blog-footer">
+          <button class="action-btn" onclick="likePost('${blog.id}')">👍 लाइक करें (<span id="like-btn-count-${blog.id}">${likes}</span>)</button>
+          <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}')">📤 शेयर करें</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+    document.getElementById("pageIndicator.innerText = `पेज ${currentPage}`;
+    document.getElementById("prevBtn").disabled = currentPage === 1;
+    document.getElementById("nextBtn").disabled = end >= allBlogs.length;
+  }
+
+  function changePage(direction) {
+    currentPage += direction;
+    renderPage();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   async function incrementViews(id, currentViews) {
     const viewKey = "viewed_" + id;
     if (!localStorage.getItem(viewKey)) {
       localStorage.setItem(viewKey, "true");
       try {
-        await db.collection("blogs").doc(id).update({
-          views: currentViews + 1
-        });
-      } catch (e) {
-        console.log("View update error");
-      }
+        await db.collection("blogs").doc(id).update({ views: currentViews + 1 });
+      } catch (e) {}
     }
   }
 
-  // Like Function
   async function likePost(id) {
     const likeKey = "liked_" + id;
     if (localStorage.getItem(likeKey)) {
@@ -138,7 +169,6 @@
         const newLikes = (doc.data().likes || 0) + 1;
         transaction.update(docRef, { likes: newLikes });
         
-        // Update UI instantly
         document.getElementById(`like-count-${id}`).innerText = newLikes;
         document.getElementById(`like-btn-count-${id}`).innerText = newLikes;
         localStorage.setItem(likeKey, "true");
@@ -149,16 +179,11 @@
     }
   }
 
-  // Share Function
   function sharePost(title) {
     if (navigator.share) {
-      navigator.share({
-        title: title,
-        text: title + " - दीनी दुआ इस्लामिक ब्लॉग जरूर पढ़ें:",
-        url: window.location.href,
-      }).catch(() => {});
+      navigator.share({ title: title, text: title + " - दीनी दुआ इस्लामिक ब्लॉग:", url: window.location.href }).catch(() => {});
     } else {
-      prompt("इस लिंक को कॉपी करके शेयर करें:", window.location.href);
+      prompt("लिंक कॉपी करें:", window.location.href);
     }
   }
 
