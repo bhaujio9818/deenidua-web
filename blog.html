@@ -6,7 +6,6 @@
   <title>Islamic Blogs & Articles - Deeni Dua</title>
   
   <meta name="description" content="दीनी दुआ के इस्लामिक ब्लॉग और आर्टिकल्स पढ़ें। कुरआन, हदीस और दीनी मालूमात।">
-  <meta name="keywords" content="islamic blogs in hindi, deeni dua articles, ramzan ki fazilat hindi, jumma ki sunnat hindi">
   <meta name="robots" content="index, follow">
 
   <style>
@@ -21,7 +20,7 @@
       margin-top: 20px;
     }
 
-    /* Default Fixed Size */
+    /* Fixed Box Size: Max Width 523px, Height 302px */
     .blog-card {
       width: 100%;
       max-width: 523px;
@@ -36,20 +35,12 @@
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
-      transition: height 0.3s ease;
     }
 
-    /* Jab Read More par click ho, tab card bada ho jaye */
-    .blog-card.expanded {
-      height: auto !important;
-      max-height: none !important;
-    }
-
-    .blog-title { color: #0f5132; font-size: 1.1rem; margin: 0 0 8px 0; }
+    .blog-title { color: #0f5132; font-size: 1.1rem; margin: 0 0 8px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
     .blog-meta { display: flex; justify-content: space-between; align-items: center; color: #6c757d; font-size: 0.75rem; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
     
-    /* Normal state me text chhota dikhega */
     .blog-body { 
       font-size: 0.88rem; 
       color: #374151; 
@@ -61,17 +52,10 @@
       -webkit-box-orient: vertical; 
       white-space: pre-line;
     }
-
-    /* Expanded state me pura text dikhega */
-    .blog-card.expanded .blog-body {
-      display: block;
-      overflow: visible;
-      -webkit-line-clamp: unset;
-    }
     
     .blog-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 8px; font-size: 0.85rem; margin-top: 10px; }
     
-    .action-btn { background: #f0fdf4; border: 1px solid #c3e6cb; color: #0f5132; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 0.8rem; }
+    .action-btn { background: #f0fdf4; border: 1px solid #c3e6cb; color: #0f5132; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 0.8rem; display: inline-block; text-align: center; }
     .action-btn:hover { background: #d1fae5; }
     .share-btn { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
     
@@ -148,23 +132,21 @@
       const id = doc.id;
       const views = blog.views || 1;
       const likes = blog.likes || 0;
-      incrementViews(id, views);
 
       const card = document.createElement("div");
       card.className = "blog-card";
-      card.id = "card-" + id;
       card.innerHTML = `
         <div>
           <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
           <div class="blog-meta">
             <span>📅 ${blog.date || 'हाल ही में'}</span>
-            <span>👁️ ${views} | ❤️ <span id="like-count-${id}">${likes}</span></span>
+            <span>👁️ ${views} | ❤️ ${likes}</span>
           </div>
-          <div class="blog-body" id="body-${id}">${escapeHtml(blog.content)}</div>
+          <div class="blog-body">${escapeHtml(blog.content)}</div>
         </div>
         <div class="blog-footer">
-          <button class="action-btn" id="btn-${id}" onclick="toggleReadMore('${id}')">Read More →</button>
-          <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}')">📤 शेयर</button>
+          <a href="view-blog.html?id=${id}" class="action-btn">Read More →</a>
+          <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}', '${id}')">📤 शेयर</button>
         </div>
       `;
       container.appendChild(card);
@@ -175,21 +157,6 @@
       if (idx + 1 === page) btn.classList.add("active");
       else btn.classList.remove("active");
     });
-  }
-
-  // Read More aur Read Less toggle karne ka function
-  function toggleReadMore(id) {
-    const card = document.getElementById("card-" + id);
-    const btn = document.getElementById("btn-" + id);
-
-    card.classList.toggle("expanded");
-
-    if (card.classList.contains("expanded")) {
-      btn.innerText = "Read Less ←";
-    } else {
-      btn.innerText = "Read More →";
-      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
   }
 
   function setupPagination() {
@@ -212,22 +179,13 @@
     }
   }
 
-  async function incrementViews(id, currentViews) {
-    const viewKey = "viewed_" + id;
-    if (!localStorage.getItem(viewKey)) {
-      localStorage.setItem(viewKey, "true");
-      try {
-        await db.collection("blogs").doc(id).update({ views: currentViews + 1 });
-      } catch (e) {}
-    }
-  }
-
-  function sharePost(title) {
-    const shareText = "दीनी दुआ लेख पढ़ें: " + title + " \n" + window.location.href;
+  function sharePost(title, id) {
+    const shareUrl = window.location.origin + "/view-blog.html?id=" + id;
+    const shareText = "दीनी दुआ लेख पढ़ें: " + title + " \n" + shareUrl;
     navigator.clipboard.writeText(shareText).then(() => {
       alert("✅ लिंक कॉपी हो गया है!");
     }).catch(() => {
-      prompt("लिंक कॉपी करें:", window.location.href);
+      prompt("लिंक कॉपी करें:", shareUrl);
     });
   }
 
