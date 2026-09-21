@@ -6,8 +6,8 @@
   <title>Deeni Dua - Article</title>
   
   <!-- Google AdSense Verification Code -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015" crossorigin="anonymous"></script>
+
   <style>
     body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
     
@@ -22,6 +22,7 @@
     h1 { color: #0f5132; margin-top: 0; font-size: 1.8rem; }
     .meta { color: #666; font-size: 0.85rem; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; }
     .content { line-height: 1.8; color: #374151; white-space: pre-line; font-size: 1.05rem; }
+    .content a { color: #0f5132; font-weight: bold; text-decoration: underline; }
     .back-btn { display: inline-block; background: #0f5132; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
     .back-btn:hover { background: #146c43; }
 
@@ -102,6 +103,14 @@
       
       incrementViews(blogId, views);
 
+      // अगर इमेज मौजूद है तो उसे एडमिन द्वारा सेट पिक्सेल साइज के मुताबिक दिखाएं
+      let imageHtml = "";
+      if (blog.imageUrl) {
+        const maxWidth = blog.imgWidth || 600;
+        const maxHeight = blog.imgHeight || 300;
+        imageHtml = `<div style="text-align: center; margin-bottom: 20px;"><img src="${blog.imageUrl}" alt="${escapeHtml(blog.title)}" style="width: 100%; max-width: ${maxWidth}px; height: auto; max-height: ${maxHeight}px; object-fit: cover; border-radius: 8px;"></div>`;
+      }
+
       container.innerHTML = `
         <a href="blog.html" class="back-btn">← सभी ब्लॉग्स पर वापस जाएं</a>
         <h1>${escapeHtml(blog.title)}</h1>
@@ -109,14 +118,15 @@
           <span>📅 ${blog.date || 'हाल ही में'}</span>
           <span>👁️ ${views} Views &nbsp;|&nbsp; ❤️ <span id="likeCount">${likes}</span> Likes</span>
         </div>
-        <div class="content">${escapeHtml(blog.content)}</div>
+        ${imageHtml}
+        <div class="content">${blog.content}</div>
         
         <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; text-align: center;">
           <button onclick="likeArticle('${blogId}')" style="background: #f0fdf4; border: 1px solid #c3e6cb; color: #0f5132; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem;">👍 इस लेख को लाइक करें (<span id="btnLikeCount">${likes}</span>)</button>
         </div>
       `;
     } catch (error) {
-      container.innerHTML = `<a href="blog.html" class="back-btn">← वापस जाएं</a><p style="color:red; text-align:center;">लेख लोड करने में समस्या आई।</a>`;
+      container.innerHTML = `<a href="blog.html" class="back-btn">← वापस जाएं</a><p style="color:red; text-align:center;">लेख लोड करने में समस्या आई।</p>`;
     }
   }
 
