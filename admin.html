@@ -12,7 +12,7 @@
     .form-group { margin-bottom: 15px; }
     label { display: block; font-weight: bold; margin-bottom: 5px; color: #0f5132; }
     input, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
-    textarea { height: 120px; resize: vertical; }
+    textarea { height: 140px; resize: vertical; }
     .btn { background: #0f5132; color: white; border: none; padding: 12px 20px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; }
     .btn:hover { background: #146c43; }
     .btn-danger { background: #dc3545; padding: 6px 12px; font-size: 0.85rem; width: auto; }
@@ -49,15 +49,44 @@
       <label>Blog Title:</label>
       <input type="text" id="blogTitle" placeholder="Jaise: Ramzan ki Fazilat...">
     </div>
+
+    <!-- Image Upload & Pixel Size Control -->
     <div class="form-group">
-      <label>Blog Content:</label>
-      <textarea id="blogContent" placeholder="Yahan apna pura lekh likhein..."></textarea>
+      <label>Blog Image (Optional):</label>
+      <input type="file" id="blogImage" accept="image/*" style="padding: 6px; background: #f9f9f9;">
     </div>
+
+    <div style="display: flex; gap: 15px;" class="form-group">
+      <div style="flex: 1;">
+        <label style="font-size: 0.85rem; color: #555;">Image Width (px):</label>
+        <input type="number" id="imgWidth" value="600" placeholder="Jaise: 600">
+      </div>
+      <div style="flex: 1;">
+        <label style="font-size: 0.85rem; color: #555;">Image Height (px):</label>
+        <input type="number" id="imgHeight" value="300" placeholder="Jaise: 300">
+      </div>
+    </div>
+
+    <!-- Quick Tool for Linking Text -->
+    <div style="background: #f1f8f5; padding: 12px; border: 1px solid #c3e6cb; border-radius: 8px; margin-bottom: 15px;">
+      <label style="font-size: 0.9rem; margin-bottom: 6px; color: #0f5132;">🔗 Text ke piche Link lagayein (HTML Hyperlink):</label>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <input type="text" id="linkText" placeholder="Dekhne wala text (Jaise: Yahan click karein)" style="flex: 2; padding: 8px; font-size: 0.85rem;">
+        <input type="text" id="linkUrl" placeholder="Link URL (https://...)" style="flex: 2; padding: 8px; font-size: 0.85rem;">
+        <button type="button" onclick="insertLinkToContent()" style="flex: 1; background: #0f5132; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: bold;">Link Jodein</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Blog Content (HTML Supported):</label>
+      <textarea id="blogContent" placeholder="Yahan apna pura lekh likhein... (Link yahan apne aap add ho jayega)"></textarea>
+    </div>
+
     <button class="btn" id="submitBtn" onclick="publishBlog()">Publish Karein</button>
     <button class="btn" id="cancelEditBtn" onclick="resetForm()" style="background: #6c757d; margin-top: 8px; display: none;">Cancel Edit</button>
 
     <h2 style="margin-top: 35px; border-top: 2px solid #eee; padding-top: 20px;">📋 Published Blogs</h2>
-    <div id="blogList"></div>
+    <div id="blogList">Loading...</div>
   </div>
 </div>
 
@@ -88,39 +117,79 @@
     }
   }
 
+  // Text ke piche link banane ka function
+  function insertLinkToContent() {
+    const text = document.getElementById("linkText").value.trim();
+    const url = document.getElementById("linkUrl").value.trim();
+    const contentBox = document.getElementById("blogContent");
+
+    if (!text || !url) {
+      alert("Kripya text aur URL dono bharein!");
+      return;
+    }
+
+    const htmlLink = `<a href="${url}" target="_blank" style="color: #0f5132; font-weight: bold; text-decoration: underline;">${text}</a>`;
+    contentBox.value += "\n" + htmlLink + "\n";
+
+    document.getElementById("linkText").value = "";
+    document.getElementById("linkUrl").value = "";
+    alert("✅ Link content me jod diya gaya hai!");
+  }
+
   async function publishBlog() {
     const editId = document.getElementById("editBlogId").value;
     const title = document.getElementById("blogTitle").value.trim();
     const content = document.getElementById("blogContent").value.trim();
+    const imgWidth = document.getElementById("imgWidth").value || "600";
+    const imgHeight = document.getElementById("imgHeight").value || "300";
+    const imageFile = document.getElementById("blogImage").files[0];
 
     if (title === "" || content === "") {
       alert("Kripya title aur content bharein!");
       return;
     }
 
-    try {
+    // Helper function to save blog data
+    async function saveBlogData(imageUrl = "") {
+      const blogData = {
+        title: title,
+        content: content,
+        imgWidth: imgWidth,
+        imgHeight: imgHeight,
+        date: new Date().toLocaleDateString('hi-IN'),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      if (imageUrl) {
+        blogData.imageUrl = imageUrl;
+      }
+
       if (editId === "") {
-        // Naya blog add karein
-        await db.collection("blogs").add({
-          title: title,
-          content: content,
-          date: new Date().toLocaleDateString('hi-IN'),
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+        await db.collection("blogs").add(blogData);
         alert("Blog safaltapurvak publish ho gaya!");
       } else {
-        // Purana blog update/edit karein
-        await db.collection("blogs").doc(editId).update({
-          title: title,
-          content: content
-        });
+        await db.collection("blogs").doc(editId).update(blogData);
         alert("Blog safaltapurvak update ho gaya!");
         resetForm();
       }
 
       document.getElementById("blogTitle").value = "";
       document.getElementById("blogContent").value = "";
+      document.getElementById("blogImage").value = "";
       loadAdminBlogs();
+    }
+
+    try {
+      // Agar image select ki gayi hai toh use Base64 me convert karke Firestore me save karein
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+          await saveBlogData(e.target.result);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        await saveBlogData();
+      }
     } catch (error) {
       alert("Error: " + error.message);
     }
@@ -150,7 +219,7 @@
             <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date || 'N/A'}</p>
           </div>
           <div>
-            <button class="btn btn-warning" onclick="editBlog('${id}', \`${escapeAttr(blog.title)}\`, \`${escapeAttr(blog.content)}\`)">Edit</button>
+            <button class="btn btn-warning" onclick="editBlog('${id}', \`${escapeAttr(blog.title)}\`, \`${escapeAttr(blog.content)}\`, '${blog.imgWidth || 600}', '${blog.imgHeight || 300}')">Edit</button>
             <button class="btn btn-danger" onclick="deleteBlog('${id}')">Delete</button>
           </div>
         `;
@@ -161,11 +230,12 @@
     }
   }
 
-  // Edit button click karne par data form me load ho jayega
-  function editBlog(id, title, content) {
+  function editBlog(id, title, content, width, height) {
     document.getElementById("editBlogId").value = id;
     document.getElementById("blogTitle").value = title;
     document.getElementById("blogContent").value = content;
+    document.getElementById("imgWidth").value = width;
+    document.getElementById("imgHeight").value = height;
     document.getElementById("formTitle").innerText = "✏️ Blog Edit Karein";
     document.getElementById("submitBtn").innerText = "Update Karein";
     document.getElementById("cancelEditBtn").style.display = "block";
@@ -176,6 +246,9 @@
     document.getElementById("editBlogId").value = "";
     document.getElementById("blogTitle").value = "";
     document.getElementById("blogContent").value = "";
+    document.getElementById("imgWidth").value = "600";
+    document.getElementById("imgHeight").value = "300";
+    document.getElementById("blogImage").value = "";
     document.getElementById("formTitle").innerText = "✍️ Naya Islamic Blog Likhein";
     document.getElementById("submitBtn").innerText = "Publish Karein";
     document.getElementById("cancelEditBtn").style.display = "none";
