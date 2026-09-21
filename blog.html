@@ -88,7 +88,7 @@
   <p style="text-align:center; color:#6c757d; margin-bottom:25px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
 
   <div id="publicBlogList" class="blog-grid">
-    <p style="text-align:center; width:100%; color:#777; font-size: 1.1rem; padding: 40px 0;">⏳ सभी पोस्ट लोड हो रही हैं, कृपया प्रतीक्षा करें...</p>
+    <p style="text-align:center; width:100%; color:#777; font-size: 1.1rem; padding: 40px 0;">⏳ तेज़ी से लोड हो रहा है...</p>
   </div>
 
   <div class="pagination" id="paginationControls" style="display: none;"></div>
@@ -122,74 +122,95 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  let allBlogsCache = [];
   const pageSize = 6;
+  let lastVisible = null;
+  let firstVisible = null;
+  let currentPage = 1;
+  let totalDocsCount = 0;
 
-  async function fetchAllBlogs() {
-    const container = document.getElementById("publicBlogList");
+  // कुल पोस्ट्स की गिनती करना और पहले पेज का डेटा लोड करना
+  async function initBlogs() {
     try {
-      // बिना किसी लिमिट के डेटाबेस के सभी ब्लॉग्स फेच करना taaki AdSense ke liye sabhi posts dikhein
-      const snapshot = await db.collection("blogs").orderBy("createdAt", "desc").get();
-      
-      if (snapshot.empty) {
-        container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>अभी कोई ब्लॉग पोस्ट उपलब्ध नहीं है।</p>";
+      // कुल कितने ब्लॉग्स हैं यह पता लगाना ताकि पेजिनेशन सही से बने
+      const countSnapshot = await db.collection("blogs").get();
+      totalDocsCount = countSnapshot.size;
+
+      if (totalDocsCount === 0) {
+        document.getElementById("publicBlogList").innerHTML = "<p style='text-align:center; width:100%; color:#777;'>अभी कोई ब्लॉग पोस्ट उपलब्ध नहीं है।</p>";
         return;
       }
-      allBlogsCache = snapshot.docs;
-      renderPage(1);
-      setupPagination();
+
+      loadPage(1);
     } catch (error) {
-      container.innerHTML = "<p style='text-align:center; width:100%; color:red;'>पोस्ट लोड करने में त्रुटि हुई। कृपया पेज रिफ्रेश करें।</p>";
+      document.getElementById("publicBlogList").innerHTML = "<p style='text-align:center; width:100%; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
     }
   }
 
-  function renderPage(page) {
+  // एक बार में सिर्फ 6 पोस्ट लाने का सुपर-फास्ट तरीका
+  async function loadPage(page) {
     const container = document.getElementById("publicBlogList");
-    container.innerHTML = "";
+    container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>⏳ लोड हो रहा है...</p>";
 
-    const startIndex = (page - 1) * pageSize;
-    const paginatedDocs = allBlogsCache.slice(startIndex, startIndex + pageSize);
-
-    paginatedDocs.forEach(doc => {
-      const blog = doc.data();
-      const id = doc.id;
-      const views = blog.views || 1;
-      const likes = blog.likes || 0;
-
-      let imageHtml = "";
-      if (blog.imageUrl) {
-        imageHtml = `<img src="${blog.imageUrl}" alt="${escapeHtml(blog.title)}" style="width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;">`;
+    try {
+      let query = db.collection("blogs").orderBy("createdAt", "desc").limit(pageSize);
+      
+      // अगर हम आगे के पेज पर जा रहे हैं, तो कर्सर का इस्तेमाल करें
+      if (page > 1 && window.pageCursors && window.pageCursors[page]) {
+        query = db.collection("blogs").orderBy("createdAt", "desc").startAfter(window.pageCursors[page]).limit(pageSize);
       }
 
-      const card = document.createElement("div");
-      card.className = "blog-card";
-      card.innerHTML = `
-        <div>
-          ${imageHtml}
-          <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
-          <div class="blog-meta">
-            <span>📅 ${blog.date || 'हाल ही में'}</span>
-            <span>👁️ ${views} | ❤️ ${likes}</span>
-          </div>
-          <div class="blog-body">${escapeHtml(blog.content)}</div>
-        </div>
-        <div class="blog-footer">
-          <a href="view-blog.html?id=${id}" class="action-btn">Read More →</a>
-          <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}', '${id}')">📤 शेयर</button>
-        </div>
-      `;
-      container.appendChild(card);
-    });
+      const snapshot = await query.get();
+      if (snapshot.empty) {
+        container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>कोई पोस्ट नहीं मिली।</p>";
+        return;
+      }
 
-    const buttons = document.querySelectorAll(".page-btn");
-    buttons.forEach((btn, idx) => {
-      if (idx + 1 === page) btn.classList.add("active");
-      else btn.classList.remove("active");
-    });
+      // कर्सर सेव करना ताकि अगले पेज पर जाने में आसानी हो
+      if (!window.pageCursors) window.pageCursors = {};
+      window.pageCursors[page + 1] = snapshot.docs[snapshot.docs.length - 1];
+
+      container.innerHTML = "";
+      snapshot.forEach(doc => {
+        const blog = doc.data();
+        const id = doc.id;
+        const views = blog.views || 1;
+        const likes = blog.likes || 0;
+
+        let imageHtml = "";
+        if (blog.imageUrl) {
+          imageHtml = `<img src="${blog.imageUrl}" alt="${escapeHtml(blog.title)}" style="width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;">`;
+        }
+
+        const card = document.createElement("div");
+        card.className = "blog-card";
+        card.innerHTML = `
+          <div>
+            ${imageHtml}
+            <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
+            <div class="blog-meta">
+              <span>📅 ${blog.date || 'हाल ही में'}</span>
+              <span>👁️ ${views} | ❤️ ${likes}</span>
+            </div>
+            <div class="blog-body">${escapeHtml(blog.content)}</div>
+          </div>
+          <div class="blog-footer">
+            <a href="view-blog.html?id=${id}" class="action-btn">Read More →</a>
+            <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}', '${id}')">📤 शेयर</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      currentPage = page;
+      setupPaginationControls();
+    } catch (error) {
+      container.innerHTML = "<p style='text-align:center; width:100%; color:red;'>डेटा लोड करने में समस्या आई।</p>";
+    }
   }
 
-  function setupPagination() {
-    const totalPages = Math.ceil(allBlogsCache.length / pageSize);
+  // पेजिनेशन बटन बनाना
+  function setupPaginationControls() {
+    const totalPages = Math.ceil(totalDocsCount / pageSize);
     const paginationDiv = document.getElementById("paginationControls");
     if (totalPages <= 1) return;
 
@@ -198,10 +219,10 @@
 
     for (let i = 1; i <= totalPages; i++) {
       const btn = document.createElement("button");
-      btn.className = "page-btn " + (i === 1 ? "active" : "");
+      btn.className = "page-btn " + (i === currentPage ? "active" : "");
       btn.innerText = i;
       btn.onclick = () => {
-        renderPage(i);
+        loadPage(i);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       };
       paginationDiv.appendChild(btn);
@@ -222,7 +243,7 @@
     return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : "";
   }
 
-  window.onload = () => fetchAllBlogs();
+  window.onload = () => initBlogs();
 </script>
 
 </body>
