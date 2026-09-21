@@ -54,7 +54,19 @@
     <!-- Image Upload & Pixel Size Control -->
     <div class="form-group">
       <label>Blog Image (Optional):</label>
-      <input type="file" id="blogImage" accept="image/*" style="padding: 6px; background: #f9f9f9;">
+      <input type="file" id="blogImage" accept="image/*" onchange="previewSelectedImage(this)" style="padding: 6px; background: #f9f9f9;">
+      
+      <!-- Galti se select hone par Cancel / Remove karne ka option -->
+      <div id="imagePreviewContainer" style="display: none; margin-top: 8px; align-items: center; justify-content: space-between; background: #f1f8f5; padding: 8px 12px; border-radius: 6px; border: 1px solid #c3e6cb;">
+        <span id="selectedImageName" style="font-size: 0.85rem; color: #0f5132; font-weight: bold;"></span>
+        <button type="button" onclick="cancelSelectedImage()" style="background: #dc3545; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold;">❌ Cancel Image</button>
+      </div>
+    </div>
+
+    <!-- Image Source / Credit Option -->
+    <div class="form-group">
+      <label>Image Source / Credit (Image kahan se li hai?):</label>
+      <input type="text" id="imageSource" placeholder="Jaise: Pixabay / Freepik / Self Captured">
     </div>
 
     <div style="display: flex; gap: 15px;" class="form-group">
@@ -117,6 +129,22 @@
     }
   }
 
+  function previewSelectedImage(input) {
+    const container = document.getElementById("imagePreviewContainer");
+    const nameSpan = document.getElementById("selectedImageName");
+    
+    if (input.files && input.files[0]) {
+      nameSpan.innerText = "📁 " + input.files[0].name;
+      container.style.display = "flex";
+    }
+  }
+
+  function cancelSelectedImage() {
+    document.getElementById("blogImage").value = "";
+    document.getElementById("imagePreviewContainer").style.display = "none";
+    document.getElementById("selectedImageName").innerText = "";
+  }
+
   function insertLinkToContent() {
     const text = document.getElementById("linkText").value.trim();
     const url = document.getElementById("linkUrl").value.trim();
@@ -166,7 +194,6 @@
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
         
-        // Compress to JPEG with 0.7 quality
         const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
         callback(dataUrl);
       };
@@ -177,6 +204,7 @@
     const editId = document.getElementById("editBlogId").value;
     const title = document.getElementById("blogTitle").value.trim();
     const content = document.getElementById("blogContent").value.trim();
+    const imageSource = document.getElementById("imageSource").value.trim();
     const imgWidth = document.getElementById("imgWidth").value || "600";
     const imgHeight = document.getElementById("imgHeight").value || "300";
     const imageFile = document.getElementById("blogImage").files[0];
@@ -196,6 +224,7 @@
         const blogData = {
           title: title,
           content: content,
+          imageSource: imageSource,
           imgWidth: imgWidth,
           imgHeight: imgHeight,
           imageUrl: imageUrl || "",
@@ -214,8 +243,10 @@
 
         document.getElementById("blogTitle").value = "";
         document.getElementById("blogContent").value = "";
+        document.getElementById("imageSource").value = "";
         document.getElementById("blogImage").value = "";
         document.getElementById("existingImageUrl").value = "";
+        document.getElementById("imagePreviewContainer").style.display = "none";
         loadAdminBlogs();
       } catch (error) {
         alert("Error saving blog: " + error.message);
@@ -258,7 +289,7 @@
             <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date || 'N/A'}</p>
           </div>
           <div>
-            <button class="btn btn-warning" onclick="editBlog('${id}', \`${escapeAttr(blog.title)}\`, \`${escapeAttr(blog.content)}\`, '${blog.imgWidth || 600}', '${blog.imgHeight || 300}', \`${blog.imageUrl || ''}\`)">Edit</button>
+            <button class="btn btn-warning" onclick="editBlog('${id}', \`${escapeAttr(blog.title)}\`, \`${escapeAttr(blog.content)}\`, \`${escapeAttr(blog.imageSource || '')}\`, '${blog.imgWidth || 600}', '${blog.imgHeight || 300}', \`${blog.imageUrl || ''}\`)">Edit</button>
             <button class="btn btn-danger" onclick="deleteBlog('${id}')">Delete</button>
           </div>
         `;
@@ -269,13 +300,20 @@
     }
   }
 
-  function editBlog(id, title, content, width, height, imageUrl) {
+  function editBlog(id, title, content, imageSource, width, height, imageUrl) {
     document.getElementById("editBlogId").value = id;
     document.getElementById("blogTitle").value = title;
     document.getElementById("blogContent").value = content;
+    document.getElementById("imageSource").value = imageSource;
     document.getElementById("imgWidth").value = width;
     document.getElementById("imgHeight").value = height;
     document.getElementById("existingImageUrl").value = imageUrl;
+    
+    if(imageUrl) {
+      document.getElementById("selectedImageName").innerText = "📁 Pehle se uploaded image maujood hai";
+      document.getElementById("imagePreviewContainer").style.display = "flex";
+    }
+
     document.getElementById("formTitle").innerText = "✏️ Blog Edit Karein";
     document.getElementById("submitBtn").innerText = "Update Karein";
     document.getElementById("cancelEditBtn").style.display = "block";
@@ -286,10 +324,12 @@
     document.getElementById("editBlogId").value = "";
     document.getElementById("blogTitle").value = "";
     document.getElementById("blogContent").value = "";
+    document.getElementById("imageSource").value = "";
     document.getElementById("imgWidth").value = "600";
     document.getElementById("imgHeight").value = "300";
     document.getElementById("blogImage").value = "";
     document.getElementById("existingImageUrl").value = "";
+    document.getElementById("imagePreviewContainer").style.display = "none";
     document.getElementById("formTitle").innerText = "✍️ Naya Islamic Blog Likhein";
     document.getElementById("submitBtn").innerText = "Publish Karein";
     document.getElementById("cancelEditBtn").style.display = "none";
