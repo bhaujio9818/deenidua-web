@@ -44,6 +44,7 @@
     <h2 id="formTitle">✍️ Naya Islamic Blog Likhein</h2>
     <!-- Hidden input to store editing blog ID -->
     <input type="hidden" id="editBlogId" value="">
+    <input type="hidden" id="existingImageUrl" value="">
     
     <div class="form-group">
       <label>Blog Title:</label>
@@ -91,7 +92,6 @@
 </div>
 
 <script>
-  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDIc_0jZ3GSziO_s1wBB3Cz5radLDqM7Rg",
     authDomain: "deenidua-a5413.firebaseapp.com",
@@ -117,7 +117,6 @@
     }
   }
 
-  // Text ke piche link banane ka function
   function insertLinkToContent() {
     const text = document.getElementById("linkText").value.trim();
     const url = document.getElementById("linkUrl").value.trim();
@@ -136,6 +135,44 @@
     alert("✅ Link content me jod diya gaya hai!");
   }
 
+  // Image resize & compress function to prevent size error
+  function compressImage(file, callback) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function (event) {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = function () {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 800;
+        const MAX_HEIGHT = 600;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Compress to JPEG with 0.7 quality
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        callback(dataUrl);
+      };
+    };
+  }
+
   async function publishBlog() {
     const editId = document.getElementById("editBlogId").value;
     const title = document.getElementById("blogTitle").value.trim();
@@ -143,55 +180,57 @@
     const imgWidth = document.getElementById("imgWidth").value || "600";
     const imgHeight = document.getElementById("imgHeight").value || "300";
     const imageFile = document.getElementById("blogImage").files[0];
+    const existingImageUrl = document.getElementById("existingImageUrl").value;
+    const submitBtn = document.getElementById("submitBtn");
 
     if (title === "" || content === "") {
       alert("Kripya title aur content bharein!");
       return;
     }
 
-    // Helper function to save blog data
-    async function saveBlogData(imageUrl = "") {
-      const blogData = {
-        title: title,
-        content: content,
-        imgWidth: imgWidth,
-        imgHeight: imgHeight,
-        date: new Date().toLocaleDateString('hi-IN'),
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
+    submitBtn.innerText = "Saving...";
+    submitBtn.disabled = true;
 
-      if (imageUrl) {
-        blogData.imageUrl = imageUrl;
+    async function saveBlogData(imageUrl) {
+      try {
+        const blogData = {
+          title: title,
+          content: content,
+          imgWidth: imgWidth,
+          imgHeight: imgHeight,
+          imageUrl: imageUrl || "",
+          date: new Date().toLocaleDateString('hi-IN'),
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        if (editId === "") {
+          await db.collection("blogs").add(blogData);
+          alert("Blog safaltapurvak publish ho gaya!");
+        } else {
+          await db.collection("blogs").doc(editId).update(blogData);
+          alert("Blog safaltapurvak update ho gaya!");
+          resetForm();
+        }
+
+        document.getElementById("blogTitle").value = "";
+        document.getElementById("blogContent").value = "";
+        document.getElementById("blogImage").value = "";
+        document.getElementById("existingImageUrl").value = "";
+        loadAdminBlogs();
+      } catch (error) {
+        alert("Error saving blog: " + error.message);
+      } finally {
+        submitBtn.innerText = editId === "" ? "Publish Karein" : "Update Karein";
+        submitBtn.disabled = false;
       }
-
-      if (editId === "") {
-        await db.collection("blogs").add(blogData);
-        alert("Blog safaltapurvak publish ho gaya!");
-      } else {
-        await db.collection("blogs").doc(editId).update(blogData);
-        alert("Blog safaltapurvak update ho gaya!");
-        resetForm();
-      }
-
-      document.getElementById("blogTitle").value = "";
-      document.getElementById("blogContent").value = "";
-      document.getElementById("blogImage").value = "";
-      loadAdminBlogs();
     }
 
-    try {
-      // Agar image select ki gayi hai toh use Base64 me convert karke Firestore me save karein
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = async function(e) {
-          await saveBlogData(e.target.result);
-        };
-        reader.readAsDataURL(imageFile);
-      } else {
-        await saveBlogData();
-      }
-    } catch (error) {
-      alert("Error: " + error.message);
+    if (imageFile) {
+      compressImage(imageFile, async function(compressedDataUrl) {
+        await saveBlogData(compressedDataUrl);
+      });
+    } else {
+      await saveBlogData(existingImageUrl);
     }
   }
 
@@ -219,7 +258,7 @@
             <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date || 'N/A'}</p>
           </div>
           <div>
-            <button class="btn btn-warning" onclick="editBlog('${id}', \`${escapeAttr(blog.title)}\`, \`${escapeAttr(blog.content)}\`, '${blog.imgWidth || 600}', '${blog.imgHeight || 300}')">Edit</button>
+            <button class="btn btn-warning" onclick="editBlog('${id}', \`${escapeAttr(blog.title)}\`, \`${escapeAttr(blog.content)}\`, '${blog.imgWidth || 600}', '${blog.imgHeight || 300}', \`${blog.imageUrl || ''}\`)">Edit</button>
             <button class="btn btn-danger" onclick="deleteBlog('${id}')">Delete</button>
           </div>
         `;
@@ -230,12 +269,13 @@
     }
   }
 
-  function editBlog(id, title, content, width, height) {
+  function editBlog(id, title, content, width, height, imageUrl) {
     document.getElementById("editBlogId").value = id;
     document.getElementById("blogTitle").value = title;
     document.getElementById("blogContent").value = content;
     document.getElementById("imgWidth").value = width;
     document.getElementById("imgHeight").value = height;
+    document.getElementById("existingImageUrl").value = imageUrl;
     document.getElementById("formTitle").innerText = "✏️ Blog Edit Karein";
     document.getElementById("submitBtn").innerText = "Update Karein";
     document.getElementById("cancelEditBtn").style.display = "block";
@@ -249,6 +289,7 @@
     document.getElementById("imgWidth").value = "600";
     document.getElementById("imgHeight").value = "300";
     document.getElementById("blogImage").value = "";
+    document.getElementById("existingImageUrl").value = "";
     document.getElementById("formTitle").innerText = "✍️ Naya Islamic Blog Likhein";
     document.getElementById("submitBtn").innerText = "Publish Karein";
     document.getElementById("cancelEditBtn").style.display = "none";
