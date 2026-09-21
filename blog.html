@@ -11,8 +11,8 @@
   <link rel="icon" type="image/png" href="logo-mobile.png">
 
   <!-- Google AdSense Verification Code -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4077161497406015" crossorigin="anonymous"></script>
+
   <style>
     body { font-family: Arial, sans-serif; background: #f4f6f8; color: #333; margin: 0; padding: 0; }
     .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
@@ -42,23 +42,23 @@
       overflow: hidden;
     }
 
-    .blog-title { color: #0f5132; font-size: 1.1rem; margin: 0 0 8px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .blog-title { color: #0f5132; font-size: 1.1rem; margin: 0 0 6px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
-    .blog-meta { display: flex; justify-content: space-between; align-items: center; color: #6c757d; font-size: 0.75rem; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 6px; }
+    .blog-meta { display: flex; justify-content: space-between; align-items: center; color: #6c757d; font-size: 0.75rem; margin-bottom: 6px; border-bottom: 1px solid #eee; padding-bottom: 4px; }
     
     .blog-body { 
-      font-size: 0.88rem; 
+      font-size: 0.85rem; 
       color: #374151; 
-      line-height: 1.4; 
+      line-height: 1.3; 
       flex-grow: 1; 
       overflow: hidden; 
       display: -webkit-box; 
-      -webkit-line-clamp: 4; 
+      -webkit-line-clamp: 3; 
       -webkit-box-orient: vertical; 
       white-space: pre-line;
     }
     
-    .blog-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 8px; font-size: 0.85rem; margin-top: 10px; }
+    .blog-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 8px; font-size: 0.85rem; margin-top: 8px; }
     
     .action-btn { background: #f0fdf4; border: 1px solid #c3e6cb; color: #0f5132; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 0.8rem; display: inline-block; text-align: center; }
     .action-btn:hover { background: #d1fae5; }
@@ -154,10 +154,17 @@
       const views = blog.views || 1;
       const likes = blog.likes || 0;
 
+      // अगर एडमिन ने इमेज अपलोड की है, तो कार्ड में छोटी थंबनेल इमेज दिखाएं
+      let imageHtml = "";
+      if (blog.imageUrl) {
+        imageHtml = `<img src="${blog.imageUrl}" alt="${escapeHtml(blog.title)}" style="width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;">`;
+      }
+
       const card = document.createElement("div");
       card.className = "blog-card";
       card.innerHTML = `
         <div>
+          ${imageHtml}
           <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
           <div class="blog-meta">
             <span>📅 ${blog.date || 'हाल ही में'}</span>
