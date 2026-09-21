@@ -88,7 +88,7 @@
   <p style="text-align:center; color:#6c757d; margin-bottom:25px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
 
   <div id="publicBlogList" class="blog-grid">
-    <p style="text-align:center; width:100%; color:#777; font-size: 1.1rem; padding: 40px 0;">⏳ तेजी से लोड हो रहा है, कृपया प्रतीक्षा करें...</p>
+    <p style="text-align:center; width:100%; color:#777; font-size: 1.1rem; padding: 40px 0;">⏳ सभी पोस्ट लोड हो रही हैं, कृपया प्रतीक्षा करें...</p>
   </div>
 
   <div class="pagination" id="paginationControls" style="display: none;"></div>
@@ -128,8 +128,8 @@
   async function fetchAllBlogs() {
     const container = document.getElementById("publicBlogList");
     try {
-      // ऑप्टिमाइज़्ड क्वेरी ताकि पेज lightning-fast खुले
-      const snapshot = await db.collection("blogs").orderBy("createdAt", "desc").limit(15).get();
+      // बिना किसी लिमिट के डेटाबेस के सभी ब्लॉग्स फेच करना taaki AdSense ke liye sabhi posts dikhein
+      const snapshot = await db.collection("blogs").orderBy("createdAt", "desc").get();
       
       if (snapshot.empty) {
         container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>अभी कोई ब्लॉग पोस्ट उपलब्ध नहीं है।</p>";
