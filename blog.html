@@ -89,16 +89,6 @@
   <h1 style="color:#0f5132; text-align:center; margin-top:20px;">दीनी दुआ - इस्लामिक ब्लॉग्स</h1>
   <p style="text-align:center; color:#6c757d; margin-bottom:25px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
 
-  <!-- साइट काउंटर बॉक्स -->
-  <div style="display: flex; justify-content: center; gap: 20px; margin: 15px auto; max-width: 500px; background: #e8f5e9; padding: 10px; border-radius: 8px; border: 1px solid #c3e6cb;">
-    <div style="text-align: center; color: #0f5132; font-weight: bold; font-size: 0.9rem;">
-      📚 कुल पोस्ट्स: <span id="totalBlogsCount">...</span>
-    </div>
-    <div style="text-align: center; color: #0f5132; font-weight: bold; font-size: 0.9rem;">
-      👁️ कुल व्यूज: <span id="totalViewsCount">...</span>
-    </div>
-  </div>
-
   <div id="publicBlogList" class="blog-grid">
     <p style="text-align:center; width:100%; color:#777; font-size: 1.1rem; padding: 40px 0;">⏳ तेज़ी से लोड हो रहा है...</p>
   </div>
@@ -140,21 +130,17 @@
   const db = firebase.firestore();
 
   const pageSize = 6;
-  let historyStack = []; // पिछले पेजेस के कर्सर याद रखने के लिए
+  let historyStack = []; 
   let lastVisibleDoc = null;
   let pageNumber = 1;
 
-  // होम पेज लोड होने पर तुरंत पहली 6 पोस्ट्स और काउंटर लोड करना
   window.onload = () => {
     loadFirstPage();
-    loadCountersInBackground();
   };
 
-  // पहली बार डेटा लोड करना (सुपर फास्ट)
+  // पहली बार सिर्फ 6 पोस्ट्स लोड करना (इन्स्टेंट)
   async function loadFirstPage() {
     const container = document.getElementById("publicBlogList");
-    container.innerHTML = "<p style='text-align:center; width:100%; color:#777; padding: 30px;'>⏳ तेज़ी से लोड हो रहा है...</p>";
-
     try {
       const snapshot = await db.collection("blogs")
         .orderBy("createdAt", "desc")
@@ -165,18 +151,18 @@
       
       if (!snapshot.empty) {
         lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
-        historyStack = [null]; // पहला पेज
+        historyStack = [null];
       }
     } catch (error) {
       container.innerHTML = "<p style='text-align:center; width:100%; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
     }
   }
 
-  // अगला पेज लोड करना (Next Button)
+  // अगला पेज लोड करना
   async function loadNextPage() {
     if (!lastVisibleDoc) return;
     const container = document.getElementById("publicBlogList");
-    container.innerHTML = "<p style='text-align:center; width:100%; color:#777; padding: 30px;'>⏳ लोड हो रहा है...</p>";
+    container.innerHTML = "<p style='text-align:center; width:100%; color:#777; padding: 20px;'>⏳ लोड हो रहा है...</p>";
 
     try {
       const snapshot = await db.collection("blogs")
@@ -186,14 +172,13 @@
         .get();
 
       if (!snapshot.empty) {
-        historyStack.push(lastVisibleDoc); // पिछला कर्सर सेव करना
+        historyStack.push(lastVisibleDoc);
         lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
         pageNumber++;
         renderBlogs(snapshot);
         document.getElementById("prevBtn").disabled = false;
       }
       
-      // अगर और आगे पोस्ट नहीं हैं तो अगला बटन बंद कर दें
       if (snapshot.size < pageSize) {
         document.getElementById("nextBtn").disabled = true;
       }
@@ -202,15 +187,15 @@
     }
   }
 
-  // पिछला पेज लोड करना (Previous Button)
+  // पिछला पेज लोड करना
   async function loadPreviousPage() {
     if (pageNumber <= 1) return;
     const container = document.getElementById("publicBlogList");
-    container.innerHTML = "<p style='text-align:center; width:100%; color:#777; padding: 30px;'>⏳ लोड हो रहा है...</p>";
+    container.innerHTML = "<p style='text-align:center; width:100%; color:#777; padding: 20px;'>⏳ लोड हो रहा है...</p>";
 
     try {
       pageNumber--;
-      const prevCursor = historyStack.pop(); // पिछلا कर्सर निकालना
+      const prevCursor = historyStack.pop();
 
       let query = db.collection("blogs").orderBy("createdAt", "desc").limit(pageSize);
       if (prevCursor !== null) {
@@ -233,7 +218,6 @@
     }
   }
 
-  // कार्ड्स को स्क्रीन पर दिखाना
   function renderBlogs(snapshot) {
     const container = document.getElementById("publicBlogList");
     container.innerHTML = "";
@@ -277,25 +261,6 @@
     document.getElementById("paginationControls").style.display = "flex";
     document.getElementById("pageIndicator").innerText = `पेज ${pageNumber}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // बैकग्राउंड में कुल पोस्ट्स और व्यूज लोड करना (ताकि पेज की स्पीड पर असर न पड़े)
-  async function loadCountersInBackground() {
-    try {
-      const snapshot = await db.collection("blogs").get();
-      let totalPosts = snapshot.size;
-      let totalViews = 0;
-
-      snapshot.forEach(doc => {
-        const blog = doc.data();
-        totalViews += (blog.views || 1);
-      });
-
-      document.getElementById("totalBlogsCount").innerText = totalPosts;
-      document.getElementById("totalViewsCount").innerText = totalViews;
-    } catch (e) {
-      console.error(e);
-    }
   }
 
   function sharePost(title, id) {
