@@ -94,10 +94,14 @@
   }
   const db = firebase.firestore();
 
-  async function loadBlogsFast() {
+  async function loadLatestSixBlogs() {
     const container = document.getElementById("publicBlogList");
     try {
-      const snapshot = await db.collection("blogs").get();
+      // यहाँ सबसे नई 6 पोस्ट्स (createdAt के हिसाब से) मंगाई जा रही हैं
+      const snapshot = await db.collection("blogs")
+        .orderBy("createdAt", "desc")
+        .limit(6)
+        .get();
       
       if (snapshot.empty) {
         container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>अभी कोई ब्लॉग पोस्ट उपलब्ध नहीं है।</p>";
@@ -138,7 +142,8 @@
 
     } catch (error) {
       console.error("Firebase Error:", error);
-      container.innerHTML = `<p style='text-align:center; width:100%; color:red;'>एरर: ${error.message}</p>`;
+      // यदि कंसोल में इंडेक्स का लिंक आए, तो उस पर क्लिक करके इंडेक्स बना लें
+      container.innerHTML = `<p style='text-align:center; width:100%; color:red; padding: 20px;'>लोडिंग त्रुटि: ${error.message} <br><br><b>सुझाव:</b> कृपया अपने ब्राउज़र का कंसोल (F12) चेक करें, वहाँ Firebase इंडेक्स बनाने का लिंक दिया होगा उसपर क्लिक करें।</p>`;
     }
   }
 
@@ -154,7 +159,7 @@
     return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : "";
   }
 
-  window.onload = loadBlogsFast;
+  window.onload = loadLatestSixBlogs;
 </script>
 
 </body>
