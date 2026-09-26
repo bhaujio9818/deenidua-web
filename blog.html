@@ -50,6 +50,11 @@
     .action-btn { background: #f0fdf4; border: 1px solid #c3e6cb; color: #0f5132; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 0.8rem; display: inline-block; text-align: center; }
     .action-btn:hover { background: #d1fae5; }
     .share-btn { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+    
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 30px 0; }
+    .page-btn { background: #fff; color: #0f5132; border: 1px solid #0f5132; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.95rem; }
+    .page-btn:hover:not(:disabled) { background: #0f5132; color: white; }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; border-color: #ccc; color: #888; }
   </style>
 
   <!-- Firebase SDKs -->
@@ -68,10 +73,27 @@
 
 <div class="container">
   <h1 style="color:#0f5132; text-align:center; margin-top:20px;">दीनी दुआ - इस्लामिक ब्लॉग्स</h1>
-  <p style="text-align:center; color:#6c757d; margin-bottom:25px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
+  <p style="text-align:center; color:#6c757d; margin-bottom:15px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
+
+  <!-- साइट काउंटर (बैकग्राउंड में लोड होगा, साइट पर असर नहीं डालेगा) -->
+  <div style="display: flex; justify-content: center; gap: 20px; margin: 10px auto; max-width: 450px; background: #e8f5e9; padding: 8px; border-radius: 8px; border: 1px solid #c3e6cb;">
+    <div style="text-align: center; color: #0f5132; font-weight: bold; font-size: 0.85rem;">
+      📚 कुल पोस्ट्स: <span id="totalBlogsCount">...</span>
+    </div>
+    <div style="text-align: center; color: #0f5132; font-weight: bold; font-size: 0.85rem;">
+      👁️ कुल व्यूज: <span id="totalViewsCount">...</span>
+    </div>
+  </div>
 
   <div id="publicBlogList" class="blog-grid">
     <p style="text-align:center; width:100%; color:#777; font-size: 1.1rem; padding: 40px 0;">⏳ तेज़ी से लोड हो रहा है...</p>
+  </div>
+
+  <!-- नेक्स्ट / प्रीवियस पेजिनेशन कंट्रोल्स -->
+  <div class="pagination" id="paginationControls" style="display: none;">
+    <button class="page-btn" id="prevBtn" onclick="loadPreviousPage()" disabled>← पिछला</button>
+    <span id="pageIndicator" style="font-weight: bold; color: #0f5132; font-size: 1rem;">पेज 1</span>
+    <button class="page-btn" id="nextBtn" onclick="loadNextPage()">अगला →</button>
   </div>
 </div>
 
@@ -94,56 +116,154 @@
   }
   const db = firebase.firestore();
 
-  async function loadLatestSixBlogs() {
+  const pageSize = 6;
+  let historyStack = []; 
+  let lastVisibleDoc = null;
+  let pageNumber = 1;
+
+  window.onload = () => {
+    loadFirstPage();         // सबसे पहले सिर्फ 6 पोस्ट्स तुरंत लोड होंगी
+    loadCountersInBackground(); // गिनती बैकग्राउंड में होगी
+  };
+
+  async function loadFirstPage() {
     const container = document.getElementById("publicBlogList");
     try {
-      // यहाँ सबसे नई 6 पोस्ट्स (createdAt के हिसाब से) मंगाई जा रही हैं
       const snapshot = await db.collection("blogs")
         .orderBy("createdAt", "desc")
-        .limit(6)
+        .limit(pageSize)
         .get();
+
+      renderBlogs(snapshot);
       
-      if (snapshot.empty) {
-        container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>अभी कोई ब्लॉग पोस्ट उपलब्ध नहीं है।</p>";
-        return;
+      if (!snapshot.empty) {
+        lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
+        historyStack = [null];
+      }
+    } catch (error) {
+      container.innerHTML = "<p style='text-align:center; width:100%; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
+    }
+  }
+
+  async function loadNextPage() {
+    if (!lastVisibleDoc) return;
+    const container = document.getElementById("publicBlogList");
+    container.innerHTML = "<p style='text-align:center; width:100%; color:#777; padding: 20px;'>⏳ लोड हो रहा है...</p>";
+
+    try {
+      const snapshot = await db.collection("blogs")
+        .orderBy("createdAt", "desc")
+        .startAfter(lastVisibleDoc)
+        .limit(pageSize)
+        .get();
+
+      if (!snapshot.empty) {
+        historyStack.push(lastVisibleDoc);
+        lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
+        pageNumber++;
+        renderBlogs(snapshot);
+        document.getElementById("prevBtn").disabled = false;
+      }
+      
+      if (snapshot.size < pageSize) {
+        document.getElementById("nextBtn").disabled = true;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadPreviousPage() {
+    if (pageNumber <= 1) return;
+    const container = document.getElementById("publicBlogList");
+    container.innerHTML = "<p style='text-align:center; width:100%; color:#777; padding: 20px;'>⏳ लोड हो रहा है...</p>";
+
+    try {
+      pageNumber--;
+      const prevCursor = historyStack.pop();
+
+      let query = db.collection("blogs").orderBy("createdAt", "desc").limit(pageSize);
+      if (prevCursor !== null) {
+        query = db.collection("blogs").orderBy("createdAt", "desc").startAfter(prevCursor).limit(pageSize);
       }
 
-      container.innerHTML = "";
+      const snapshot = await query.get();
+      renderBlogs(snapshot);
+
+      if (!snapshot.empty) {
+        lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
+      }
+
+      document.getElementById("nextBtn").disabled = false;
+      if (pageNumber === 1) {
+        document.getElementById("prevBtn").disabled = true;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function renderBlogs(snapshot) {
+    const container = document.getElementById("publicBlogList");
+    container.innerHTML = "";
+
+    if (snapshot.empty) {
+      container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>और कोई पोस्ट उपलब्ध नहीं है।</p>";
+      return;
+    }
+
+    snapshot.forEach(doc => {
+      const blog = doc.data();
+      const id = doc.id;
+      const views = blog.views || 1;
+      const likes = blog.likes || 0;
+
+      let imageHtml = "";
+      if (blog.imageUrl) {
+        imageHtml = `<img src="${blog.imageUrl}" alt="${escapeHtml(blog.title)}" style="width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;">`;
+      }
+
+      const card = document.createElement("div");
+      card.className = "blog-card";
+      card.innerHTML = `
+        <div>
+          ${imageHtml}
+          <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
+          <div class="blog-meta">
+            <span>📅 ${blog.date || 'हाल ही में'}</span>
+            <span>👁️ ${views} | ❤️ ${likes}</span>
+          </div>
+          <div class="blog-body">${escapeHtml(blog.content)}</div>
+        </div>
+        <div class="blog-footer">
+          <a href="view-blog.html?id=${id}" class="action-btn">Read More →</a>
+          <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}', '${id}')">📤 शेयर</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+    document.getElementById("paginationControls").style.display = "flex";
+    document.getElementById("pageIndicator").innerText = `पेज ${pageNumber}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // काउंटर बैकग्राउंड में चलेगा ताकि होम पेज की स्पीड पर कोई असर न पड़े
+  async function loadCountersInBackground() {
+    try {
+      const snapshot = await db.collection("blogs").get();
+      let totalPosts = snapshot.size;
+      let totalViews = 0;
+
       snapshot.forEach(doc => {
         const blog = doc.data();
-        const id = doc.id;
-        const views = blog.views || 1;
-        const likes = blog.likes || 0;
-
-        let imageHtml = "";
-        if (blog.imageUrl) {
-          imageHtml = `<img src="${blog.imageUrl}" alt="${escapeHtml(blog.title)}" style="width: 100%; height: 90px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;">`;
-        }
-
-        const card = document.createElement("div");
-        card.className = "blog-card";
-        card.innerHTML = `
-          <div>
-            ${imageHtml}
-            <h2 class="blog-title">${escapeHtml(blog.title)}</h2>
-            <div class="blog-meta">
-              <span>📅 ${blog.date || 'हाल ही में'}</span>
-              <span>👁️ ${views} | ❤️ ${likes}</span>
-            </div>
-            <div class="blog-body">${escapeHtml(blog.content)}</div>
-          </div>
-          <div class="blog-footer">
-            <a href="view-blog.html?id=${id}" class="action-btn">Read More →</a>
-            <button class="action-btn share-btn" onclick="sharePost('${escapeHtml(blog.title)}', '${id}')">📤 शेयर</button>
-          </div>
-        `;
-        container.appendChild(card);
+        totalViews += (blog.views || 1);
       });
 
-    } catch (error) {
-      console.error("Firebase Error:", error);
-      // यदि कंसोल में इंडेक्स का लिंक आए, तो उस पर क्लिक करके इंडेक्स बना लें
-      container.innerHTML = `<p style='text-align:center; width:100%; color:red; padding: 20px;'>लोडिंग त्रुटि: ${error.message} <br><br><b>सुझाव:</b> कृपया अपने ब्राउज़र का कंसोल (F12) चेक करें, वहाँ Firebase इंडेक्स बनाने का लिंक दिया होगा उसपर क्लिक करें।</p>`;
+      document.getElementById("totalBlogsCount").innerText = totalPosts;
+      document.getElementById("totalViewsCount").innerText = totalViews;
+    } catch (e) {
+      console.error(e);
     }
   }
 
@@ -158,8 +278,6 @@
   function escapeHtml(text) {
     return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : "";
   }
-
-  window.onload = loadLatestSixBlogs;
 </script>
 
 </body>
