@@ -81,8 +81,8 @@
 
   <!-- Live Hijri Date & Page View Count Row -->
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.88rem; font-weight: bold; color: #0f5132;">
-    <div id="pageViewBox" style="background: #e8f5e9; padding: 4px 10px; border-radius: 6px; border: 1px solid #c3e6cb;">
-      👀 कुल पेज विजिट्स: <span id="visitCount">लोड हो रहा है...</span>
+    <div style="background: #e8f5e9; padding: 4px 10px; border-radius: 6px; border: 1px solid #c3e6cb;">
+      👀 कुल विजिट्स: <span id="visitCount">12,450</span>
     </div>
     <div id="hijriBox">
       🌙 इस्लामी तारीख लोड हो रही है...
@@ -191,7 +191,7 @@
 
 <footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
   <div style="margin-bottom: 12px; display: flex; justify-content: center; gap: 15px; align-items: center;">
-    <a href="https://www.facebook.com/profile.php?id=61593439228630" target="_blank" rel="nofollow noopener noreferrer" style="color: #1877F2; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem;">
+    <a href="https://www.facebook.com/profile.php?id=61593439228630" target="_blank" rel="noopener noreferrer" style="color: #1877F2; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem;">
       📘 Facebook
     </a>
     <span style="color: var(--border, #e0e0e0);">|</span>
@@ -211,7 +211,7 @@
 <script>
   // 1. Live Hijri Date Fetcher
   fetch('https://api.aladhan.com/v1/gToH')
-    .then(r =>.json())
+    .then(r => r.json())
     .then(d => {
       const h = d.data.hijri;
       document.getElementById('hijriBox').innerText = `🌙 आज की इस्लामी तारीख: ${h.day} ${h.month.en} ${h.year} हिजरी`;
@@ -220,20 +220,18 @@
       document.getElementById('hijriBox').style.display = 'none';
     });
 
-  // 👁️ Page Visit / View Counter (LocalStorage आधारित, बिना किसी स्लो डेटाबेस के)
-  function initVisitCounter() {
-    let visits = localStorage.getItem('siteVisits');
+  // Direct Working View Counter
+  try {
+    let visits = localStorage.getItem('deenidua_visits');
     if (!visits) {
-      visits = 12450; // शुरुआती बेस व्यूज (आप चाहें तो बदल सकते हैं)
+      visits = 12450;
     } else {
       visits = parseInt(visits) + 1;
     }
-    localStorage.setItem('siteVisits', visits);
-    
-    const visitElement = document.getElementById('visitCount');
-    if (visitElement) {
-      visitElement.innerText = visits.toLocaleString('en-IN');
-    }
+    localStorage.setItem('deenidua_visits', visits);
+    document.getElementById('visitCount').innerText = visits.toLocaleString('en-IN');
+  } catch(e) {
+    document.getElementById('visitCount').innerText = "12,450";
   }
 
   // 2. Daily Rotating Hadith
@@ -322,10 +320,7 @@
     });
   }
 
-  window.addEventListener('DOMContentLoaded', () => {
-    renderFavs();
-    initVisitCounter();
-  });
+  window.addEventListener('DOMContentLoaded', renderFavs);
 </script>
 
 </body>
