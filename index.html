@@ -35,7 +35,7 @@
   <meta name="twitter:title" content="दीनी दुआ व सूरह संग्रह | Deeni Dua Portal">
   <meta name="twitter:description" content="रोज़मर्रा की मसनून दुआएं, सूरह, 6 कलमे, डिजिटल तस्बीह और नमाज़ टाइमर हिंदी में।">
   <meta name="twitter:image" content="https://www.deenidua.in/logo-header.png">
- 
+  
 
   <!-- Mobile & Browser Tab Icons -->
   <link rel="icon" type="image/png" href="logo-mobile.png">
@@ -82,6 +82,16 @@
   <!-- Live Hijri Date Badge -->
   <div style="text-align:right; font-size:0.88rem; color:#0f5132; font-weight:bold; margin-bottom:12px;" id="hijriBox">
     🌙 इस्लामी तारीख लोड हो रही है...
+  </div>
+
+  <!-- 🇮🇳 भारत लाइव जनसंख्या काउंटर -->
+  <div style="text-align: center; background: var(--card, #fff); border: 1px solid var(--border, #e0e0e0); border-radius: 8px; padding: 12px; margin-bottom: 25px;">
+    <div style="color: #0f5132; font-weight: bold; font-size: 0.9rem;">
+      🇮🇳 भारत की अनुमानित लाइव जनसंख्या:
+    </div>
+    <div id="livePopulation" style="color: #1b5e20; font-weight: bold; font-size: 1.15rem; margin-top: 4px;">
+      लोड हो रहा है...
+    </div>
   </div>
 
   <!-- 1. Auto Daily Hadith Card -->
@@ -215,12 +225,33 @@
       document.getElementById('hijriBox').style.display = 'none';
     });
 
+  // 🇮🇳 भारत लाइव जनसंख्या काउंटर स्क्रिप्ट
+  function startLivePopulationCounter() {
+    let basePopulation = 1458200000; 
+    let baseTimestamp = new Date("2026-01-01T00:00:00").getTime();
+    let growthRatePerSecond = 32.5; 
+
+    function updatePopulation() {
+      let now = new Date().getTime();
+      let elapsedSeconds = (now - baseTimestamp) / 1000;
+      let currentPopulation = Math.floor(basePopulation + (elapsedSeconds * growthRatePerSecond));
+      
+      const popElement = document.getElementById("livePopulation");
+      if(popElement) {
+        popElement.innerText = currentPopulation.toLocaleString('en-IN');
+      }
+    }
+
+    updatePopulation();
+    setInterval(updatePopulation, 1000);
+  }
+
   // 2. Daily Rotating Hadith
   const hadiths = [
     "तुममें से बेहतरीन शख्स वह है जो कुरआन सीखे और दूसरों को सिखाए। (सहीह बुखारी)",
     "पाकीज़गी (सफाई) आधा ईमान है। (सहीह मुस्लिम)",
     "मुस्कुराना भी एक सदका है। (जामे तिर्मिज़ी)",
-    "दुआ मोमिन का हथियार है। (अल-मुस्तदरक)",
+    "दुआ मोमिन का हथियार है।अल-मुस्तदरक)",
     "आमाल का दारोमदार नीयतों पर है। (सहीह बुखारी)",
     "जो अल्लाह और आखिरत के दिन पर ईमान रखता है, उसे चाहिए कि अच्छी बात कहे या खामोश रहे। (सहीह बुखारी)"
   ];
@@ -301,7 +332,10 @@
     });
   }
 
-  window.addEventListener('DOMContentLoaded', renderFavs);
+  window.addEventListener('DOMContentLoaded', () => {
+    renderFavs();
+    startLivePopulationCounter();
+  });
 </script>
 
 </body>
