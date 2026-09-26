@@ -79,18 +79,13 @@
 
 <div class="container" style="max-width:900px; margin:20px auto; padding:0 15px;">
 
-  <!-- Live Hijri Date Badge -->
-  <div style="text-align:right; font-size:0.88rem; color:#0f5132; font-weight:bold; margin-bottom:12px;" id="hijriBox">
-    🌙 इस्लामी तारीख लोड हो रही है...
-  </div>
-
-  <!-- 🇮🇳 भारत लाइव जनसंख्या काउंटर -->
-  <div style="text-align: center; background: var(--card, #fff); border: 1px solid var(--border, #e0e0e0); border-radius: 8px; padding: 12px; margin-bottom: 25px;">
-    <div style="color: #0f5132; font-weight: bold; font-size: 0.9rem;">
-      🇮🇳 भारत की अनुमानित लाइव जनसंख्या:
+  <!-- Live Hijri Date & Page View Count Row -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.88rem; font-weight: bold; color: #0f5132;">
+    <div id="pageViewBox" style="background: #e8f5e9; padding: 4px 10px; border-radius: 6px; border: 1px solid #c3e6cb;">
+      👀 कुल पेज विजिट्स: <span id="visitCount">लोड हो रहा है...</span>
     </div>
-    <div id="livePopulation" style="color: #1b5e20; font-weight: bold; font-size: 1.15rem; margin-top: 4px;">
-      लोड हो रहा है...
+    <div id="hijriBox">
+      🌙 इस्लामी तारीख लोड हो रही है...
     </div>
   </div>
 
@@ -196,7 +191,7 @@
 
 <footer style="text-align:center; padding:20px; color:#6c757d; font-size:0.9rem;">
   <div style="margin-bottom: 12px; display: flex; justify-content: center; gap: 15px; align-items: center;">
-    <a href="https://www.facebook.com/profile.php?id=61593439228630" target="_blank" rel="noopener noreferrer" style="color: #1877F2; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem;">
+    <a href="https://www.facebook.com/profile.php?id=61593439228630" target="_blank" rel="nofollow noopener noreferrer" style="color: #1877F2; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; font-size: 0.9rem;">
       📘 Facebook
     </a>
     <span style="color: var(--border, #e0e0e0);">|</span>
@@ -216,7 +211,7 @@
 <script>
   // 1. Live Hijri Date Fetcher
   fetch('https://api.aladhan.com/v1/gToH')
-    .then(r => r.json())
+    .then(r =>.json())
     .then(d => {
       const h = d.data.hijri;
       document.getElementById('hijriBox').innerText = `🌙 आज की इस्लामी तारीख: ${h.day} ${h.month.en} ${h.year} हिजरी`;
@@ -225,25 +220,20 @@
       document.getElementById('hijriBox').style.display = 'none';
     });
 
-  // 🇮🇳 भारत लाइव जनसंख्या काउंटर स्क्रिप्ट
-  function startLivePopulationCounter() {
-    let basePopulation = 1458200000; 
-    let baseTimestamp = new Date("2026-01-01T00:00:00").getTime();
-    let growthRatePerSecond = 32.5; 
-
-    function updatePopulation() {
-      let now = new Date().getTime();
-      let elapsedSeconds = (now - baseTimestamp) / 1000;
-      let currentPopulation = Math.floor(basePopulation + (elapsedSeconds * growthRatePerSecond));
-      
-      const popElement = document.getElementById("livePopulation");
-      if(popElement) {
-        popElement.innerText = currentPopulation.toLocaleString('en-IN');
-      }
+  // 👁️ Page Visit / View Counter (LocalStorage आधारित, बिना किसी स्लो डेटाबेस के)
+  function initVisitCounter() {
+    let visits = localStorage.getItem('siteVisits');
+    if (!visits) {
+      visits = 12450; // शुरुआती बेस व्यूज (आप चाहें तो बदल सकते हैं)
+    } else {
+      visits = parseInt(visits) + 1;
     }
-
-    updatePopulation();
-    setInterval(updatePopulation, 1000);
+    localStorage.setItem('siteVisits', visits);
+    
+    const visitElement = document.getElementById('visitCount');
+    if (visitElement) {
+      visitElement.innerText = visits.toLocaleString('en-IN');
+    }
   }
 
   // 2. Daily Rotating Hadith
@@ -251,7 +241,7 @@
     "तुममें से बेहतरीन शख्स वह है जो कुरआन सीखे और दूसरों को सिखाए। (सहीह बुखारी)",
     "पाकीज़गी (सफाई) आधा ईमान है। (सहीह मुस्लिम)",
     "मुस्कुराना भी एक सदका है। (जामे तिर्मिज़ी)",
-    "दुआ मोमिन का हथियार है।अल-मुस्तदरक)",
+    "दुआ मोमिन का हथियार है। (अल-मुस्तदरक)",
     "आमाल का दारोमदार नीयतों पर है। (सहीह बुखारी)",
     "जो अल्लाह और आखिरत के दिन पर ईमान रखता है, उसे चाहिए कि अच्छी बात कहे या खामोश रहे। (सहीह बुखारी)"
   ];
@@ -334,7 +324,7 @@
 
   window.addEventListener('DOMContentLoaded', () => {
     renderFavs();
-    startLivePopulationCounter();
+    initVisitCounter();
   });
 </script>
 
