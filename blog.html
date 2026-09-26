@@ -71,7 +71,7 @@
   <p style="text-align:center; color:#6c757d; margin-bottom:25px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
 
   <div id="publicBlogList" class="blog-grid">
-    <p style="text-align:center; width:100%; color:#777; font-size: 1.1rem; padding: 40px 0;">⏳ डेटा लोड हो रहा है...</p>
+    <p style="text-align:center; width:100%; color:#777; font-size: 1.1rem; padding: 40px 0;">⏳ तेज़ी से लोड हो रहा है...</p>
   </div>
 </div>
 
@@ -89,20 +89,18 @@
     appId: "1:494498303568:web:921f12b2d7962d2928cb55"
   };
 
-  // Firebase इनिशियलाइज करना सुरक्षित तरीके से
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
   const db = firebase.firestore();
 
-  async function loadBlogsSimple() {
+  async function loadBlogsFast() {
     const container = document.getElementById("publicBlogList");
     try {
-      // सीधा डेटाबेस से ब्लॉग्स फेच करना
       const snapshot = await db.collection("blogs").get();
       
       if (snapshot.empty) {
-        container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>अभी डेटाबेस में कोई ब्लॉग पोस्ट मौजूद नहीं है।</p>";
+        container.innerHTML = "<p style='text-align:center; width:100%; color:#777;'>अभी कोई ब्लॉग पोस्ट उपलब्ध नहीं है।</p>";
         return;
       }
 
@@ -140,7 +138,7 @@
 
     } catch (error) {
       console.error("Firebase Error:", error);
-      container.innerHTML = `<p style='text-align:center; width:100%; color:red;'>कनेक्शन एरर: ${error.message}</p>`;
+      container.innerHTML = `<p style='text-align:center; width:100%; color:red;'>एरर: ${error.message}</p>`;
     }
   }
 
@@ -156,7 +154,7 @@
     return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : "";
   }
 
-  window.onload = loadBlogsSimple;
+  window.onload = loadBlogsFast;
 </script>
 
 </body>
