@@ -51,6 +51,13 @@
       <input type="text" id="blogTitle" placeholder="Jaise: Ramzan ki Fazilat...">
     </div>
 
+    <!-- SEO Keywords Input Added -->
+    <div class="form-group">
+      <label>SEO Keywords / Tags (Comma lagakar likhein):</label>
+      <input type="text" id="blogKeywords" placeholder="Jaise: ramzan ki fazilat, roze ke fayde, islamic blog hindi">
+      <small style="color: #666;">Ye keywords Google search me article ko rank karane me madad karenge.</small>
+    </div>
+
     <!-- Image Upload & Pixel Size Control -->
     <div class="form-group">
       <label>Blog Image (Optional):</label>
@@ -163,7 +170,6 @@
     alert("✅ Link content me jod diya gaya hai!");
   }
 
-  // Image resize & compress function to prevent size error
   function compressImage(file, callback) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -203,6 +209,7 @@
   async function publishBlog() {
     const editId = document.getElementById("editBlogId").value;
     const title = document.getElementById("blogTitle").value.trim();
+    const keywords = document.getElementById("blogKeywords").value.trim();
     const content = document.getElementById("blogContent").value.trim();
     const imageSource = document.getElementById("imageSource").value.trim();
     const imgWidth = document.getElementById("imgWidth").value || "600";
@@ -223,6 +230,7 @@
       try {
         const blogData = {
           title: title,
+          keywords: keywords,
           content: content,
           imageSource: imageSource,
           imgWidth: imgWidth,
@@ -242,6 +250,7 @@
         }
 
         document.getElementById("blogTitle").value = "";
+        document.getElementById("blogKeywords").value = "";
         document.getElementById("blogContent").value = "";
         document.getElementById("imageSource").value = "";
         document.getElementById("blogImage").value = "";
@@ -286,10 +295,10 @@
         item.innerHTML = `
           <div>
             <h4>${escapeHtml(blog.title)}</h4>
-            <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date || 'N/A'}</p>
+            <p style="margin:0; font-size:0.8rem; color:#666;">📅 ${blog.date || 'N/A'} | 🏷️ ${blog.keywords ? escapeHtml(blog.keywords) : 'No Keywords'}</p>
           </div>
           <div>
-            <button class="btn btn-warning" onclick="editBlog('${id}', \`${escapeAttr(blog.title)}\`, \`${escapeAttr(blog.content)}\`, \`${escapeAttr(blog.imageSource || '')}\`, '${blog.imgWidth || 600}', '${blog.imgHeight || 300}', \`${blog.imageUrl || ''}\`)">Edit</button>
+            <button class="btn btn-warning" onclick="editBlog('${id}', \`${escapeAttr(blog.title)}\`, \`${escapeAttr(blog.keywords || '')}\`, \`${escapeAttr(blog.content)}\`, \`${escapeAttr(blog.imageSource || '')}\`, '${blog.imgWidth || 600}', '${blog.imgHeight || 300}', \`${blog.imageUrl || ''}\`)">Edit</button>
             <button class="btn btn-danger" onclick="deleteBlog('${id}')">Delete</button>
           </div>
         `;
@@ -300,9 +309,10 @@
     }
   }
 
-  function editBlog(id, title, content, imageSource, width, height, imageUrl) {
+  function editBlog(id, title, keywords, content, imageSource, width, height, imageUrl) {
     document.getElementById("editBlogId").value = id;
     document.getElementById("blogTitle").value = title;
+    document.getElementById("blogKeywords").value = keywords;
     document.getElementById("blogContent").value = content;
     document.getElementById("imageSource").value = imageSource;
     document.getElementById("imgWidth").value = width;
@@ -323,6 +333,7 @@
   function resetForm() {
     document.getElementById("editBlogId").value = "";
     document.getElementById("blogTitle").value = "";
+    document.getElementById("blogKeywords").value = "";
     document.getElementById("blogContent").value = "";
     document.getElementById("imageSource").value = "";
     document.getElementById("imgWidth").value = "600";
