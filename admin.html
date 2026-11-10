@@ -207,7 +207,7 @@
   }
 
   async function publishBlog() {
-    const editId = document.getElementById("editBlogId").value;
+    const editId = document.getElementById("editBlogId").value.trim();
     const title = document.getElementById("blogTitle").value.trim();
     const keywords = document.getElementById("blogKeywords").value.trim();
     const content = document.getElementById("blogContent").value.trim();
@@ -228,39 +228,42 @@
 
     async function saveBlogData(imageUrl) {
       try {
-        const blogData = {
-          title: title,
-          keywords: keywords,
-          content: content,
-          imageSource: imageSource,
-          imgWidth: imgWidth,
-          imgHeight: imgHeight,
-          imageUrl: imageUrl || "",
-          date: new Date().toLocaleDateString('hi-IN'),
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
         if (editId === "") {
+          // Naya Blog Add Karein (New Document)
+          const blogData = {
+            title: title,
+            keywords: keywords,
+            content: content,
+            imageSource: imageSource,
+            imgWidth: imgWidth,
+            imgHeight: imgHeight,
+            imageUrl: imageUrl || "",
+            date: new Date().toLocaleDateString('hi-IN'),
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          };
           await db.collection("blogs").add(blogData);
-          alert("Blog safaltapurvak publish ho gaya!");
+          alert("✅ Naya Blog safaltapurvak publish ho gaya!");
         } else {
+          // Purana Blog Update Karein (Existing Document)
+          const blogData = {
+            title: title,
+            keywords: keywords,
+            content: content,
+            imageSource: imageSource,
+            imgWidth: imgWidth,
+            imgHeight: imgHeight,
+            imageUrl: imageUrl || ""
+          };
           await db.collection("blogs").doc(editId).update(blogData);
-          alert("Blog safaltapurvak update ho gaya!");
-          resetForm();
+          alert("✅ Blog safaltapurvak update ho gaya!");
         }
 
-        document.getElementById("blogTitle").value = "";
-        document.getElementById("blogKeywords").value = "";
-        document.getElementById("blogContent").value = "";
-        document.getElementById("imageSource").value = "";
-        document.getElementById("blogImage").value = "";
-        document.getElementById("existingImageUrl").value = "";
-        document.getElementById("imagePreviewContainer").style.display = "none";
+        resetForm();
         loadAdminBlogs();
       } catch (error) {
         alert("Error saving blog: " + error.message);
       } finally {
-        submitBtn.innerText = editId === "" ? "Publish Karein" : "Update Karein";
+        submitBtn.innerText = "Publish Karein";
         submitBtn.disabled = false;
       }
     }
