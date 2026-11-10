@@ -8,8 +8,7 @@
   
   <meta name="description" content="दीनी दुआ के इस्लामिक ब्लॉग और आर्टिकल्स पढ़ें। कुरआन, हदीस और दीनी मालूमात।">
   <meta name="keywords" content="islamic blogs in hindi, deeni dua articles, ramzan ki fazilat hindi, jumma ki sunnat hindi">
-    <meta name="robots" content="index, follow">
-
+  <meta name="robots" content="index, follow">
 
   <link rel="icon" type="image/png" href="logo-mobile.png">
 
@@ -79,7 +78,7 @@
   <h1 style="color:#0f5132; text-align:center; margin-top:20px;">दीनी दुआ - इस्लामिक ब्लॉग्स</h1>
   <p style="text-align:center; color:#6c757d; margin-bottom:15px;">Quran, Hadith aur Deen se jude ahmiyat bhare lekh.</p>
 
-  <!-- साइट काउंटर (बैकग्राउंड में लोड होगा, साइट पर असर नहीं डालेगा) -->
+  <!-- साइट काउंटर -->
   <div style="display: flex; justify-content: center; gap: 20px; margin: 10px auto; max-width: 450px; background: #e8f5e9; padding: 8px; border-radius: 8px; border: 1px solid #c3e6cb;">
     <div style="text-align: center; color: #0f5132; font-weight: bold; font-size: 0.85rem;">
       📚 कुल पोस्ट्स: <span id="totalBlogsCount">...</span>
@@ -93,11 +92,11 @@
     <p style="text-align:center; width:100%; color:#777; font-size: 1.1rem; padding: 40px 0;">⏳ तेज़ी से लोड हो रहा है...</p>
   </div>
 
-  <!-- नेक्स्ट / प्रीवियस पेजिनेशन कंट्रोल्स -->
-  <div class="pagination" id="paginationControls" style="display: none;">
+  <!-- पेजिनेशन कंट्रोल्स (हमेशा दिखेंगे ताकि नेविगेशन साफ रहे) -->
+  <div class="pagination" id="paginationControls" style="display: flex;">
     <button class="page-btn" id="prevBtn" onclick="loadPreviousPage()" disabled>← पिछला</button>
     <span id="pageIndicator" style="font-weight: bold; color: #0f5132; font-size: 1rem;">पेज 1</span>
-    <button class="page-btn" id="nextBtn" onclick="loadNextPage()">अगला →</button>
+    <button class="page-btn" id="nextBtn" onclick="loadNextPage()" disabled>अगला →</button>
   </div>
 </div>
 
@@ -126,8 +125,8 @@
   let pageNumber = 1;
 
   window.onload = () => {
-    loadFirstPage();         // सबसे पहले सिर्फ 6 पोस्ट्स तुरंत लोड होंगी
-    loadCountersInBackground(); // गिनती बैकग्राउंड में होगी
+    loadFirstPage();         
+    loadCountersInBackground(); 
   };
 
   async function loadFirstPage() {
@@ -143,6 +142,11 @@
       if (!snapshot.empty) {
         lastVisibleDoc = snapshot.docs[snapshot.docs.length - 1];
         historyStack = [null];
+      }
+
+      // Agar total posts 6 se zyada hain tabhi 'Next' button enable hoga
+      if (snapshot.size === pageSize) {
+        document.getElementById("nextBtn").disabled = false;
       }
     } catch (error) {
       container.innerHTML = "<p style='text-align:center; width:100%; color:red;'>पोस्ट लोड करने में त्रुटि हुई।</p>";
@@ -169,6 +173,7 @@
         document.getElementById("prevBtn").disabled = false;
       }
       
+      // Agar agle page par poori posts nahi aayi, toh next button disable kar dein
       if (snapshot.size < pageSize) {
         document.getElementById("nextBtn").disabled = true;
       }
@@ -247,12 +252,10 @@
       container.appendChild(card);
     });
 
-    document.getElementById("paginationControls").style.display = "flex";
     document.getElementById("pageIndicator").innerText = `पेज ${pageNumber}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // काउंटर बैकग्राउंड में चलेगा ताकि होम पेज की स्पीड पर कोई असर न पड़े
   async function loadCountersInBackground() {
     try {
       const snapshot = await db.collection("blogs").get();
