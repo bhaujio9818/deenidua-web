@@ -259,7 +259,6 @@
         let savedBlogId = editId;
 
         if (editId === "") {
-          // Naya Blog Add Karein (New Document)
           const blogData = {
             title: title,
             keywords: keywords,
@@ -274,12 +273,9 @@
           const docRef = await db.collection("blogs").add(blogData);
           savedBlogId = docRef.id;
 
-          // Bing / IndexNow ko turant ping karein
           await pingIndexNow(savedBlogId);
-
-          alert("✅ Naya Blog publish ho gaya aur Bing par IndexNow ping bhej diya gaya!");
+          alert("✅ Naya Blog publish ho gaya aur IndexNow ping bhej diya gaya!");
         } else {
-          // Purana Blog Update Karein (Existing Document)
           const blogData = {
             title: title,
             keywords: keywords,
@@ -291,10 +287,8 @@
           };
           await db.collection("blogs").doc(editId).update(blogData);
           
-          // Updated blog ke liye bhi IndexNow ping bhej dein
           await pingIndexNow(editId);
-
-          alert("✅ Blog safaltapurvak update ho gaya aur IndexNow ping bhej diya gaya!");
+          alert("✅ Blog update ho gaya aur IndexNow ping bhej diya gaya!");
         }
 
         resetForm();
@@ -381,3 +375,32 @@
     document.getElementById("imgWidth").value = "600";
     document.getElementById("imgHeight").value = "300";
     document.getElementById("blogImage").value = "";
+    document.getElementById("existingImageUrl").value = "";
+    document.getElementById("imagePreviewContainer").style.display = "none";
+    document.getElementById("formTitle").innerText = "✍️ Naya Islamic Blog Likhein";
+    document.getElementById("submitBtn").innerText = "Publish Karein";
+    document.getElementById("cancelEditBtn").style.display = "none";
+  }
+
+  async function deleteBlog(id) {
+    if (confirm("Kya aap delete karna chahte hain?")) {
+      try {
+        await db.collection("blogs").doc(id).delete();
+        loadAdminBlogs();
+      } catch (error) {
+        alert("Delete nahi ho saka.");
+      }
+    }
+  }
+
+  function escapeHtml(text) {
+    return text ? text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : "";
+  }
+
+  function escapeAttr(text) {
+    return text ? text.replace(/"/g, '&quot;').replace(/'/g, '&#39;') : "";
+  }
+</script>
+
+</body>
+</html>
